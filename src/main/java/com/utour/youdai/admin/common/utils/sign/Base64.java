@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.utils.sign;
 /**
  * Base64工具类
  * 
- * @author ruoyi
+ * @author zh
  */
 public final class Base64
 {

@@ -15,7 +15,7 @@ import com.utour.youdai.admin.common.utils.ServletUtils;
 /**
  * 防止重复提交拦截器
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component
 public abstract class RepeatSubmitInterceptor extends HandlerInterceptorAdapter

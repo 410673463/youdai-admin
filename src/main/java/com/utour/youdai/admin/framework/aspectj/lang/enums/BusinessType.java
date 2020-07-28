@@ -3,7 +3,7 @@ package com.utour.youdai.admin.framework.aspectj.lang.enums;
 /**
  * 业务操作类型
  * 
- * @author ruoyi
+ * @author zh
  */
 public enum BusinessType
 {

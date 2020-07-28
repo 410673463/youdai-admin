@@ -6,7 +6,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * sql操作工具类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class SqlUtil
 {

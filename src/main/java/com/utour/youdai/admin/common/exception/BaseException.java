@@ -6,7 +6,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 基础异常
  * 
- * @author ruoyi
+ * @author zh
  */
 public class BaseException extends RuntimeException
 {

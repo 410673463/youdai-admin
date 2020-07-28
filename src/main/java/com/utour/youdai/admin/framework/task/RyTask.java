@@ -6,7 +6,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 定时任务调度测试
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component("ryTask")
 public class RyTask

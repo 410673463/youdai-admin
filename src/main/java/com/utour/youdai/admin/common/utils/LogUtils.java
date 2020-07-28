@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.utils;
 /**
  * 处理并记录日志文件
  * 
- * @author ruoyi
+ * @author zh
  */
 public class LogUtils
 {

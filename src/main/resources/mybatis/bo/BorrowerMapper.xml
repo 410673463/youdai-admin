@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.bo.mapper.BorrowerMapper">
+    
+    <resultMap type="Borrower" id="BorrowerResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="code"    column="code"    />
+        <result property="type"    column="type"    />
+        <result property="operatorusername"    column="operatorUserName"    />
+        <result property="operatoruserid"    column="operatorUserId"    />
+        <result property="areas"    column="areas"    />
+        <result property="industrys"    column="industrys"    />
+        <result property="source"    column="source"    />
+        <result property="sourcename"    column="sourceName"    />
+        <result property="category"    column="category"    />
+        <result property="node"    column="node"    />
+        <result property="createusername"    column="createUserName"    />
+        <result property="createuserid"    column="createUserId"    />
+        <result property="createdate"    column="createDate"    />
+        <result property="modifydate"    column="modifyDate"    />
+    </resultMap>
+
+    <sql id="selectBorrowerVo">
+        select id, name, code, type, operatorUserName, operatorUserId, areas, industrys, source, sourceName, category, node, createUserName, createUserId, createDate, modifyDate from bo_borrower
+    </sql>
+
+    <select id="selectBorrowerList" parameterType="Borrower" resultMap="BorrowerResult">
+        <include refid="selectBorrowerVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="operatorusername != null  and operatorusername != ''"> and operatorUserName like concat('%', #{operatorusername}, '%')</if>
+            <if test="operatoruserid != null "> and operatorUserId = #{operatoruserid}</if>
+            <if test="areas != null  and areas != ''"> and areas = #{areas}</if>
+            <if test="industrys != null  and industrys != ''"> and industrys = #{industrys}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="sourcename != null  and sourcename != ''"> and sourceName like concat('%', #{sourcename}, '%')</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="node != null  and node != ''"> and node = #{node}</if>
+            <if test="createusername != null  and createusername != ''"> and createUserName like concat('%', #{createusername}, '%')</if>
+            <if test="createuserid != null "> and createUserId = #{createuserid}</if>
+            <if test="createdate != null "> and createDate = #{createdate}</if>
+            <if test="modifydate != null "> and modifyDate = #{modifydate}</if>
+        </where>
+    </select>
+    
+    <select id="selectBorrowerById" parameterType="Long" resultMap="BorrowerResult">
+        <include refid="selectBorrowerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertBorrower" parameterType="Borrower" useGeneratedKeys="true" keyProperty="id">
+        insert into bo_borrower
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="type != null">type,</if>
+            <if test="operatorusername != null">operatorUserName,</if>
+            <if test="operatoruserid != null">operatorUserId,</if>
+            <if test="areas != null">areas,</if>
+            <if test="industrys != null">industrys,</if>
+            <if test="source != null">source,</if>
+            <if test="sourcename != null">sourceName,</if>
+            <if test="category != null">category,</if>
+            <if test="node != null">node,</if>
+            <if test="createusername != null">createUserName,</if>
+            <if test="createuserid != null">createUserId,</if>
+            <if test="createdate != null">createDate,</if>
+            <if test="modifydate != null">modifyDate,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="code != null">#{code},</if>
+            <if test="type != null">#{type},</if>
+            <if test="operatorusername != null">#{operatorusername},</if>
+            <if test="operatoruserid != null">#{operatoruserid},</if>
+            <if test="areas != null">#{areas},</if>
+            <if test="industrys != null">#{industrys},</if>
+            <if test="source != null">#{source},</if>
+            <if test="sourcename != null">#{sourcename},</if>
+            <if test="category != null">#{category},</if>
+            <if test="node != null">#{node},</if>
+            <if test="createusername != null">#{createusername},</if>
+            <if test="createuserid != null">#{createuserid},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="modifydate != null">#{modifydate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBorrower" parameterType="Borrower">
+        update bo_borrower
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="operatorusername != null">operatorUserName = #{operatorusername},</if>
+            <if test="operatoruserid != null">operatorUserId = #{operatoruserid},</if>
+            <if test="areas != null">areas = #{areas},</if>
+            <if test="industrys != null">industrys = #{industrys},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="sourcename != null">sourceName = #{sourcename},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="node != null">node = #{node},</if>
+            <if test="createusername != null">createUserName = #{createusername},</if>
+            <if test="createuserid != null">createUserId = #{createuserid},</if>
+            <if test="createdate != null">createDate = #{createdate},</if>
+            <if test="modifydate != null">modifyDate = #{modifydate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBorrowerById" parameterType="Long">
+        delete from bo_borrower where id = #{id}
+    </delete>
+
+    <delete id="deleteBorrowerByIds" parameterType="String">
+        delete from bo_borrower where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

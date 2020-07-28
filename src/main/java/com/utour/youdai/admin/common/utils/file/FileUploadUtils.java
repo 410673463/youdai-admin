@@ -17,7 +17,7 @@ import com.utour.youdai.admin.framework.config.YouDaiConfig;
 /**
  * 文件上传工具类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class FileUploadUtils
 {

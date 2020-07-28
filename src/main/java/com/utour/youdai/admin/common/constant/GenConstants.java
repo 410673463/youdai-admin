@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.constant;
 /**
  * 代码生成通用常量
  * 
- * @author ruoyi
+ * @author zh
  */
 public class GenConstants
 {

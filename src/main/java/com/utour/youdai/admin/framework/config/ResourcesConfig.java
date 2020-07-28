@@ -15,7 +15,7 @@ import com.utour.youdai.admin.common.constant.Constants;
 /**
  * 通用配置
  * 
- * @author ruoyi
+ * @author zh
  */
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer

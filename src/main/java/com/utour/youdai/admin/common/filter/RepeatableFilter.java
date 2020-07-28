@@ -14,7 +14,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * Repeatable 过滤器
  * 
- * @author ruoyi
+ * @author zh
  */
 public class RepeatableFilter implements Filter
 {

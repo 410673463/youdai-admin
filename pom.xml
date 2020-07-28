@@ -47,11 +47,11 @@
 		</dependency>
 
 		<!-- SpringBoot 测试 -->
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 
 		<!-- SpringBoot 拦截器 -->
 		<dependency>
@@ -63,8 +63,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- 剔除tomcat -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-		
+		<!--  替换web容器 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
 		<!-- spring-boot-devtools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -257,6 +268,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api  jdk8之后缺少此jar包 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 
 	</dependencies>
 

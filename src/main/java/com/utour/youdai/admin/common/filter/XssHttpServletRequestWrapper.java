@@ -16,7 +16,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * XSS过滤处理
  * 
- * @author ruoyi
+ * @author zh
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper
 {

@@ -17,7 +17,7 @@ import com.utour.youdai.admin.project.system.service.ISysUserService;
 /**
  * 用户验证处理
  *
- * @author ruoyi
+ * @author zh
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService

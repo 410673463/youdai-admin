@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.utils.file;
 /**
  * 媒体类型工具类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class MimeTypeUtils
 {

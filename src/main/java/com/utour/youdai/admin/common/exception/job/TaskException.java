@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.exception.job;
 /**
  * 计划策略异常
  * 
- * @author ruoyi
+ * @author zh
  */
 public class TaskException extends Exception
 {

@@ -16,7 +16,7 @@ import com.utour.youdai.admin.framework.web.domain.AjaxResult;
 /**
  * 认证失败处理类 返回未授权
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint, Serializable

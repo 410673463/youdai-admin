@@ -14,7 +14,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * Filter配置
  *
- * @author ruoyi
+ * @author zh
  */
 @Configuration
 public class FilterConfig

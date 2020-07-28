@@ -10,7 +10,7 @@ import com.utour.youdai.admin.common.utils.Threads;
 /**
  * 异步任务管理器
  * 
- * @author ruoyi
+ * @author zh
  */
 public class AsyncManager
 {

@@ -7,7 +7,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 操作消息提醒
  * 
- * @author ruoyi
+ * @author zh
  */
 public class AjaxResult extends HashMap<String, Object>
 {

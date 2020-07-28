@@ -22,7 +22,7 @@ import com.utour.youdai.admin.framework.web.page.TableSupport;
 /**
  * web层通用数据处理
  * 
- * @author ruoyi
+ * @author zh
  */
 public class BaseController
 {

@@ -5,7 +5,7 @@ import com.utour.youdai.admin.common.core.lang.UUID;
 /**
  * ID生成器工具类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class IdUtils
 {

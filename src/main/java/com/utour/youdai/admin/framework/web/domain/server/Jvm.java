@@ -8,7 +8,7 @@ import com.utour.youdai.admin.common.utils.DateUtils;
 /**
  * JVM相关信息
  * 
- * @author ruoyi
+ * @author zh
  */
 public class Jvm
 {

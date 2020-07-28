@@ -3,7 +3,7 @@ package com.utour.youdai.admin.framework.web.domain.server;
 /**
  * 系统相关信息
  * 
- * @author ruoyi
+ * @author zh
  */
 public class Sys
 {

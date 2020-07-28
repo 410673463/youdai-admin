@@ -11,7 +11,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 类型转换器
  * 
- * @author ruoyi
+ * @author zh
  */
 public class Convert
 {

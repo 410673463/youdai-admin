@@ -11,7 +11,7 @@ import com.utour.youdai.admin.project.system.service.ISysRoleService;
 /**
  * 用户权限处理
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component
 public class SysPermissionService

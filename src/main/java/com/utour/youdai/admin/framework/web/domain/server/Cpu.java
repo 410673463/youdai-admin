@@ -5,7 +5,7 @@ import com.utour.youdai.admin.common.utils.Arith;
 /**
  * CPU相关信息
  * 
- * @author ruoyi
+ * @author zh
  */
 public class Cpu
 {

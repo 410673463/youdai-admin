@@ -12,7 +12,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 任务执行工具
  *
- * @author ruoyi
+ * @author zh
  */
 public class JobInvokeUtil
 {

@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.constant;
 /**
  * 任务调度通用常量
  * 
- * @author ruoyi
+ * @author zh
  */
 public class ScheduleConstants
 {

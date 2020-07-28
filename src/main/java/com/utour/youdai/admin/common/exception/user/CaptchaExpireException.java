@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.exception.user;
 /**
  * 验证码失效异常类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class CaptchaExpireException extends UserException
 {

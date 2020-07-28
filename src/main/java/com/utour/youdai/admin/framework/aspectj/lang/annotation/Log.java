@@ -11,7 +11,7 @@ import com.utour.youdai.admin.framework.aspectj.lang.enums.OperatorType;
 /**
  * 自定义操作日志记录注解
  * 
- * @author ruoyi
+ * @author zh
  *
  */
 @Target({ ElementType.PARAMETER, ElementType.METHOD })

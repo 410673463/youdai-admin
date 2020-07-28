@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.exception;
 /**
  * 自定义异常
  * 
- * @author ruoyi
+ * @author zh
  */
 public class CustomException extends RuntimeException
 {

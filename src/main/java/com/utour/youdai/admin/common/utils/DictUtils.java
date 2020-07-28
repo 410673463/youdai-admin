@@ -10,7 +10,7 @@ import com.utour.youdai.admin.project.system.domain.SysDictData;
 /**
  * 字典工具类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class DictUtils
 {

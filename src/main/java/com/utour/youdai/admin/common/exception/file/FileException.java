@@ -5,7 +5,7 @@ import com.utour.youdai.admin.common.exception.BaseException;
 /**
  * 文件信息异常类
  * 
- * @author ruoyi
+ * @author zh
  */
 public class FileException extends BaseException
 {

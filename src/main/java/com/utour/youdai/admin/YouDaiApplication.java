@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 /**
  * 启动程序
  *
- * @author ruoyi
+ * @author zh
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @MapperScan("com.utour.youdai.admin.project.**.mapper")
@@ -16,6 +16,5 @@ public class YouDaiApplication {
     public static void main(String[] args) {
         // System.se/dev-apitProperty("spring.devtools.restart.enabled", "false");
         SpringApplication.run(YouDaiApplication.class, args);
-
     }
 }

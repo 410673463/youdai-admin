@@ -7,7 +7,7 @@ import com.utour.youdai.admin.common.utils.ServletUtils;
 /**
  * 服务相关配置
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component
 public class ServerConfig

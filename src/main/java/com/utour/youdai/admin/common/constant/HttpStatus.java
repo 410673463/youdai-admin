@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.constant;
 /**
  * 返回状态码
  * 
- * @author ruoyi
+ * @author zh
  */
 public class HttpStatus
 {

@@ -17,7 +17,7 @@ import com.utour.youdai.admin.common.constant.ScheduleConstants;
 /**
  * 定时任务工具类
  * 
- * @author ruoyi
+ * @author zh
  *
  */
 public class ScheduleUtils

@@ -5,7 +5,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 分页数据
  * 
- * @author ruoyi
+ * @author zh
  */
 public class PageDomain
 {

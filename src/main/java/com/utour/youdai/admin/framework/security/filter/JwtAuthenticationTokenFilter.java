@@ -20,7 +20,7 @@ import com.utour.youdai.admin.framework.security.LoginUser;
 /**
  * token过滤器 验证token有效性
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter

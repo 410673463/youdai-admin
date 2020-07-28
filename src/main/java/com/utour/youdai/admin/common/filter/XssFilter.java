@@ -18,7 +18,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 防止XSS攻击的过滤器
  * 
- * @author ruoyi
+ * @author zh
  */
 public class XssFilter implements Filter
 {

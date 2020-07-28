@@ -3,7 +3,7 @@ package com.utour.youdai.admin.common.exception;
 /**
  * 演示模式异常
  * 
- * @author ruoyi
+ * @author zh
  */
 public class DemoModeException extends RuntimeException
 {

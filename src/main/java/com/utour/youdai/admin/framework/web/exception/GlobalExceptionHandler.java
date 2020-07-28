@@ -20,7 +20,7 @@ import com.utour.youdai.admin.framework.web.domain.AjaxResult;
 /**
  * 全局异常处理器
  * 
- * @author ruoyi
+ * @author zh
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler

@@ -5,7 +5,7 @@ import com.utour.youdai.admin.common.utils.Arith;
 /**
  * 內存相关信息
  * 
- * @author ruoyi
+ * @author zh
  */
 public class Mem
 {

@@ -23,7 +23,7 @@ import com.utour.youdai.admin.framework.web.domain.AjaxResult;
 /**
  * 自定义退出处理类 返回成功
  * 
- * @author ruoyi
+ * @author zh
  */
 @Configuration
 public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler

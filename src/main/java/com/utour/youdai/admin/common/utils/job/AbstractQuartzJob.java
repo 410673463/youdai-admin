@@ -20,7 +20,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 抽象quartz调用
  *
- * @author ruoyi
+ * @author zh
  */
 public abstract class AbstractQuartzJob implements Job
 {

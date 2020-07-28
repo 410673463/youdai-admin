@@ -10,7 +10,7 @@ import com.utour.youdai.admin.common.utils.StringUtils;
 /**
  * 获取IP方法
  * 
- * @author ruoyi
+ * @author zh
  */
 public class IpUtils
 {

@@ -21,7 +21,7 @@ import com.utour.youdai.admin.framework.security.LoginUser;
 /**
  * 登录校验方法
  * 
- * @author ruoyi
+ * @author zh
  */
 @Component
 public class SysLoginService

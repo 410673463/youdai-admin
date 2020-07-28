@@ -34,7 +34,7 @@ import com.utour.youdai.admin.framework.manager.AsyncManager;
 /**
  * 操作日志记录处理
  * 
- * @author ruoyi
+ * @author zh
  */
 @Aspect
 @Component
