@@ -74,6 +74,7 @@ public class BorrowerServiceImpl implements IBorrowerService {
      */
     @Override
     public int updateBorrower(Borrower borrower) {
+        borrower.setModifydate(new Date());
         return borrowerMapper.updateBorrower(borrower);
     }
 
