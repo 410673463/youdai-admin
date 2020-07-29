@@ -86,7 +86,7 @@ public class Borrower extends BaseEntity {
      * $column.columnComment
      */
     @Excel(name = "备注")
-    private String node;
+    private String note;
 
     /**
      * $column.columnComment
@@ -102,14 +102,14 @@ public class Borrower extends BaseEntity {
     /**
      * $column.columnComment
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "创建日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date createdate;
 
     /**
      * $column.columnComment
      */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Excel(name = "修改日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifydate;
 
@@ -201,12 +201,12 @@ public class Borrower extends BaseEntity {
         return category;
     }
 
-    public void setNode(String node) {
-        this.node = node;
+    public String getNote() {
+        return note;
     }
 
-    public String getNode() {
-        return node;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public void setCreateusername(String createusername) {
@@ -255,7 +255,7 @@ public class Borrower extends BaseEntity {
                 .append("source", getSource())
                 .append("sourcename", getSourcename())
                 .append("category", getCategory())
-                .append("node", getNode())
+                .append("note", getNote())
                 .append("createusername", getCreateusername())
                 .append("createuserid", getCreateuserid())
                 .append("createdate", getCreatedate())

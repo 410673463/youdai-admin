@@ -1,11 +1,15 @@
 package com.utour.youdai.admin.project.bo.service.impl;
 
 
+import com.utour.youdai.admin.common.utils.CodeGeneratorFactory;
+import com.utour.youdai.admin.common.utils.SecurityUtils;
+import com.utour.youdai.admin.framework.security.LoginUser;
 import com.utour.youdai.admin.project.bo.domain.Borrower;
 import com.utour.youdai.admin.project.bo.mapper.BorrowerMapper;
 import com.utour.youdai.admin.project.bo.service.IBorrowerService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,34 +40,41 @@ public class BorrowerServiceImpl implements IBorrowerService {
     /**
      * 查询借款人-基本信息(主)列表
      *
-     * @param Borrower 借款人-基本信息(主)
+     * @param borrower 借款人-基本信息(主)
      * @return 借款人-基本信息(主)
      */
     @Override
-    public List<Borrower> selectBorrowerList(Borrower Borrower) {
-        return borrowerMapper.selectBorrowerList(Borrower);
+    public List<Borrower> selectBorrowerList(Borrower borrower) {
+        return borrowerMapper.selectBorrowerList(borrower);
     }
 
     /**
      * 新增借款人-基本信息(主)
      *
-     * @param Borrower 借款人-基本信息(主)
+     * @param borrower 借款人-基本信息(主)
      * @return 结果
      */
     @Override
-    public int insertBorrower(Borrower Borrower) {
-        return borrowerMapper.insertBorrower(Borrower);
+    public int insertBorrower(Borrower borrower) {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        String code = CodeGeneratorFactory.getCode("BO",4);
+        borrower.setCode(code);
+        borrower.setCreateuserid(loginUser.getUser().getUserId());
+        borrower.setCreateusername(loginUser.getUsername());
+        borrower.setCreatedate(new Date());
+        borrower.setModifydate(new Date());
+        return borrowerMapper.insertBorrower(borrower);
     }
 
     /**
      * 修改借款人-基本信息(主)
      *
-     * @param Borrower 借款人-基本信息(主)
+     * @param borrower 借款人-基本信息(主)
      * @return 结果
      */
     @Override
-    public int updateBorrower(Borrower Borrower) {
-        return borrowerMapper.updateBorrower(Borrower);
+    public int updateBorrower(Borrower borrower) {
+        return borrowerMapper.updateBorrower(borrower);
     }
 
     /**

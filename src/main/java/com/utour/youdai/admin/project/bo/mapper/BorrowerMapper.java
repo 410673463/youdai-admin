@@ -1,6 +1,8 @@
 package com.utour.youdai.admin.project.bo.mapper;
 
 import com.utour.youdai.admin.project.bo.domain.Borrower;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  * @author zh
  * @date 2020-07-28
  */
+@Mapper
+@Repository
 public interface BorrowerMapper {
     /**
      * 查询借款人-基本信息(主)
