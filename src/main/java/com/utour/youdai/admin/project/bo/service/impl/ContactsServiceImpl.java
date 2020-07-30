@@ -1,5 +1,6 @@
 package com.utour.youdai.admin.project.bo.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.utour.youdai.admin.project.bo.domain.Contacts;
@@ -53,6 +54,7 @@ public class ContactsServiceImpl implements IContactsService {
      */
     @Override
     public int insertContacts(Contacts contacts) {
+
         return contactsMapper.insertContacts(contacts);
     }
 

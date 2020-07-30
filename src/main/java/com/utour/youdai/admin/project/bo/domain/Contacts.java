@@ -24,7 +24,7 @@ public class Contacts extends BaseEntity {
     /**
      * 借款人基本信息表ID
      */
-    private Long boid;
+    private Long boId;
 
     /**
      * $column.columnComment
@@ -96,6 +96,10 @@ public class Contacts extends BaseEntity {
     private String note;
 
     /**
+     *
+     */
+    private String createBy;
+    /**
      * $column.columnComment
      */
     private Date createdate;
@@ -125,12 +129,12 @@ public class Contacts extends BaseEntity {
         return id;
     }
 
-    public void setBoid(Long boid) {
-        this.boid = boid;
+    public Long getBoId() {
+        return boId;
     }
 
-    public Long getBoid() {
-        return boid;
+    public void setBoId(Long boId) {
+        this.boId = boId;
     }
 
     public void setName(String name) {
@@ -270,10 +274,20 @@ public class Contacts extends BaseEntity {
     }
 
     @Override
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    @Override
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
                 .append("id", getId())
-                .append("boid", getBoid())
+                .append("boId", getBoId())
                 .append("name", getName())
                 .append("phone1", getPhone1())
                 .append("phone2", getPhone2())
@@ -287,7 +301,7 @@ public class Contacts extends BaseEntity {
                 .append("email", getEmail())
                 .append("qq", getQq())
                 .append("note", getNote())
-                .append("createby", getCreateBy())
+                .append("createBy", getCreateBy())
                 .append("createdate", getCreatedate())
                 .append("modifydate", getModifydate())
                 .append("idnum", getIdnum())
