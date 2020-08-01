@@ -29,7 +29,7 @@ import com.utour.youdai.admin.framework.web.page.TableDataInfo;
  * @date 2020-07-29
  */
 @RestController
-@RequestMapping("/com/contacts")
+@RequestMapping("/bo/contacts")
 public class ContactsController extends BaseController {
     private final IContactsService contactsService;
 

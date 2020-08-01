@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.bo.mapper.PersonalInfoMapper">
+    
+    <resultMap type="PersonalInfo" id="PersonalInfoResult">
+        <result property="id"    column="id"    />
+        <result property="boId"    column="bo_id"    />
+        <result property="identityType"    column="identity_type"    />
+        <result property="identityNo"    column="identity_no"    />
+        <result property="expiryDate"    column="expiry_date"    />
+        <result property="householdRegistrationCategory"    column="household_registration_category"    />
+        <result property="gender"    column="gender"    />
+        <result property="age"    column="age"    />
+        <result property="birthday"    column="birthDay"    />
+        <result property="educationLevel"    column="education_level"    />
+        <result property="phoneno1"    column="phoneNo1"    />
+        <result property="phoneno2"    column="phoneNo2"    />
+        <result property="passportNo"    column="passport_no"    />
+        <result property="graduatedSchool"    column="graduated_school"    />
+        <result property="householdRegistrationAddress"    column="household_registration_address"    />
+        <result property="issuingAgency"    column="issuing_agency"    />
+    </resultMap>
+
+    <sql id="selectPersonalInfoVo">
+        select id, bo_id, identity_type, identity_no, expiry_date, household_registration_category, gender, age, birthDay, education_level, phoneNo1, phoneNo2, passport_no, graduated_school, household_registration_address, issuing_agency from bo_personal_info
+    </sql>
+
+    <select id="selectPersonalInfoList" parameterType="PersonalInfo" resultMap="PersonalInfoResult">
+        <include refid="selectPersonalInfoVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectPersonalInfoById" parameterType="Long" resultMap="PersonalInfoResult">
+        <include refid="selectPersonalInfoVo"/>
+        where id = #{id}
+    </select>
+    <select id="getInfoByBoId" parameterType="PersonalInfo" resultMap="PersonalInfoResult">
+       <include refid="selectPersonalInfoVo"/>
+       where bo_id = #{boId}
+    </select>
+
+    <insert id="insertPersonalInfo" parameterType="PersonalInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into bo_personal_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boId != null">bo_id,</if>
+            <if test="identityType != null and identityType != ''">identity_type,</if>
+            <if test="identityNo != null">identity_no,</if>
+            <if test="expiryDate != null">expiry_date,</if>
+            <if test="householdRegistrationCategory != null and householdRegistrationCategory != ''">household_registration_category,</if>
+            <if test="gender != null and gender != ''">gender,</if>
+            <if test="age != null">age,</if>
+            <if test="birthday != null">birthDay,</if>
+            <if test="educationLevel != null and educationLevel != ''">education_level,</if>
+            <if test="phoneno1 != null and phoneno1 != ''">phoneNo1,</if>
+            <if test="phoneno2 != null">phoneNo2,</if>
+            <if test="passportNo != null">passport_no,</if>
+            <if test="graduatedSchool != null">graduated_school,</if>
+            <if test="householdRegistrationAddress != null and householdRegistrationAddress != ''">household_registration_address,</if>
+            <if test="issuingAgency != null">issuing_agency,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boId != null">#{boId},</if>
+            <if test="identityType != null and identityType != ''">#{identityType},</if>
+            <if test="identityNo != null">#{identityNo},</if>
+            <if test="expiryDate != null">#{expiryDate},</if>
+            <if test="householdRegistrationCategory != null and householdRegistrationCategory != ''">#{householdRegistrationCategory},</if>
+            <if test="gender != null and gender != ''">#{gender},</if>
+            <if test="age != null">#{age},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="educationLevel != null and educationLevel != ''">#{educationLevel},</if>
+            <if test="phoneno1 != null and phoneno1 != ''">#{phoneno1},</if>
+            <if test="phoneno2 != null">#{phoneno2},</if>
+            <if test="passportNo != null">#{passportNo},</if>
+            <if test="graduatedSchool != null">#{graduatedSchool},</if>
+            <if test="householdRegistrationAddress != null and householdRegistrationAddress != ''">#{householdRegistrationAddress},</if>
+            <if test="issuingAgency != null">#{issuingAgency},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePersonalInfo" parameterType="PersonalInfo">
+        update bo_personal_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="boId != null">bo_id = #{boId},</if>
+            <if test="identityType != null and identityType != ''">identity_type = #{identityType},</if>
+            <if test="identityNo != null">identity_no = #{identityNo},</if>
+            <if test="expiryDate != null">expiry_date = #{expiryDate},</if>
+            <if test="householdRegistrationCategory != null and householdRegistrationCategory != ''">household_registration_category = #{householdRegistrationCategory},</if>
+            <if test="gender != null and gender != ''">gender = #{gender},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="birthday != null">birthDay = #{birthday},</if>
+            <if test="educationLevel != null and educationLevel != ''">education_level = #{educationLevel},</if>
+            <if test="phoneno1 != null and phoneno1 != ''">phoneNo1 = #{phoneno1},</if>
+            <if test="phoneno2 != null">phoneNo2 = #{phoneno2},</if>
+            <if test="passportNo != null">passport_no = #{passportNo},</if>
+            <if test="graduatedSchool != null">graduated_school = #{graduatedSchool},</if>
+            <if test="householdRegistrationAddress != null and householdRegistrationAddress != ''">household_registration_address = #{householdRegistrationAddress},</if>
+            <if test="issuingAgency != null">issuing_agency = #{issuingAgency},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePersonalInfoById" parameterType="Long">
+        delete from bo_personal_info where id = #{id}
+    </delete>
+
+    <delete id="deletePersonalInfoByIds" parameterType="String">
+        delete from bo_personal_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
