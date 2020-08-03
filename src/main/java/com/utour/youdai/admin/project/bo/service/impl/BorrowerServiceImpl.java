@@ -63,6 +63,7 @@ public class BorrowerServiceImpl implements IBorrowerService {
         borrower.setCreateusername(loginUser.getUsername());
         borrower.setCreatedate(new Date());
         borrower.setModifydate(new Date());
+        borrower.setDataSource("后台录入");
         return borrowerMapper.insertBorrower(borrower);
     }
 

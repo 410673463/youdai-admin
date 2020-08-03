@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.lm.mapper.LoanApplicationMapper">
+    
+    <resultMap type="LoanApplication" id="LoanApplicationResult">
+        <result property="id"    column="id"    />
+        <result property="boid"    column="boId"    />
+        <result property="productId"    column="product_id"    />
+        <result property="code"    column="code"    />
+        <result property="applicationName"    column="application_name"    />
+        <result property="productTitle"    column="product_title"    />
+        <result property="borrowerName"    column="borrower_name"    />
+        <result property="borrowerManager"    column="borrower_manager"    />
+        <result property="borrowerManagerDept"    column="borrower_manager_dept"    />
+        <result property="applyNature"    column="apply_nature"    />
+        <result property="applyMoney"    column="apply_money"    />
+        <result property="applyExpires"    column="apply_expires"    />
+        <result property="applyExpiresUnit"    column="apply_expires_unit"    />
+        <result property="applyStartDate"    column="apply_start_date"    />
+        <result property="applyEndDate"    column="apply_end_date"    />
+        <result property="applyRate"    column="apply_rate"    />
+        <result property="applyRateUnit"    column="apply_rate_unit"    />
+        <result property="applyConsultingRate"    column="apply_consulting_rate"    />
+        <result property="applyConsultingRateUnit"    column="apply_consulting_rate_unit"    />
+        <result property="repayType"    column="repay_type"    />
+        <result property="applyConsultationRepayType"    column="apply_consultation_repay_type"    />
+        <result property="contractSignWay"    column="contract_sign_way"    />
+        <result property="interestRateIncrease"    column="interest_rate_increase"    />
+        <result property="applySource"    column="apply_source"    />
+        <result property="whetherGuaranteeApply"    column="whether_guarantee_apply"    />
+        <result property="guaranteeApplyType"    column="guarantee_apply_type"    />
+        <result property="note"    column="note"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="pushStatus"    column="push_status"    />
+        <result property="createRepayPlan"    column="create_repay_plan"    />
+    </resultMap>
+
+    <sql id="selectLoanApplicationVo">
+        select id, boId, product_id, code, application_name, product_title, borrower_name, borrower_manager, borrower_manager_dept, apply_nature, apply_money, apply_expires, apply_expires_unit, apply_start_date, apply_end_date, apply_rate, apply_rate_unit, apply_consulting_rate, apply_consulting_rate_unit, repay_type, apply_consultation_repay_type, contract_sign_way, interest_rate_increase, apply_source, whether_guarantee_apply, guarantee_apply_type, note, status, create_by, create_time, update_time, push_status, create_repay_plan from lm_loan_application
+    </sql>
+
+    <select id="selectLoanApplicationList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
+        <include refid="selectLoanApplicationVo"/>
+        <where>  
+            <if test="applicationName != null  and applicationName != ''"> and application_name like concat('%', #{applicationName}, '%')</if>
+            <if test="productTitle != null  and productTitle != ''"> and product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''"> and borrower_name like concat('%', #{borrowerName}, '%')</if>
+            <if test="borrowerManager != null  and borrowerManager != ''"> and borrower_manager = #{borrowerManager}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectLoanApplicationById" parameterType="Long" resultMap="LoanApplicationResult">
+        <include refid="selectLoanApplicationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLoanApplication" parameterType="LoanApplication" useGeneratedKeys="true" keyProperty="id">
+        insert into lm_loan_application
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="boid != null">boId,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="code != null">code,</if>
+            <if test="applicationName != null">application_name,</if>
+            <if test="productTitle != null">product_title,</if>
+            <if test="borrowerName != null">borrower_name,</if>
+            <if test="borrowerManager != null">borrower_manager,</if>
+            <if test="borrowerManagerDept != null">borrower_manager_dept,</if>
+            <if test="applyNature != null">apply_nature,</if>
+            <if test="applyMoney != null">apply_money,</if>
+            <if test="applyExpires != null">apply_expires,</if>
+            <if test="applyExpiresUnit != null">apply_expires_unit,</if>
+            <if test="applyStartDate != null">apply_start_date,</if>
+            <if test="applyEndDate != null">apply_end_date,</if>
+            <if test="applyRate != null">apply_rate,</if>
+            <if test="applyRateUnit != null">apply_rate_unit,</if>
+            <if test="applyConsultingRate != null">apply_consulting_rate,</if>
+            <if test="applyConsultingRateUnit != null">apply_consulting_rate_unit,</if>
+            <if test="repayType != null">repay_type,</if>
+            <if test="applyConsultationRepayType != null">apply_consultation_repay_type,</if>
+            <if test="contractSignWay != null">contract_sign_way,</if>
+            <if test="interestRateIncrease != null">interest_rate_increase,</if>
+            <if test="applySource != null">apply_source,</if>
+            <if test="whetherGuaranteeApply != null">whether_guarantee_apply,</if>
+            <if test="guaranteeApplyType != null">guarantee_apply_type,</if>
+            <if test="note != null">note,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="pushStatus != null">push_status,</if>
+            <if test="createRepayPlan != null">create_repay_plan,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="boid != null">#{boid},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="code != null">#{code},</if>
+            <if test="applicationName != null">#{applicationName},</if>
+            <if test="productTitle != null">#{productTitle},</if>
+            <if test="borrowerName != null">#{borrowerName},</if>
+            <if test="borrowerManager != null">#{borrowerManager},</if>
+            <if test="borrowerManagerDept != null">#{borrowerManagerDept},</if>
+            <if test="applyNature != null">#{applyNature},</if>
+            <if test="applyMoney != null">#{applyMoney},</if>
+            <if test="applyExpires != null">#{applyExpires},</if>
+            <if test="applyExpiresUnit != null">#{applyExpiresUnit},</if>
+            <if test="applyStartDate != null">#{applyStartDate},</if>
+            <if test="applyEndDate != null">#{applyEndDate},</if>
+            <if test="applyRate != null">#{applyRate},</if>
+            <if test="applyRateUnit != null">#{applyRateUnit},</if>
+            <if test="applyConsultingRate != null">#{applyConsultingRate},</if>
+            <if test="applyConsultingRateUnit != null">#{applyConsultingRateUnit},</if>
+            <if test="repayType != null">#{repayType},</if>
+            <if test="applyConsultationRepayType != null">#{applyConsultationRepayType},</if>
+            <if test="contractSignWay != null">#{contractSignWay},</if>
+            <if test="interestRateIncrease != null">#{interestRateIncrease},</if>
+            <if test="applySource != null">#{applySource},</if>
+            <if test="whetherGuaranteeApply != null">#{whetherGuaranteeApply},</if>
+            <if test="guaranteeApplyType != null">#{guaranteeApplyType},</if>
+            <if test="note != null">#{note},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+            <if test="createRepayPlan != null">#{createRepayPlan},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLoanApplication" parameterType="LoanApplication">
+        update lm_loan_application
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="boid != null">boId = #{boid},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="applicationName != null">application_name = #{applicationName},</if>
+            <if test="productTitle != null">product_title = #{productTitle},</if>
+            <if test="borrowerName != null">borrower_name = #{borrowerName},</if>
+            <if test="borrowerManager != null">borrower_manager = #{borrowerManager},</if>
+            <if test="borrowerManagerDept != null">borrower_manager_dept = #{borrowerManagerDept},</if>
+            <if test="applyNature != null">apply_nature = #{applyNature},</if>
+            <if test="applyMoney != null">apply_money = #{applyMoney},</if>
+            <if test="applyExpires != null">apply_expires = #{applyExpires},</if>
+            <if test="applyExpiresUnit != null">apply_expires_unit = #{applyExpiresUnit},</if>
+            <if test="applyStartDate != null">apply_start_date = #{applyStartDate},</if>
+            <if test="applyEndDate != null">apply_end_date = #{applyEndDate},</if>
+            <if test="applyRate != null">apply_rate = #{applyRate},</if>
+            <if test="applyRateUnit != null">apply_rate_unit = #{applyRateUnit},</if>
+            <if test="applyConsultingRate != null">apply_consulting_rate = #{applyConsultingRate},</if>
+            <if test="applyConsultingRateUnit != null">apply_consulting_rate_unit = #{applyConsultingRateUnit},</if>
+            <if test="repayType != null">repay_type = #{repayType},</if>
+            <if test="applyConsultationRepayType != null">apply_consultation_repay_type = #{applyConsultationRepayType},</if>
+            <if test="contractSignWay != null">contract_sign_way = #{contractSignWay},</if>
+            <if test="interestRateIncrease != null">interest_rate_increase = #{interestRateIncrease},</if>
+            <if test="applySource != null">apply_source = #{applySource},</if>
+            <if test="whetherGuaranteeApply != null">whether_guarantee_apply = #{whetherGuaranteeApply},</if>
+            <if test="guaranteeApplyType != null">guarantee_apply_type = #{guaranteeApplyType},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="createRepayPlan != null">create_repay_plan = #{createRepayPlan},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLoanApplicationById" parameterType="Long">
+        delete from lm_loan_application where id = #{id}
+    </delete>
+
+    <delete id="deleteLoanApplicationByIds" parameterType="String">
+        delete from lm_loan_application where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

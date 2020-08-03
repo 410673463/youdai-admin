@@ -113,6 +113,8 @@ public class Borrower extends BaseEntity {
     @Excel(name = "修改日期", width = 30, dateFormat = "yyyy-MM-dd")
     private Date modifydate;
 
+    private String dataSource;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -239,6 +241,14 @@ public class Borrower extends BaseEntity {
 
     public Date getModifydate() {
         return modifydate;
+    }
+
+    public String getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(String dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override

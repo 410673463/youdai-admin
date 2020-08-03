@@ -1,5 +1,6 @@
 package com.utour.youdai.admin.project.bo.controller;
 
+import com.utour.youdai.admin.common.utils.SecurityUtils;
 import com.utour.youdai.admin.common.utils.poi.ExcelUtil;
 import com.utour.youdai.admin.framework.aspectj.lang.annotation.Log;
 import com.utour.youdai.admin.framework.aspectj.lang.enums.BusinessType;
@@ -8,6 +9,7 @@ import com.utour.youdai.admin.framework.web.domain.AjaxResult;
 import com.utour.youdai.admin.framework.web.page.TableDataInfo;
 import com.utour.youdai.admin.project.bo.domain.Borrower;
 import com.utour.youdai.admin.project.bo.service.IBorrowerService;
+import com.utour.youdai.admin.project.system.domain.SysUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,8 @@ public class BorrowerController extends BaseController {
     @PreAuthorize("@ss.hasPermi('bo:borrower:list')")
     @GetMapping("/list")
     public TableDataInfo list(Borrower borrower) {
+        SysUser user = SecurityUtils.getLoginUser().getUser();
+
         startPage();
         List<Borrower> list = borrowerService.selectBorrowerList(borrower);
         return getDataTable(list);
