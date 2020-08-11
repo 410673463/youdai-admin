@@ -2,17 +2,12 @@ package com.utour.youdai.admin.project.lm.controller;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.utour.youdai.admin.framework.aspectj.lang.annotation.Log;
 import com.utour.youdai.admin.framework.aspectj.lang.enums.BusinessType;
 
@@ -96,5 +91,16 @@ public class LoanApplicationController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(loanApplicationService.deleteLoanApplicationByIds(ids));
+    }
+
+    @PreAuthorize("@ss.hasPermi('lm:application:update:status')")
+    @Log(title = "贷款管理-贷款申请", businessType = BusinessType.UPDATE)
+    @PostMapping("/status")
+    public AjaxResult updateApplyStatus(@RequestBody JSONObject jo){
+        System.out.println(jo.toString());
+        JSONArray ids = jo.getJSONArray("ids");
+        int status = jo.getIntValue("status");
+        int n = loanApplicationService.updateApplyStatus(status,ids);
+        return  toAjax(1);
     }
 }

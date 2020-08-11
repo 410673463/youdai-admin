@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="productTitle"    column="product_title"    />
         <result property="borrowerName"    column="borrower_name"    />
         <result property="borrowerManager"    column="borrower_manager"    />
-        <result property="borrowerManagerDept"    column="borrower_manager_dept"    />
+        <result property="boManagerId"    column="bo_manager_id"    />
         <result property="applyNature"    column="apply_nature"    />
         <result property="applyMoney"    column="apply_money"    />
         <result property="applyExpires"    column="apply_expires"    />
@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectLoanApplicationVo">
-        select id, boId, product_id, code, application_name, product_title, borrower_name, borrower_manager, borrower_manager_dept, apply_nature, apply_money, apply_expires, apply_expires_unit, apply_start_date, apply_end_date, apply_rate, apply_rate_unit, apply_consulting_rate, apply_consulting_rate_unit, repay_type, apply_consultation_repay_type, contract_sign_way, interest_rate_increase, apply_source, whether_guarantee_apply, guarantee_apply_type, note, status, create_by, create_time, update_time, push_status, create_repay_plan from lm_loan_application
+        select id, boId, product_id, code, application_name, product_title, borrower_name, borrower_manager, bo_manager_id, apply_nature, apply_money, apply_expires, apply_expires_unit, apply_start_date, apply_end_date, apply_rate, apply_rate_unit, apply_consulting_rate, apply_consulting_rate_unit, repay_type, apply_consultation_repay_type, contract_sign_way, interest_rate_increase, apply_source, whether_guarantee_apply, guarantee_apply_type, note, status, create_by, create_time, update_time, push_status, create_repay_plan from lm_loan_application
     </sql>
 
     <select id="selectLoanApplicationList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productTitle != null">product_title,</if>
             <if test="borrowerName != null">borrower_name,</if>
             <if test="borrowerManager != null">borrower_manager,</if>
-            <if test="borrowerManagerDept != null">borrower_manager_dept,</if>
+            <if test="boManagerId != null">bo_manager_id,</if>
             <if test="applyNature != null">apply_nature,</if>
             <if test="applyMoney != null">apply_money,</if>
             <if test="applyExpires != null">apply_expires,</if>
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productTitle != null">#{productTitle},</if>
             <if test="borrowerName != null">#{borrowerName},</if>
             <if test="borrowerManager != null">#{borrowerManager},</if>
-            <if test="borrowerManagerDept != null">#{borrowerManagerDept},</if>
+            <if test="boManagerId != null">#{boManagerId},</if>
             <if test="applyNature != null">#{applyNature},</if>
             <if test="applyMoney != null">#{applyMoney},</if>
             <if test="applyExpires != null">#{applyExpires},</if>
@@ -142,7 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productTitle != null">product_title = #{productTitle},</if>
             <if test="borrowerName != null">borrower_name = #{borrowerName},</if>
             <if test="borrowerManager != null">borrower_manager = #{borrowerManager},</if>
-            <if test="borrowerManagerDept != null">borrower_manager_dept = #{borrowerManagerDept},</if>
+            <if test="boManagerId != null">bo_manager_id = #{boManagerId},</if>
             <if test="applyNature != null">apply_nature = #{applyNature},</if>
             <if test="applyMoney != null">apply_money = #{applyMoney},</if>
             <if test="applyExpires != null">apply_expires = #{applyExpires},</if>
@@ -169,6 +169,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createRepayPlan != null">create_repay_plan = #{createRepayPlan},</if>
         </trim>
         where id = #{id}
+    </update>
+    <update id="updateApplyStatus" >
+        update lm_loan_application set status = #{status} where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </update>
 
     <delete id="deleteLoanApplicationById" parameterType="Long">

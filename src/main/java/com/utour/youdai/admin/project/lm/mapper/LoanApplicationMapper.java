@@ -1,7 +1,9 @@
 package com.utour.youdai.admin.project.lm.mapper;
 
+import com.alibaba.fastjson.JSONArray;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -63,4 +65,6 @@ public interface LoanApplicationMapper {
      * @return 结果
      */
     public int deleteLoanApplicationByIds(Long[] ids);
+
+    int updateApplyStatus(@Param("status")int status,@Param("ids") JSONArray ids);
 }

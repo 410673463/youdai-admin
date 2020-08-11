@@ -102,7 +102,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
 		select user_id, email from sys_user where email = #{email}
 	</select>
-	
+	<select id="getUsersByStatus" parameterType="Integer" resultMap="SysUserResult">
+		select  user_id,user_name,dept_id,nick_name,phonenumber from sys_user where status = #{status}
+	</select>
+
 	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
  		insert into sys_user(
  			<if test="userId != null and userId != 0">user_id,</if>

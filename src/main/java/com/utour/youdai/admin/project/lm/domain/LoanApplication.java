@@ -2,6 +2,7 @@ package com.utour.youdai.admin.project.lm.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import com.utour.youdai.admin.framework.aspectj.lang.annotation.Excel;
 import com.utour.youdai.admin.framework.web.domain.BaseEntity;
 
@@ -55,13 +56,13 @@ public class LoanApplication extends BaseEntity {
     /**
      * 客户经理
      */
-    @Excel(name = "客户经理")
+    @Excel(name = "经办人")
     private String borrowerManager;
 
     /**
-     * 客户经理部门
+     * 经办人Id
      */
-    private String borrowerManagerDept;
+    private Integer boManagerId;
 
     /**
      * 贷款性质: 1新项目、2还旧借新、3展期项目
@@ -157,9 +158,9 @@ public class LoanApplication extends BaseEntity {
     private String note;
 
     /**
-     * 状态: -1、审核终止 0、审核被拒，需要修改1、申请创建 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过)
+     * 状态: -1、审核终止 0、申请创建  1、创建审批流程 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过)
      */
-    @Excel(name = "状态: -1、审核终止 0、审核被拒，需要修改1、申请创建 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过)")
+    @Excel(name = "状态")
     private Integer status;
 
     /**
@@ -235,14 +236,6 @@ public class LoanApplication extends BaseEntity {
 
     public String getBorrowerManager() {
         return borrowerManager;
-    }
-
-    public void setBorrowerManagerDept(String borrowerManagerDept) {
-        this.borrowerManagerDept = borrowerManagerDept;
-    }
-
-    public String getBorrowerManagerDept() {
-        return borrowerManagerDept;
     }
 
     public void setApplyNature(Integer applyNature) {
@@ -411,5 +404,13 @@ public class LoanApplication extends BaseEntity {
 
     public Integer getCreateRepayPlan() {
         return createRepayPlan;
+    }
+
+    public Integer getBoManagerId() {
+        return boManagerId;
+    }
+
+    public void setBoManagerId(Integer boManagerId) {
+        this.boManagerId = boManagerId;
     }
 }

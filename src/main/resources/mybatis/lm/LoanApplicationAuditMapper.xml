@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.lm.mapper.LoanApplicationAuditMapper">
+
+    <resultMap type="LoanApplicationAudit" id="LoanApplicationAuditResult">
+        <result property="id" column="id"/>
+        <result property="laId" column="la_id"/>
+        <result property="auditUserId" column="audit_user_id"/>
+        <result property="auditUserName" column="audit_user_name"/>
+        <result property="superUserId" column="super_user_id"/>
+        <result property="superUserName" column="super_user_name"/>
+        <result property="auditOpinion" column="audit_opinion"/>
+        <result property="auditStatus" column="audit_status"/>
+        <result property="auditTime" column="audit_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="auditSort" column="audit_sort"/>
+    </resultMap>
+
+    <sql id="selectLoanApplicationAuditVo">
+        select id, la_id, audit_user_id, audit_user_name, super_user_id, super_user_name, audit_opinion, audit_status, audit_time, create_time, audit_sort from lm_loan_application_audit
+    </sql>
+
+    <select id="selectLoanApplicationAuditList" parameterType="LoanApplicationAudit"
+            resultMap="LoanApplicationAuditResult">
+        <include refid="selectLoanApplicationAuditVo"/>
+        <where>
+            <if test="laId != null ">and la_id = #{laId}</if>
+            <if test="auditUserId != null ">and audit_user_id = #{auditUserId}</if>
+            <if test="auditUserName != null  and auditUserName != ''">and audit_user_name like concat('%',
+                #{auditUserName}, '%')
+            </if>
+            <if test="superUserId != null ">and super_user_id = #{superUserId}</if>
+            <if test="superUserName != null  and superUserName != ''">and super_user_name like concat('%',
+                #{superUserName}, '%')
+            </if>
+            <if test="auditOpinion != null  and auditOpinion != ''">and audit_opinion = #{auditOpinion}</if>
+            <if test="auditStatus != null ">and audit_status = #{auditStatus}</if>
+            <if test="auditTime != null ">and audit_time = #{auditTime}</if>
+            <if test="auditSort != null ">and audit_sort = #{auditSort}</if>
+        </where>
+    </select>
+
+    <select id="selectLoanApplicationAuditById" parameterType="Long" resultMap="LoanApplicationAuditResult">
+        <include refid="selectLoanApplicationAuditVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectAuditByLaId"  parameterType="Long"  resultMap="LoanApplicationAuditResult">
+        <include refid="selectLoanApplicationAuditVo"/>
+        where la_id = #{laId}
+        order by audit_sort asc
+    </select>
+
+    <insert id="insertLoanApplicationAudit" parameterType="LoanApplicationAudit" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into lm_loan_application_audit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="laId != null">la_id,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditUserName != null">audit_user_name,</if>
+            <if test="superUserId != null">super_user_id,</if>
+            <if test="superUserName != null">super_user_name,</if>
+            <if test="auditOpinion != null">audit_opinion,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="auditTime != null">audit_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="auditSort != null">audit_sort,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="laId != null">#{laId},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditUserName != null">#{auditUserName},</if>
+            <if test="superUserId != null">#{superUserId},</if>
+            <if test="superUserName != null">#{superUserName},</if>
+            <if test="auditOpinion != null">#{auditOpinion},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="auditSort != null">#{auditSort},</if>
+        </trim>
+    </insert>
+    <insert id="batchInsert" parameterType="list">
+        insert into lm_loan_application_audit
+            (la_id, audit_user_id, audit_user_name,audit_time, super_user_id, super_user_name, audit_status,audit_opinion,  create_time, audit_sort )
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.laId},
+            #{item.auditUserId},
+            #{item.auditUserName},
+            #{item.auditTime},
+            #{item.superUserId},
+            #{item.superUserName},
+            #{item.auditStatus},
+            #{item.auditOpinion},
+            #{item.createTime},
+            #{item.auditSort}
+            )
+        </foreach>
+</insert>
+
+    <update id="updateLoanApplicationAudit" parameterType="LoanApplicationAudit">
+        update lm_loan_application_audit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="laId != null">la_id = #{laId},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditUserName != null">audit_user_name = #{auditUserName},</if>
+            <if test="superUserId != null">super_user_id = #{superUserId},</if>
+            <if test="superUserName != null">super_user_name = #{superUserName},</if>
+            <if test="auditOpinion != null">audit_opinion = #{auditOpinion},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="auditSort != null">audit_sort = #{auditSort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLoanApplicationAuditById" parameterType="Long">
+        delete from lm_loan_application_audit where id = #{id}
+    </delete>
+
+    <delete id="deleteLoanApplicationAuditByIds" parameterType="String">
+        delete from lm_loan_application_audit where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

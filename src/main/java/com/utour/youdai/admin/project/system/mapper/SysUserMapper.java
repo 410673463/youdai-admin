@@ -113,4 +113,11 @@ public interface SysUserMapper {
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+    /**
+     * 根据员工状态查询所有员工
+     * @param status
+     * @return
+     */
+    List<SysUser> getUsersByStatus(int status);
 }

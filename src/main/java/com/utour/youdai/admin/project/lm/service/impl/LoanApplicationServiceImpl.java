@@ -1,13 +1,14 @@
 package com.utour.youdai.admin.project.lm.service.impl;
 
-import java.util.List;
-
+import com.alibaba.fastjson.JSONArray;
+import com.utour.youdai.admin.common.utils.CodeGeneratorFactory;
 import com.utour.youdai.admin.common.utils.DateUtils;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.lm.mapper.LoanApplicationMapper;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 贷款管理-贷款申请Service业务层处理
@@ -53,6 +54,8 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
      */
     @Override
     public int insertLoanApplication(LoanApplication loanApplication) {
+        String code = CodeGeneratorFactory.getCode("LM-",4);
+        loanApplication.setCode(code );
         loanApplication.setCreateTime(DateUtils.getNowDate());
         return loanApplicationMapper.insertLoanApplication(loanApplication);
     }
@@ -89,5 +92,11 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
     @Override
     public int deleteLoanApplicationById(Long id) {
         return loanApplicationMapper.deleteLoanApplicationById(id);
+    }
+
+    @Override
+    public int updateApplyStatus(int status, JSONArray ids) {
+        int n = loanApplicationMapper.updateApplyStatus(status,ids);
+        return n;
     }
 }

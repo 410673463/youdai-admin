@@ -1,5 +1,6 @@
 package com.utour.youdai.admin.project.lm.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 
 import java.util.List;
@@ -58,4 +59,12 @@ public interface ILoanApplicationService {
      * @return 结果
      */
     public int deleteLoanApplicationById(Long id);
+
+    /**
+     * 更新申请状态，创建审核表数据
+     * @param status
+     * @param ids
+     * @return
+     */
+    int updateApplyStatus(int status, JSONArray ids);
 }

@@ -164,4 +164,11 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 根据员工状态，查询所有员工
+     * @param status  员工状态
+     * @return
+     */
+    List<SysUser> getUsersByStatus(int status);
 }

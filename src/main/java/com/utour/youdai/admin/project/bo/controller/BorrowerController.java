@@ -36,8 +36,6 @@ public class BorrowerController extends BaseController {
     @PreAuthorize("@ss.hasPermi('bo:borrower:list')")
     @GetMapping("/list")
     public TableDataInfo list(Borrower borrower) {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
-
         startPage();
         List<Borrower> list = borrowerService.selectBorrowerList(borrower);
         return getDataTable(list);
