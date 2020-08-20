@@ -3,6 +3,7 @@ package com.utour.youdai.admin.project.lm.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.utour.youdai.admin.framework.aspectj.lang.annotation.Excel;
 import com.utour.youdai.admin.framework.web.domain.BaseEntity;
 
@@ -79,7 +80,7 @@ public class LoanApplication extends BaseEntity {
      * 贷款期限
      */
     @Excel(name = "贷款期限")
-    private Long applyExpires;
+    private Integer applyExpires;
 
     /**
      * 贷款期限单位:年、月、日
@@ -89,11 +90,13 @@ public class LoanApplication extends BaseEntity {
     /**
      * 贷款开始日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date applyStartDate;
 
     /**
      * 贷款结束日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date applyEndDate;
 
     /**
@@ -158,7 +161,7 @@ public class LoanApplication extends BaseEntity {
     private String note;
 
     /**
-     * 状态: -1、审核终止 0、申请创建  1、创建审批流程 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过)
+     * 状态: -1、审核终止 0、申请创建  1、创建审批流程 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过) 8合同签订
      */
     @Excel(name = "状态")
     private Integer status;
@@ -173,6 +176,37 @@ public class LoanApplication extends BaseEntity {
      * 是否已经生成还款计划
      */
     private Integer createRepayPlan;
+
+    /**
+     * 是否受托支付
+     */
+    @Excel(name = "是否受托支付")
+    private Integer whetherEntrust;
+
+    /**
+     * 贷款用途：1）流动资金贷款  2）固定资产投资贷款  3）其他）
+     */
+    @Excel(name = "贷款用途")
+    private Integer purpose;
+
+    /**
+     * 投向行业：1）居民服务和其他服务业,2）建筑业, 3）交通运输、仓储和邮政业, 4）农、林、牧、渔业, 5）采矿业, 6）制造业, 7）电力、燃气及水的生产和供应业, 8）信息传输、计算机服务和软件业, 9）批发和零售业,10）住宿和餐饮业, 11）房地产业, 12）租赁和商务服务业, 13）其他
+     */
+    @Excel(name = "投向行业")
+    private Integer business;
+
+    /**
+     * 还款来源
+     */
+    @Excel(name = "还款来源")
+    private String repaySource;
+
+    /**
+     * 平台费
+     */
+    @Excel(name = "平台费")
+    private BigDecimal platformCost;
+
 
     public void setId(Long id) {
         this.id = id;
@@ -254,12 +288,12 @@ public class LoanApplication extends BaseEntity {
         return applyMoney;
     }
 
-    public void setApplyExpires(Long applyExpires) {
-        this.applyExpires = applyExpires;
+    public Integer getApplyExpires() {
+        return applyExpires;
     }
 
-    public Long getApplyExpires() {
-        return applyExpires;
+    public void setApplyExpires(Integer applyExpires) {
+        this.applyExpires = applyExpires;
     }
 
     public void setApplyExpiresUnit(String applyExpiresUnit) {
@@ -412,5 +446,45 @@ public class LoanApplication extends BaseEntity {
 
     public void setBoManagerId(Integer boManagerId) {
         this.boManagerId = boManagerId;
+    }
+
+    public Integer getWhetherEntrust() {
+        return whetherEntrust;
+    }
+
+    public void setWhetherEntrust(Integer whetherEntrust) {
+        this.whetherEntrust = whetherEntrust;
+    }
+
+    public Integer getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(Integer purpose) {
+        this.purpose = purpose;
+    }
+
+    public Integer getBusiness() {
+        return business;
+    }
+
+    public void setBusiness(Integer business) {
+        this.business = business;
+    }
+
+    public String getRepaySource() {
+        return repaySource;
+    }
+
+    public void setRepaySource(String repaySource) {
+        this.repaySource = repaySource;
+    }
+
+    public BigDecimal getPlatformCost() {
+        return platformCost;
+    }
+
+    public void setPlatformCost(BigDecimal platformCost) {
+        this.platformCost = platformCost;
     }
 }

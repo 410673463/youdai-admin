@@ -38,10 +38,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="pushStatus"    column="push_status"    />
         <result property="createRepayPlan"    column="create_repay_plan"    />
+        <result property="whetherEntrust"    column="whether_entrust"    />
+        <result property="purpose"    column="purpose"    />
+        <result property="business"    column="business"    />
+        <result property="repaySource"    column="repay_source"    />
+        <result property="platformCost"    column="platform_cost"    />
     </resultMap>
 
     <sql id="selectLoanApplicationVo">
-        select id, boId, product_id, code, application_name, product_title, borrower_name, borrower_manager, bo_manager_id, apply_nature, apply_money, apply_expires, apply_expires_unit, apply_start_date, apply_end_date, apply_rate, apply_rate_unit, apply_consulting_rate, apply_consulting_rate_unit, repay_type, apply_consultation_repay_type, contract_sign_way, interest_rate_increase, apply_source, whether_guarantee_apply, guarantee_apply_type, note, status, create_by, create_time, update_time, push_status, create_repay_plan from lm_loan_application
+        select id, boId, product_id, code, application_name, product_title, borrower_name, borrower_manager, bo_manager_id, apply_nature, apply_money, apply_expires, apply_expires_unit, apply_start_date, apply_end_date, apply_rate, apply_rate_unit, apply_consulting_rate, apply_consulting_rate_unit, repay_type, apply_consultation_repay_type, contract_sign_way, interest_rate_increase, apply_source, whether_guarantee_apply, guarantee_apply_type, note, status, create_by, create_time, update_time, push_status, create_repay_plan, whether_entrust, purpose, business, repay_source, platform_cost from lm_loan_application
     </sql>
 
     <select id="selectLoanApplicationList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
@@ -53,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="borrowerManager != null  and borrowerManager != ''"> and borrower_manager = #{borrowerManager}</if>
             <if test="status != null "> and status = #{status}</if>
         </where>
+        order by create_time desc
     </select>
     
     <select id="selectLoanApplicationById" parameterType="Long" resultMap="LoanApplicationResult">
@@ -95,6 +101,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="pushStatus != null">push_status,</if>
             <if test="createRepayPlan != null">create_repay_plan,</if>
+            <if test="whetherEntrust != null">whether_entrust,</if>
+            <if test="purpose != null">purpose,</if>
+            <if test="business != null">business,</if>
+            <if test="repaySource != null">repay_source,</if>
+            <if test="platformCost != null">platform_cost,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="boid != null">#{boid},</if>
@@ -129,6 +140,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="pushStatus != null">#{pushStatus},</if>
             <if test="createRepayPlan != null">#{createRepayPlan},</if>
+            <if test="whetherEntrust != null">#{whetherEntrust},</if>
+            <if test="purpose != null">#{purpose},</if>
+            <if test="business != null">#{business},</if>
+            <if test="repaySource != null">#{repaySource},</if>
+            <if test="platformCost != null">#{platformCost},</if>
          </trim>
     </insert>
 
@@ -167,6 +183,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="pushStatus != null">push_status = #{pushStatus},</if>
             <if test="createRepayPlan != null">create_repay_plan = #{createRepayPlan},</if>
+            <if test="whetherEntrust != null">whether_entrust = #{whetherEntrust},</if>
+            <if test="purpose != null">purpose = #{purpose},</if>
+            <if test="business != null">business = #{business},</if>
+            <if test="repaySource != null">repay_source = #{repaySource},</if>
+            <if test="platformCost != null">platform_cost = #{platformCost},</if>
         </trim>
         where id = #{id}
     </update>

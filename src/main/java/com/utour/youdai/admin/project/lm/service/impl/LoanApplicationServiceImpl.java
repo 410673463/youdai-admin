@@ -6,6 +6,7 @@ import com.utour.youdai.admin.common.utils.DateUtils;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.lm.mapper.LoanApplicationMapper;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
+import com.utour.youdai.admin.project.lm.service.ILoanRepaymentPlanService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +20,11 @@ import java.util.List;
 @Service
 public class LoanApplicationServiceImpl implements ILoanApplicationService {
     private final LoanApplicationMapper loanApplicationMapper;
+    private final ILoanRepaymentPlanService loanRepaymentPlanService;
 
-    public LoanApplicationServiceImpl(LoanApplicationMapper loanApplicationMapper) {
+    public LoanApplicationServiceImpl(LoanApplicationMapper loanApplicationMapper, ILoanRepaymentPlanService loanRepaymentPlanService) {
         this.loanApplicationMapper = loanApplicationMapper;
+        this.loanRepaymentPlanService = loanRepaymentPlanService;
     }
 
     /**
@@ -54,10 +57,14 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
      */
     @Override
     public int insertLoanApplication(LoanApplication loanApplication) {
-        String code = CodeGeneratorFactory.getCode("LM-",4);
-        loanApplication.setCode(code );
+        String code = CodeGeneratorFactory.getCode("LM-", 4);
+        loanApplication.setCode(code);
         loanApplication.setCreateTime(DateUtils.getNowDate());
-        return loanApplicationMapper.insertLoanApplication(loanApplication);
+        int n = loanApplicationMapper.insertLoanApplication(loanApplication);
+
+        //生成还款计划
+        loanRepaymentPlanService.createRepayPlan(loanApplication);
+        return n;
     }
 
     /**
@@ -69,7 +76,11 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
     @Override
     public int updateLoanApplication(LoanApplication loanApplication) {
         loanApplication.setUpdateTime(DateUtils.getNowDate());
-        return loanApplicationMapper.updateLoanApplication(loanApplication);
+        int n = loanApplicationMapper.updateLoanApplication(loanApplication);
+        //重新生成还款计划
+        loanRepaymentPlanService.deletePlanByLaId(loanApplication.getId());
+        loanRepaymentPlanService.createRepayPlan(loanApplication);
+        return n;
     }
 
     /**
@@ -96,7 +107,7 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
 
     @Override
     public int updateApplyStatus(int status, JSONArray ids) {
-        int n = loanApplicationMapper.updateApplyStatus(status,ids);
+        int n = loanApplicationMapper.updateApplyStatus(status, ids);
         return n;
     }
 }

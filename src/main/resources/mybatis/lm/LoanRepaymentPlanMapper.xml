@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.lm.mapper.LoanRepaymentPlanMapper">
+
+    <resultMap type="LoanRepaymentPlan" id="LoanRepaymentPlanResult">
+        <result property="id" column="id"/>
+        <result property="laId" column="la_id"/>
+        <result property="planDate" column="plan_date"/>
+        <result property="planMoneySum" column="plan_money_sum"/>
+        <result property="planPrincipalMoney" column="plan_principal_money"/>
+        <result property="planInterestMoney" column="plan_interest_money"/>
+        <result property="indexNo" column="index_No"/>
+        <result property="pushStatus" column="push_status"/>
+    </resultMap>
+
+    <sql id="selectLoanRepaymentPlanVo">
+        select id, la_id, plan_date, plan_money_sum, plan_principal_money, plan_interest_money, index_No, push_status from lm_loan_repayment_plan
+    </sql>
+
+    <select id="selectLoanRepaymentPlanList" parameterType="LoanRepaymentPlan" resultMap="LoanRepaymentPlanResult">
+        <include refid="selectLoanRepaymentPlanVo"/>
+        <where>
+        </where>
+    </select>
+
+    <select id="selectLoanRepaymentPlanById" parameterType="Long" resultMap="LoanRepaymentPlanResult">
+        <include refid="selectLoanRepaymentPlanVo"/>
+        where id = #{id}
+    </select>
+    <select id="getPlanList" parameterType="Long" resultMap="LoanRepaymentPlanResult">
+        <include refid="selectLoanRepaymentPlanVo"/>
+        where la_id = #{laId}
+    </select>
+
+    <insert id="insertLoanRepaymentPlan" parameterType="LoanRepaymentPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into lm_loan_repayment_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="laId != null">la_id,</if>
+            <if test="planDate != null">plan_date,</if>
+            <if test="planMoneySum != null">plan_money_sum,</if>
+            <if test="planPrincipalMoney != null">plan_principal_money,</if>
+            <if test="planInterestMoney != null">plan_interest_money,</if>
+            <if test="indexNo != null">index_No,</if>
+            <if test="pushStatus != null">push_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="laId != null">#{laId},</if>
+            <if test="planDate != null">#{planDate},</if>
+            <if test="planMoneySum != null">#{planMoneySum},</if>
+            <if test="planPrincipalMoney != null">#{planPrincipalMoney},</if>
+            <if test="planInterestMoney != null">#{planInterestMoney},</if>
+            <if test="indexNo != null">#{indexNo},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+        </trim>
+    </insert>
+    <insert id="batchInsert" parameterType="list">
+        insert into lm_loan_repayment_plan
+        (la_id,plan_date,plan_money_sum,plan_principal_money,plan_interest_money,index_no,push_status)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+            #{item.laId},
+            #{item.planDate},
+            #{item.planMoneySum},
+            #{item.planPrincipalMoney},
+            #{item.planInterestMoney},
+            #{item.indexNo},
+            #{item.pushStatus}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateLoanRepaymentPlan" parameterType="LoanRepaymentPlan">
+        update lm_loan_repayment_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="laId != null">la_id = #{laId},</if>
+            <if test="planDate != null">plan_date = #{planDate},</if>
+            <if test="planMoneySum != null">plan_money_sum = #{planMoneySum},</if>
+            <if test="planPrincipalMoney != null">plan_principal_money = #{planPrincipalMoney},</if>
+            <if test="planInterestMoney != null">plan_interest_money = #{planInterestMoney},</if>
+            <if test="indexNo != null">index_No = #{indexNo},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLoanRepaymentPlanById" parameterType="Long">
+        delete from lm_loan_repayment_plan where id = #{id}
+    </delete>
+
+    <delete id="deleteLoanRepaymentPlanByIds" parameterType="String">
+        delete from lm_loan_repayment_plan where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deletePlanByLaId" parameterType="Long">
+        delete from lm_loan_repayment_plan where la_id = #{laId}
+    </delete>
+
+</mapper>
