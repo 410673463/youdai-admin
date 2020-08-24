@@ -213,19 +213,6 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
         return list;
     }
 
-    public static void main(String[] args) {
-    /* List list = equalInstallmentPayment(new BigDecimal(10000),
-                     6, new BigDecimal("0.11"),
-                new Date(), 1, "月");*/
-      /*  List list = averageCapital(new BigDecimal(10000),
-                6, new BigDecimal(0.1),
-                new Date(), 1, "日");
-
-        monthInterestPayment(new BigDecimal(10000),
-                6, new BigDecimal(0.1),
-                new Date(), 1, "月");*/
-    }
-
     /**
      * 等额本金
      * 每月还款金额 = （贷款本金 / 还款月数）+（本金 — 已归还本金累计额）×每月利率
@@ -283,7 +270,7 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
                                                          BigDecimal rate, Date start, long laId,
                                                          String applyRateUnit) {
         List<LoanRepaymentPlan> list = new ArrayList<>();
-        BigDecimal interestMoney = applyMoney.multiply(rate).setScale(0, RoundingMode.HALF_DOWN);
+        BigDecimal interestMoney = applyMoney.multiply(rate.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP)).setScale(0, RoundingMode.HALF_DOWN);
         for (int i = 0; i < applyExpires; i++) {
             LoanRepaymentPlan plan = new LoanRepaymentPlan();
             //计算 期数对应的 还款日期
@@ -327,7 +314,7 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
         List<LoanRepaymentPlan> list = new ArrayList<>();
         LoanRepaymentPlan plan = new LoanRepaymentPlan();
         //利息
-        BigDecimal interestMoney = applyMoney.multiply(rate).multiply(new BigDecimal(applyExpires)).setScale(2, RoundingMode.HALF_DOWN);
+        BigDecimal interestMoney = applyMoney.multiply(rate.divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(applyExpires)).setScale(2, RoundingMode.HALF_DOWN);
         plan.setPlanDate(end);
         plan.setLaId(laId);
         plan.setIndexNo(1);
