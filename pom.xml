@@ -274,6 +274,31 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-http  http 请求-->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-http</artifactId>
+			<version>5.4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.foxinmy/weixin4j-base -->
+		<dependency>
+			<groupId>com.foxinmy</groupId>
+			<artifactId>weixin4j-base</artifactId>
+			<version>1.8.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-log -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-log</artifactId>
+			<version>5.4.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-crypto -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-crypto</artifactId>
+			<version>5.4.0</version>
+		</dependency>
+
 
 	</dependencies>
 
