@@ -67,4 +67,11 @@ public interface LoanApplicationMapper {
     public int deleteLoanApplicationByIds(Long[] ids);
 
     int updateApplyStatus(@Param("status")int status,@Param("ids") JSONArray ids);
+
+    /**
+     * 查询贷款申请推送列表  只查询状态 >=8的 申请，  签订合同和历史数据补录的
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication);
 }

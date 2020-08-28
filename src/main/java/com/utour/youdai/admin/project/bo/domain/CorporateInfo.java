@@ -1,6 +1,9 @@
 package com.utour.youdai.admin.project.bo.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.utour.youdai.admin.framework.web.domain.BaseEntity;
+
+import java.util.Date;
 
 /**
  * 借款人-公司详细信息对象 bo_corporate_info
@@ -50,7 +53,15 @@ public class CorporateInfo extends BaseEntity {
      * 法人类别
      */
     private String legalPersonType;
-
+    /**
+     * 营业执照号
+     */
+    private String businessLicenseCode;
+    /**
+     * 营业执照有效截止日期
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date businessLicenseEndDate;
     /**
      * 法人姓名
      */
@@ -323,4 +334,19 @@ public class CorporateInfo extends BaseEntity {
         return futurePlan;
     }
 
+    public String getBusinessLicenseCode() {
+        return businessLicenseCode;
+    }
+
+    public void setBusinessLicenseCode(String businessLicenseCode) {
+        this.businessLicenseCode = businessLicenseCode;
+    }
+
+    public Date getBusinessLicenseEndDate() {
+        return businessLicenseEndDate;
+    }
+
+    public void setBusinessLicenseEndDate(Date businessLicenseEndDate) {
+        this.businessLicenseEndDate = businessLicenseEndDate;
+    }
 }

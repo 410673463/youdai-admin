@@ -97,7 +97,6 @@ public class LoanApplicationController extends BaseController {
     @Log(title = "贷款管理-贷款申请", businessType = BusinessType.UPDATE)
     @PostMapping("/status")
     public AjaxResult updateApplyStatus(@RequestBody JSONObject jo){
-        System.out.println(jo.toString());
         JSONArray ids = jo.getJSONArray("ids");
         int status = jo.getIntValue("status");
         int n = loanApplicationService.updateApplyStatus(status,ids);

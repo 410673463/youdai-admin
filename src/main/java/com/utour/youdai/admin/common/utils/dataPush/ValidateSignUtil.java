@@ -6,8 +6,6 @@ import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.foxinmy.weixin4j.util.MapUtil;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,14 +17,9 @@ public class ValidateSignUtil {
     private static Log log = LogFactory.get();
 
 
-    private static String appKey;
 
-    @Value("dataPush.appKey")
-    public static void setAppKey(String appKey) {
-        ValidateSignUtil.appKey = appKey;
-    }
 
-    public static final String validateSign(Object param) {
+    public static final String validateSign(Object param,String appKey) {
         String validateString = MapUtil.toJoinString(param,
                 false, false) + "&appKey=" + appKey;
         log.info("参与签名的字符串---" + validateString);
@@ -49,8 +42,8 @@ public class ValidateSignUtil {
         map.put("roundStr", randomStr);
         map.put("sex", "1");
         map.put("token", "c647291b0fc66bc07e8d641fd37e08ab");
-        String sign = validateSign(map);
-        System.out.println(TokenUtil.getToken(randomStr));
+        String sign = validateSign(map,"");
+        System.out.println(TokenUtil.getToken(randomStr,"",""));
         System.out.println(sign);
 
     }

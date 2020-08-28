@@ -1,14 +1,13 @@
 package com.utour.youdai.admin.project.lm.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.framework.web.controller.BaseController;
 import com.utour.youdai.admin.framework.web.domain.AjaxResult;
 import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
 import com.utour.youdai.admin.project.lm.service.ILoanRepaymentPlanService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -65,4 +64,10 @@ public class LoanRepaymentPlanController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(loanRepaymentPlanService.deleteLoanRepaymentPlanByIds(ids));
     }*/
+    @PutMapping("/pricipalMoney")
+    public AjaxResult updatePricipalMoney(@RequestBody JSONObject jsonObject) {
+        Long id = jsonObject.getLongValue("updateId");
+        BigDecimal newPrincipalMoney = jsonObject.getBigDecimal("newPrincipalMoney");
+        return toAjax(loanRepaymentPlanService.updatePricipalMoney(id, newPrincipalMoney));
+    }
 }

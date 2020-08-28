@@ -110,4 +110,9 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
         int n = loanApplicationMapper.updateApplyStatus(status, ids);
         return n;
     }
+
+    @Override
+    public List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication) {
+        return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
+    }
 }

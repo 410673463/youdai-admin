@@ -3,6 +3,7 @@ package com.utour.youdai.admin.project.lm.service;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -81,4 +82,12 @@ public interface ILoanRepaymentPlanService {
      * @return
      */
     int createRepayPlan(LoanApplication apply);
+
+    /**
+     * 调整本金
+     * @param id
+     * @param newPrincipalMoney
+     * @return
+     */
+    int updatePricipalMoney(Long id, BigDecimal newPrincipalMoney);
 }

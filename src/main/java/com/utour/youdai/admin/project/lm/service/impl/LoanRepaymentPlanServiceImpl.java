@@ -1,8 +1,10 @@
 package com.utour.youdai.admin.project.lm.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import com.utour.youdai.admin.common.utils.DecimalUtils;
 import com.utour.youdai.admin.common.utils.loan.AverageCapitalPlusInterestUtils;
 import com.utour.youdai.admin.common.utils.loan.AverageCapitalUtils;
+import com.utour.youdai.admin.common.utils.loan.RateUnit;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
 import com.utour.youdai.admin.project.lm.mapper.LoanRepaymentPlanMapper;
@@ -122,7 +124,7 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
         /**
          * 年利率
          */
-        BigDecimal yearRate = this.changeRateToYear(applyRateUnit, applyRate);
+        BigDecimal yearRate = RateUnit.changeRateToYear(applyRateUnit, applyRate);
         //1:等额本息 2:等额本金 3:一次性到期还本付息 4:按月分期付息、到期还本 5:自由还款
         if (apply.getRepayType().intValue() == 1) {//
             list = this.equalInstallmentPayment(applyMoney, applyExpires, yearRate, start, laId, applyExpiresUnit);
@@ -135,6 +137,11 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
         }
         int n = loanRepaymentPlanMapper.batchInsert(list);
         return n;
+    }
+
+    @Override
+    public int updatePricipalMoney(Long id, BigDecimal newPrincipalMoney) {
+        return loanRepaymentPlanMapper.updatePricipalMoney(id, newPrincipalMoney);
     }
 
     /**
@@ -158,23 +165,6 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
         return c.getTime();
     }
 
-    /**
-     * 利率全部转换为年利率
-     *
-     * @return
-     */
-    private BigDecimal changeRateToYear(String unit, BigDecimal rate) {
-        BigDecimal monthRate = new BigDecimal(0);
-        BigDecimal d100 = new BigDecimal(100);
-        if (unit.equals("年")) {
-            monthRate = rate.divide(d100, 2, BigDecimal.ROUND_HALF_UP);
-        } else if (unit.equals("月")) {
-            monthRate = rate.multiply(new BigDecimal(12)).divide(d100, 2, BigDecimal.ROUND_HALF_UP);
-        } else if (unit.equals("日")) {
-            monthRate = rate.multiply(new BigDecimal(360)).divide(d100, 2, BigDecimal.ROUND_HALF_UP);
-        }
-        return monthRate;
-    }
 
     /**
      * 等额本息

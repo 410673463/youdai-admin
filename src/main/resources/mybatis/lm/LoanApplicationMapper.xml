@@ -65,7 +65,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectLoanApplicationVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getLoanApplicationPushList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
+        <include refid="selectLoanApplicationVo"/>
+        <where>
+            status >= 8
+            <if test="applicationName != null  and applicationName != ''"> and application_name like concat('%', #{applicationName}, '%')</if>
+            <if test="productTitle != null  and productTitle != ''"> and product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''"> and borrower_name like concat('%', #{borrowerName}, '%')</if>
+            <if test="borrowerManager != null  and borrowerManager != ''"> and borrower_manager = #{borrowerManager}</if>
+
+        </where>
+    </select>
+
     <insert id="insertLoanApplication" parameterType="LoanApplication" useGeneratedKeys="true" keyProperty="id">
         insert into lm_loan_application
         <trim prefix="(" suffix=")" suffixOverrides=",">

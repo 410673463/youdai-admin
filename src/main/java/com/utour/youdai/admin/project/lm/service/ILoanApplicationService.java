@@ -67,4 +67,11 @@ public interface ILoanApplicationService {
      * @return
      */
     int updateApplyStatus(int status, JSONArray ids);
+
+    /**
+     * 查询贷款申请推送列表
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication);
 }

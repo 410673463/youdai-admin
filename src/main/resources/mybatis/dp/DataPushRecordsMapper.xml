@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.dp.mapper.DataPushRecordsMapper">
+
+    <resultMap type="DataPushRecords" id="DataPushRecordsResult">
+        <result property="id" column="id"/>
+        <result property="primaryId" column="primary_id"/>
+        <result property="dataTable" column="data_table"/>
+        <result property="path" column="path"/>
+        <result property="reqId" column="req_id"/>
+        <result property="sign" column="sign"/>
+        <result property="token" column="token"/>
+        <result property="roundStr" column="round_str"/>
+        <result property="param" column="param"/>
+        <result property="createTime" column="create_time"/>
+        <result property="requestTime" column="request_time"/>
+        <result property="responseTime" column="response_time"/>
+        <result property="responseResult" column="response_result"/>
+    </resultMap>
+
+    <sql id="selectDataPushRecordsVo">
+        select id, primary_id, data_table, path, req_id, sign, token, round_str, param, create_time,request_time,response_time,response_result from dp_data_push_records
+    </sql>
+
+    <select id="selectDataPushRecordsList" parameterType="DataPushRecords" resultMap="DataPushRecordsResult">
+        <include refid="selectDataPushRecordsVo"/>
+        <where>
+            <if test="primaryId != null ">and primary_id = #{primaryId}</if>
+            <if test="dataTable != null  and dataTable != ''">and data_table = #{dataTable}</if>
+            <if test="path != null  and path != ''">and path = #{path}</if>
+            <if test="reqId != null  and reqId != ''">and req_id = #{reqId}</if>
+            <if test="sign != null  and sign != ''">and sign = #{sign}</if>
+            <if test="token != null  and token != ''">and token = #{token}</if>
+            <if test="roundStr != null  and roundStr != ''">and round_str = #{roundStr}</if>
+            <if test="param != null  and param != ''">and param = #{param}</if>
+        </where>
+    </select>
+
+    <select id="selectDataPushRecordsById" parameterType="Long" resultMap="DataPushRecordsResult">
+        <include refid="selectDataPushRecordsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDataPushRecords" parameterType="DataPushRecords" useGeneratedKeys="true" keyProperty="id">
+        insert into dp_data_push_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="primaryId != null">primary_id,</if>
+            <if test="dataTable != null">data_table,</if>
+            <if test="path != null">path,</if>
+            <if test="reqId != null">req_id,</if>
+            <if test="sign != null">sign,</if>
+            <if test="token != null">token,</if>
+            <if test="roundStr != null">round_str,</if>
+            <if test="param != null">param,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="requestTime!= null">request_time,</if>
+            <if test="responseTime!= null">response_time,</if>
+            <if test="responseResult!= null">response_result,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="primaryId != null">#{primaryId},</if>
+            <if test="dataTable != null">#{dataTable},</if>
+            <if test="path != null">#{path},</if>
+            <if test="reqId != null">#{reqId},</if>
+            <if test="sign != null">#{sign},</if>
+            <if test="token != null">#{token},</if>
+            <if test="roundStr != null">#{roundStr},</if>
+            <if test="param != null">#{param},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="requestTime!= null">#{requestTime},</if>
+            <if test="responseTime!= null">#{responseTime},</if>
+            <if test="responseResult!= null">#{responseResult},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDataPushRecords" parameterType="DataPushRecords">
+        update dp_data_push_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="primaryId != null">primary_id = #{primaryId},</if>
+            <if test="dataTable != null">data_table = #{dataTable},</if>
+            <if test="path != null">path = #{path},</if>
+            <if test="reqId != null">req_id = #{reqId},</if>
+            <if test="sign != null">sign = #{sign},</if>
+            <if test="token != null">token = #{token},</if>
+            <if test="roundStr != null">round_str = #{roundStr},</if>
+            <if test="param != null">param = #{param},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="updatePushDataStatus">
+        update  ${dataTable}  set push_status = #{pushStatus} where id = #{primaryId}
+    </update>
+
+    <delete id="deleteDataPushRecordsById" parameterType="Long">
+        delete from dp_data_push_records where id = #{id}
+    </delete>
+
+    <delete id="deleteDataPushRecordsByIds" parameterType="String">
+        delete from dp_data_push_records where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

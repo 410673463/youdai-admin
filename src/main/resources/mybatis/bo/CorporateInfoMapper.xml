@@ -1,51 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.utour.youdai.admin.project.bo.mapper.CorporateInfoMapper">
-    
+
     <resultMap type="CorporateInfo" id="CorporateInfoResult">
-        <result property="id"    column="id"    />
-        <result property="boId"    column="bo_id"    />
-        <result property="type"    column="type"    />
-        <result property="shareholderNum"    column="shareholder_num"    />
-        <result property="address"    column="address"    />
-        <result property="registeredCapital"    column="registered_capital"    />
-        <result property="scale"    column="scale"    />
-        <result property="legalPersonType"    column="legal_person_type"    />
-        <result property="legalPersonName"    column="legal_person_name"    />
-        <result property="legalPersonIdNo"    column="legal_person_id_no"    />
-        <result property="legalPersonPhone"    column="legal_person_phone"    />
-        <result property="registrationType"    column="registration_type"    />
-        <result property="uniformSocialCreditCode"    column="uniform_social_credit_code"    />
-        <result property="taxNo"    column="tax_no"    />
-        <result property="registrationAuthority"    column="registration_authority"    />
-        <result property="employeeNum"    column="employee_num"    />
-        <result property="enterpriseScope"    column="enterprise_scope"    />
-        <result property="foundExplain"    column="found_explain"    />
-        <result property="devDourse"    column="dev_dourse"    />
-        <result property="manageStructure"    column="manage_structure"    />
-        <result property="productExplain"    column="product_explain"    />
-        <result property="industryPolicy"    column="industry_policy"    />
-        <result property="bazaarExplain"    column="bazaar_explain"    />
-        <result property="futurePlan"    column="future_plan"    />
+        <result property="id" column="id"/>
+        <result property="boId" column="bo_id"/>
+        <result property="type" column="type"/>
+        <result property="shareholderNum" column="shareholder_num"/>
+        <result property="address" column="address"/>
+        <result property="registeredCapital" column="registered_capital"/>
+        <result property="scale" column="scale"/>
+        <result property="legalPersonType" column="legal_person_type"/>
+        <result property="legalPersonName" column="legal_person_name"/>
+        <result property="legalPersonIdNo" column="legal_person_id_no"/>
+        <result property="legalPersonPhone" column="legal_person_phone"/>
+        <result property="registrationType" column="registration_type"/>
+        <result property="uniformSocialCreditCode" column="uniform_social_credit_code"/>
+        <result property="taxNo" column="tax_no"/>
+        <result property="registrationAuthority" column="registration_authority"/>
+        <result property="employeeNum" column="employee_num"/>
+        <result property="enterpriseScope" column="enterprise_scope"/>
+        <result property="foundExplain" column="found_explain"/>
+        <result property="devDourse" column="dev_dourse"/>
+        <result property="manageStructure" column="manage_structure"/>
+        <result property="productExplain" column="product_explain"/>
+        <result property="industryPolicy" column="industry_policy"/>
+        <result property="bazaarExplain" column="bazaar_explain"/>
+        <result property="futurePlan" column="future_plan"/>
+        <result property="businessLicenseCode" column="business_license_code"/>
+        <result property="businessLicenseEndDate" column="business_license_end_date"/>
     </resultMap>
 
     <sql id="selectCorporateInfoVo">
-        select id, bo_id, type, shareholder_num, address, registered_capital, scale, legal_person_type, legal_person_name, legal_person_id_no, legal_person_phone, registration_type, uniform_social_credit_code, tax_no, registration_authority, employee_num, enterprise_scope, found_explain, dev_dourse, manage_structure, product_explain, industry_policy, bazaar_explain, future_plan from bo_corporate_info
+        select id, bo_id, type, shareholder_num, address, registered_capital, scale, legal_person_type, legal_person_name, legal_person_id_no, legal_person_phone, registration_type, uniform_social_credit_code, tax_no, registration_authority, employee_num, enterprise_scope, found_explain, dev_dourse, manage_structure, product_explain, industry_policy, bazaar_explain, future_plan,business_license_code,business_license_end_date from bo_corporate_info
     </sql>
 
     <select id="selectCorporateInfoList" parameterType="CorporateInfo" resultMap="CorporateInfoResult">
         <include refid="selectCorporateInfoVo"/>
-        <where>  
+        <where>
         </where>
     </select>
-    
+
     <select id="selectCorporateInfoById" parameterType="Long" resultMap="CorporateInfoResult">
         <include refid="selectCorporateInfoVo"/>
         where id = #{id}
     </select>
-    <select id="getInfoByBoId"  parameterType="Long" resultMap="CorporateInfoResult">
+    <select id="getInfoByBoId" parameterType="Long" resultMap="CorporateInfoResult">
         <include refid="selectCorporateInfoVo"/>
         where bo_id = #{boId}
     </select>
@@ -76,7 +78,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="industryPolicy != null">industry_policy,</if>
             <if test="bazaarExplain != null">bazaar_explain,</if>
             <if test="futurePlan != null">future_plan,</if>
-         </trim>
+            <if test="businessLicenseCode  != null">business_license_code,</if>
+            <if test="businessLicenseEndDate != null">business_license_end_date,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="boId != null">#{boId},</if>
             <if test="type != null">#{type},</if>
@@ -101,7 +105,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="industryPolicy != null">#{industryPolicy},</if>
             <if test="bazaarExplain != null">#{bazaarExplain},</if>
             <if test="futurePlan != null">#{futurePlan},</if>
-         </trim>
+            <if test="businessLicenseCode  != null">#{businessLicenseCode},</if>
+            <if test="businessLicenseEndDate != null">#{businessLicenseEndDate},</if>
+        </trim>
     </insert>
 
     <update id="updateCorporateInfo" parameterType="CorporateInfo">
@@ -130,6 +136,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="industryPolicy != null">industry_policy = #{industryPolicy},</if>
             <if test="bazaarExplain != null">bazaar_explain = #{bazaarExplain},</if>
             <if test="futurePlan != null">future_plan = #{futurePlan},</if>
+            <if test="businessLicenseCode  != null">business_license_code = #{businessLicenseCode},</if>
+            <if test="businessLicenseEndDate != null">business_license_end_date = #{businessLicenseEndDate},</if>
         </trim>
         where id = #{id}
     </update>
@@ -139,10 +147,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteCorporateInfoByIds" parameterType="String">
-        delete from bo_corporate_info where id in 
+        delete from bo_corporate_info where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>

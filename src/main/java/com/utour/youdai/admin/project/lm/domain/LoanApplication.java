@@ -161,7 +161,7 @@ public class LoanApplication extends BaseEntity {
     private String note;
 
     /**
-     * 状态: -1、审核终止 0、申请创建  1、创建审批流程 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过) 8合同签订
+     * 状态: -1、审核终止 0、申请创建  1、创建审批流程 2、提交审核 3、业务经理审核 4、风控经理审核 5、上会 审核  6、总经理审核 7 财务审核(负值代表审核未通过) 8合同签订 9 历史数据补录
      */
     @Excel(name = "状态")
     private Integer status;

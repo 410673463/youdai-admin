@@ -3,8 +3,10 @@ package com.utour.youdai.admin.project.lm.mapper;
 
 import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -74,4 +76,6 @@ public interface LoanRepaymentPlanMapper {
     int deletePlanByLaId(Long laId);
 
     int batchInsert(List<LoanRepaymentPlan> list);
+
+    int updatePricipalMoney(@Param("id") Long id,@Param("newPrincipalMoney") BigDecimal newPrincipalMoney);
 }

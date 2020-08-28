@@ -62,8 +62,12 @@ public class Borrower extends BaseEntity {
      * 所属行业
      */
     @Excel(name = "所属行业")
-    private String industrys;
+    private Integer industrys;
 
+    /**
+     * 产业类型 1：第一产业  2：第二产业  3：第三产业
+     */
+    private Integer industryType;
     /**
      * 借款人来源:个人、公司、中介
      */
@@ -171,12 +175,20 @@ public class Borrower extends BaseEntity {
         return areas;
     }
 
-    public void setIndustrys(String industrys) {
+    public Integer getIndustrys() {
+        return industrys;
+    }
+
+    public void setIndustrys(Integer industrys) {
         this.industrys = industrys;
     }
 
-    public String getIndustrys() {
-        return industrys;
+    public Integer getIndustryType() {
+        return industryType;
+    }
+
+    public void setIndustryType(Integer industryType) {
+        this.industryType = industryType;
     }
 
     public void setSource(String source) {

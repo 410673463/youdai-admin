@@ -85,6 +85,9 @@
         </trim>
         where id = #{id}
     </update>
+    <update id="updatePricipalMoney">
+      update lm_loan_repayment_plan  set  plan_principal_money = #{newPrincipalMoney},plan_money_sum = (#{newPrincipalMoney}+plan_interest_money ) where id = #{id}
+    </update>
 
     <delete id="deleteLoanRepaymentPlanById" parameterType="Long">
         delete from lm_loan_repayment_plan where id = #{id}

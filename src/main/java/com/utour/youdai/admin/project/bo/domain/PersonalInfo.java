@@ -31,7 +31,7 @@ public class PersonalInfo extends BaseEntity {
     /**
      * 证件号码
      */
-    private Long identityNo;
+    private String identityNo;
 
     /**
      * 证件到期日
@@ -117,12 +117,12 @@ public class PersonalInfo extends BaseEntity {
         return identityType;
     }
 
-    public void setIdentityNo(Long identityNo) {
-        this.identityNo = identityNo;
+    public String getIdentityNo() {
+        return identityNo;
     }
 
-    public Long getIdentityNo() {
-        return identityNo;
+    public void setIdentityNo(String identityNo) {
+        this.identityNo = identityNo;
     }
 
     public void setExpiryDate(Date expiryDate) {

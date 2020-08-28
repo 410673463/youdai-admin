@@ -1,7 +1,7 @@
 package com.utour.youdai.admin.common.utils.dataPush;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import cn.hutool.core.util.IdUtil;
 
 /**
  *  	reqId生成工具类
@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
  */
 public class ReqIdUtil {
 
-    private static String CUSCC;
-    @Value("dataPush.CUSCC")
-    public static void setCUSCC(String CUSCC) {
-        ReqIdUtil.CUSCC = CUSCC;
+    public  static final String reqId(String CUSCC){
+        return  CUSCC+"-"+  IdUtil.simpleUUID();
     }
+
+
+
 }
