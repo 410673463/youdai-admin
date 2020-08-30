@@ -6,7 +6,7 @@ import com.utour.youdai.admin.common.utils.DateUtils;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.lm.mapper.LoanApplicationMapper;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
-import com.utour.youdai.admin.project.lm.service.ILoanRepaymentPlanService;
+import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -113,6 +113,11 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
 
     @Override
     public List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication) {
+        return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
+    }
+
+    @Override
+    public List<LoanApplication> getRepayApplyList(LoanApplication loanApplication) {
         return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
     }
 }

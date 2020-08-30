@@ -1,10 +1,10 @@
-package com.utour.youdai.admin.project.lm.controller;
+package com.utour.youdai.admin.project.fi.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.framework.web.controller.BaseController;
 import com.utour.youdai.admin.framework.web.domain.AjaxResult;
-import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
-import com.utour.youdai.admin.project.lm.service.ILoanRepaymentPlanService;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
+import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2020-08-14
  */
 @RestController
-@RequestMapping("/lm/repayPlan")
+@RequestMapping("/fi/repay/plan")
 public class LoanRepaymentPlanController extends BaseController {
     private final ILoanRepaymentPlanService loanRepaymentPlanService;
 

@@ -13,6 +13,8 @@ public class ReqIdUtil {
         return  CUSCC+"-"+  IdUtil.simpleUUID();
     }
 
-
+    public static void main(String[] args) {
+        System.out.println(reqId("1234567890"));
+    }
 
 }

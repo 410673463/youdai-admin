@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="productTitle != null  and productTitle != ''"> and product_title = #{productTitle}</if>
             <if test="borrowerName != null  and borrowerName != ''"> and borrower_name like concat('%', #{borrowerName}, '%')</if>
             <if test="borrowerManager != null  and borrowerManager != ''"> and borrower_manager = #{borrowerManager}</if>
-
+            <if test="code != null  and code != ''"> and code = #{code}</if>
         </where>
     </select>
 

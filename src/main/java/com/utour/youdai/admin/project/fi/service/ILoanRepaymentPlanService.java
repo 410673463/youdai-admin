@@ -1,7 +1,7 @@
-package com.utour.youdai.admin.project.lm.service;
+package com.utour.youdai.admin.project.fi.service;
 
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
-import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 
 import java.math.BigDecimal;
 import java.util.List;

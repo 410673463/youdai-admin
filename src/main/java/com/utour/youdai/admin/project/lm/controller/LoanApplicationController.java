@@ -102,4 +102,12 @@ public class LoanApplicationController extends BaseController {
         int n = loanApplicationService.updateApplyStatus(status,ids);
         return  toAjax(1);
     }
+
+
+    @GetMapping("/repayApplyList")
+    public TableDataInfo getRepayApplyList(LoanApplication loanApplication){
+        startPage();
+        List<LoanApplication> list = loanApplicationService.getRepayApplyList(loanApplication);
+        return getDataTable(list);
+    }
 }

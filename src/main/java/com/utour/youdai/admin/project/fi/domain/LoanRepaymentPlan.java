@@ -1,4 +1,4 @@
-package com.utour.youdai.admin.project.lm.domain;
+package com.utour.youdai.admin.project.fi.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -8,7 +8,7 @@ import com.utour.youdai.admin.framework.aspectj.lang.annotation.Excel;
 import com.utour.youdai.admin.framework.web.domain.BaseEntity;
 
 /**
- * 还款计划对象 lm_loan_repayment_plan
+ * 还款计划对象 fi_loan_repayment_plan
  *
  * @author zh
  * @date 2020-08-14

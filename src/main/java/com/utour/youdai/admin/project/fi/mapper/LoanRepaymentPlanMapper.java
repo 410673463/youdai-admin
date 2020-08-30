@@ -1,7 +1,7 @@
-package com.utour.youdai.admin.project.lm.mapper;
+package com.utour.youdai.admin.project.fi.mapper;
 
 
-import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -74,4 +74,11 @@ public interface ILoanApplicationService {
      * @return
      */
     List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication);
+
+    /**
+     * 查询状态>=8的申请
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> getRepayApplyList(LoanApplication loanApplication);
 }

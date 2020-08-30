@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.utour.youdai.admin.project.lm.mapper.LoanRepaymentPlanMapper">
+<mapper namespace="com.utour.youdai.admin.project.fi.mapper.LoanRepaymentPlanMapper">
 
     <resultMap type="LoanRepaymentPlan" id="LoanRepaymentPlanResult">
         <result property="id" column="id"/>
@@ -16,7 +16,7 @@
     </resultMap>
 
     <sql id="selectLoanRepaymentPlanVo">
-        select id, la_id, plan_date, plan_money_sum, plan_principal_money, plan_interest_money, index_No, push_status from lm_loan_repayment_plan
+        select id, la_id, plan_date, plan_money_sum, plan_principal_money, plan_interest_money, index_No, push_status from fi_loan_repayment_plan
     </sql>
 
     <select id="selectLoanRepaymentPlanList" parameterType="LoanRepaymentPlan" resultMap="LoanRepaymentPlanResult">
@@ -35,7 +35,7 @@
     </select>
 
     <insert id="insertLoanRepaymentPlan" parameterType="LoanRepaymentPlan" useGeneratedKeys="true" keyProperty="id">
-        insert into lm_loan_repayment_plan
+        insert into fi_loan_repayment_plan
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="laId != null">la_id,</if>
             <if test="planDate != null">plan_date,</if>
@@ -56,7 +56,7 @@
         </trim>
     </insert>
     <insert id="batchInsert" parameterType="list">
-        insert into lm_loan_repayment_plan
+        insert into fi_loan_repayment_plan
         (la_id,plan_date,plan_money_sum,plan_principal_money,plan_interest_money,index_no,push_status)
         values
         <foreach collection="list" index="index" item="item" separator=",">
@@ -73,7 +73,7 @@
     </insert>
 
     <update id="updateLoanRepaymentPlan" parameterType="LoanRepaymentPlan">
-        update lm_loan_repayment_plan
+        update fi_loan_repayment_plan
         <trim prefix="SET" suffixOverrides=",">
             <if test="laId != null">la_id = #{laId},</if>
             <if test="planDate != null">plan_date = #{planDate},</if>
@@ -86,21 +86,21 @@
         where id = #{id}
     </update>
     <update id="updatePricipalMoney">
-      update lm_loan_repayment_plan  set  plan_principal_money = #{newPrincipalMoney},plan_money_sum = (#{newPrincipalMoney}+plan_interest_money ) where id = #{id}
+      update fi_loan_repayment_plan  set  plan_principal_money = #{newPrincipalMoney},plan_money_sum = (#{newPrincipalMoney}+plan_interest_money ) where id = #{id}
     </update>
 
     <delete id="deleteLoanRepaymentPlanById" parameterType="Long">
-        delete from lm_loan_repayment_plan where id = #{id}
+        delete from fi_loan_repayment_plan where id = #{id}
     </delete>
 
     <delete id="deleteLoanRepaymentPlanByIds" parameterType="String">
-        delete from lm_loan_repayment_plan where id in
+        delete from fi_loan_repayment_plan where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
     <delete id="deletePlanByLaId" parameterType="Long">
-        delete from lm_loan_repayment_plan where la_id = #{laId}
+        delete from fi_loan_repayment_plan where la_id = #{laId}
     </delete>
 
 </mapper>

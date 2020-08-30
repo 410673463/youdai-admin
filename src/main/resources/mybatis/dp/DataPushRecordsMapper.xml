@@ -18,10 +18,12 @@
         <result property="requestTime" column="request_time"/>
         <result property="responseTime" column="response_time"/>
         <result property="responseResult" column="response_result"/>
+        <result property="requestMethod" column="request_method"/>
+
     </resultMap>
 
     <sql id="selectDataPushRecordsVo">
-        select id, primary_id, data_table, path, req_id, sign, token, round_str, param, create_time,request_time,response_time,response_result from dp_data_push_records
+        select id, primary_id, data_table, path, req_id, sign, token, round_str, param, create_time,request_time,response_time,response_resul,request_method from dp_data_push_records
     </sql>
 
     <select id="selectDataPushRecordsList" parameterType="DataPushRecords" resultMap="DataPushRecordsResult">
@@ -58,6 +60,7 @@
             <if test="requestTime!= null">request_time,</if>
             <if test="responseTime!= null">response_time,</if>
             <if test="responseResult!= null">response_result,</if>
+            <if test="requestMethod != null" >request_method,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="primaryId != null">#{primaryId},</if>
@@ -72,6 +75,7 @@
             <if test="requestTime!= null">#{requestTime},</if>
             <if test="responseTime!= null">#{responseTime},</if>
             <if test="responseResult!= null">#{responseResult},</if>
+            <if test="requestMethod != null" >#{requestMethod},</if>
         </trim>
     </insert>
 

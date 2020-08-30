@@ -5,6 +5,8 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
+import cn.hutool.log.Log;
+import cn.hutool.log.LogFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -23,9 +25,9 @@ import com.utour.youdai.admin.project.dp.domain.DataPushRecords;
 import com.utour.youdai.admin.project.dp.service.IDataPushRecordsService;
 import com.utour.youdai.admin.project.dp.service.IDataPushService;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
-import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
-import com.utour.youdai.admin.project.lm.service.ILoanRepaymentPlanService;
+import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,7 @@ import java.util.List;
 
 @Service
 public class DataPushServiceImpl implements IDataPushService {
+    private static Log log = LogFactory.get();
     private final ILoanApplicationService loanApplicationService;
     private final IBorrowerService borrowerService;
     private final IPersonalInfoService personalInfoService;
@@ -64,7 +67,7 @@ public class DataPushServiceImpl implements IDataPushService {
     }
 
     @Override
-    public int pushApplicationData(Long laId) {
+    public String pushApplicationData(Long laId) {
         String roundStr = RandomUtil.randomNumbers(10);
         String reqId = ReqIdUtil.reqId(CUSCC);
         String token = TokenUtil.getToken(roundStr, clientId, appKey);
@@ -75,7 +78,6 @@ public class DataPushServiceImpl implements IDataPushService {
         dataMap.put("token", token);
         dataMap.put("reqId", reqId);
         LoanApplication apply = loanApplicationService.selectLoanApplicationById(laId);
-
         Borrower borrower = borrowerService.selectBorrowerById(apply.getBoid());
         dataMap.put("contractNumber", apply.getCode());//合同编号
         if (StrUtil.isBlank(apply.getApplicationName())) {
@@ -104,7 +106,7 @@ public class DataPushServiceImpl implements IDataPushService {
             platformCost = apply.getPlatformCost().toString();
         }
         dataMap.put("platformCost", platformCost);//平台费
-        //dataMap.put("isEntrust", apply.getWhetherEntrust().toString());//受托支付
+        dataMap.put("isEntrust", apply.getWhetherEntrust().toString());//受托支付
         dataMap.put("purpose", apply.getPurpose().toString());
         dataMap.put("business", apply.getBusiness().toString());
         //贷款方式
@@ -219,11 +221,36 @@ public class DataPushServiceImpl implements IDataPushService {
         //生成签名串
         String sign = ValidateSignUtil.validateSign(signMap, appKey);
         dataMap.put("sign", sign);
-        pushData(dataMap, "/loan-contract", HttpMethod.POST, "lm_loan_application", laId);
-        return 0;
+        String resultCode = pushData(dataMap, "/loan-contract", HttpMethod.POST, "lm_loan_application", laId);
+        return resultCode;
     }
 
-    private void pushData(JSONObject param, String path, HttpMethod method, String dataTable, Long primaryId) {
+    @Override
+    public String deleteApplicationData(Long laId) {
+        String roundStr = RandomUtil.randomNumbers(10);
+        String reqId = ReqIdUtil.reqId(CUSCC);
+        String token = TokenUtil.getToken(roundStr, clientId, appKey);
+        JSONObject dataMap = new JSONObject();
+        dataMap.put("clientId", clientId);
+        dataMap.put("roundStr", roundStr);
+        dataMap.put("appKey", appKey);
+        dataMap.put("token", token);
+        dataMap.put("reqId", reqId);
+        //签名
+        LinkedList<String> fieldArr = new LinkedList<String>() {{
+            add("clientId");
+            add("reqId");
+            add("roundStr");
+            add("token");
+        }};
+        JSONObject signMap = getSignMap(fieldArr, dataMap);
+        String sign = ValidateSignUtil.validateSign(signMap, appKey);
+        dataMap.put("sign", sign);
+        String resultCode = pushData(dataMap, "/loan-contract", HttpMethod.DELETE, "lm_loan_application", laId);
+        return resultCode;
+    }
+
+    private String pushData(JSONObject param, String path, HttpMethod method, String dataTable, Long primaryId) {
         DataPushRecords records = new DataPushRecords();
         records.setDataTable(dataTable);
         records.setParam(param.toJSONString());
@@ -234,31 +261,36 @@ public class DataPushServiceImpl implements IDataPushService {
         records.setSign(param.getString("sign"));
         records.setToken(param.getString("token"));
         records.setCreateTime(new Date());
+        records.setRequestMethod(method.toString());
         String url = apiUrl + path;
         String result = "";
         records.setRequestTime(new Date());
         if (method == HttpMethod.POST) {
             result = HttpRequest.post(url).body(param.toJSONString()).execute().body();
         } else if (method == HttpMethod.GET) {
-
+            result = HttpRequest.get(url).body(param.toJSONString()).execute().body();
         } else if (method == HttpMethod.PUT) {
-
+            result = HttpRequest.put(url).body(param.toJSONString()).execute().body();
         } else if (method == HttpMethod.DELETE) {
-
+            result = HttpRequest.delete(url).body(param.toJSONString()).execute().body();
         }
+        log.info("Data-Push-Response:" + result);
         records.setResponseTime(new Date());
         records.setResponseResult(result);
         dataPushRecordsService.insertDataPushRecords(records);
-        System.out.println(result);
-
         //解析返回结果，更新对应表记录 推送状态
         JSONObject resultJson = JSON.parseObject(result);
         String resultCode = resultJson.getString("resultCode");
         int pushStatus = 3;
-        if (!resultCode.equals("0")) {
-            pushStatus = 0;
+        if (method == HttpMethod.DELETE && resultCode.equals("0")) {//删除方法并且返回成功，更新主表状态为1待推送
+            pushStatus = 1;
+        } else {//其他方法请求， 如果请求失败，更新主表状态为 推送失败
+            if (!resultCode.equals("0")) {
+                pushStatus = 0;
+            }
         }
         dataPushRecordsService.updatePushDataStatus(dataTable, primaryId, pushStatus);
+        return resultCode;
     }
 
 

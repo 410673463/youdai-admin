@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.fi.mapper.LoanRepaymentActualMapper">
+
+    <resultMap type="LoanRepaymentActual" id="LoanRepaymentActualResult">
+        <result property="id" column="id"/>
+        <result property="actualDate" column="actual_date"/>
+        <result property="actualMoneySum" column="actual_money_sum"/>
+        <result property="actualPrincipalMoney" column="actual_principal_money"/>
+        <result property="actualInterestMoney" column="actual_interest_money"/>
+        <result property="exemptMoney" column="exempt_money"/>
+        <result property="penaltyInterest" column="penalty_interest"/>
+        <result property="penalty" column="penalty"/>
+        <result property="serviceCharge" column="service_charge"/>
+        <result property="otherCharge" column="other_charge"/>
+        <result property="lrpId" column="lrp_id"/>
+        <result property="laId" column="la_id"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="indexNo" column="index_No"/>
+        <result property="moneyStatus" column="money_status"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+    </resultMap>
+    <resultMap type="LoanRepaymentActual" id="LoanRepayActualAndApplyResult">
+        <result property="id" column="id"/>
+        <result property="actualDate" column="actual_date"/>
+        <result property="actualMoneySum" column="actual_money_sum"/>
+        <result property="actualPrincipalMoney" column="actual_principal_money"/>
+        <result property="actualInterestMoney" column="actual_interest_money"/>
+        <result property="lrpId" column="lrp_id"/>
+        <result property="laId" column="la_id"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="indexNo" column="index_No"/>
+        <result property="moneyStatus" column="money_status"/>
+        <result property="borrowerName" column="borrower_name"/>
+        <result property="productTitle" column="product_title"/>
+        <result property="applicationCode" column="applicationCode"/>
+        <result property="planDate" column="plan_date"/>
+    </resultMap>
+    <sql id="selectLoanRepaymentActualVo">
+        select id, actual_date, actual_money_sum, actual_principal_money, actual_interest_money, exempt_money, penalty_interest, penalty, service_charge, other_charge, lrp_id, la_id, push_status, index_No, money_status, create_user, create_time, create_user_id from fi_loan_repayment_actual
+    </sql>
+
+    <select id="selectLoanRepaymentActualList" parameterType="LoanRepaymentActual"
+            resultMap="LoanRepaymentActualResult">
+        <include refid="selectLoanRepaymentActualVo"/>
+        <where>
+            <if test="actualDate != null ">and actual_date = #{actualDate}</if>
+            <if test="moneyStatus != null ">and money_status = #{moneyStatus}</if>
+        </where>
+    </select>
+    <select id="selectRepayActualListWithApplyInfo" parameterType="LoanRepaymentActual"
+            resultMap="LoanRepayActualAndApplyResult">
+        SELECT
+        ac.id,
+        ac.actual_date,
+        ac.actual_money_sum,
+        ac.actual_principal_money,
+        ac.actual_interest_money,
+        ac.lrp_id,
+        ac.la_id,
+        ac.push_status,
+        ac.index_No,
+        ac.money_status,
+        ap.borrower_name,
+        ap.product_title,
+        ap.code as applicationCode,
+        pl.plan_date
+        FROM
+        fi_loan_repayment_actual ac
+        LEFT JOIN lm_loan_application ap ON ap.id = ac.la_id
+        LEFT JOIN fi_loan_repayment_plan pl ON pl.id = ac.lrp_id
+        <where>
+            <if test="actualDate != null ">and ac.actual_date = #{actualDate}</if>
+            <if test="moneyStatus != null ">and ac.money_status = #{moneyStatus}</if>
+            <if test="applicationCode != null ">and ap.code = #{applicationCode}</if>
+            <if test="borrowerName != null ">and ap.borrower_name = #{borrowerName}</if>
+        </where>
+    </select>
+    <select id="selectLoanRepaymentActualById" parameterType="Long" resultMap="LoanRepaymentActualResult">
+        <include refid="selectLoanRepaymentActualVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertLoanRepaymentActual" parameterType="LoanRepaymentActual" useGeneratedKeys="true" keyProperty="id">
+        insert into fi_loan_repayment_actual
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="actualDate != null">actual_date,</if>
+            <if test="actualMoneySum != null">actual_money_sum,</if>
+            <if test="actualPrincipalMoney != null">actual_principal_money,</if>
+            <if test="actualInterestMoney != null">actual_interest_money,</if>
+            <if test="exemptMoney != null">exempt_money,</if>
+            <if test="penaltyInterest != null">penalty_interest,</if>
+            <if test="penalty != null">penalty,</if>
+            <if test="serviceCharge != null">service_charge,</if>
+            <if test="otherCharge != null">other_charge,</if>
+            <if test="lrpId != null">lrp_id,</if>
+            <if test="laId != null">la_id,</if>
+            <if test="pushStatus != null">push_status,</if>
+            <if test="indexNo != null">index_No,</if>
+            <if test="moneyStatus != null">money_status,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserId != null">create_user_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="actualDate != null">#{actualDate},</if>
+            <if test="actualMoneySum != null">#{actualMoneySum},</if>
+            <if test="actualPrincipalMoney != null">#{actualPrincipalMoney},</if>
+            <if test="actualInterestMoney != null">#{actualInterestMoney},</if>
+            <if test="exemptMoney != null">#{exemptMoney},</if>
+            <if test="penaltyInterest != null">#{penaltyInterest},</if>
+            <if test="penalty != null">#{penalty},</if>
+            <if test="serviceCharge != null">#{serviceCharge},</if>
+            <if test="otherCharge != null">#{otherCharge},</if>
+            <if test="lrpId != null">#{lrpId},</if>
+            <if test="laId != null">#{laId},</if>
+            <if test="pushStatus != null">#{pushStatus},</if>
+            <if test="indexNo != null">#{indexNo},</if>
+            <if test="moneyStatus != null">#{moneyStatus},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateLoanRepaymentActual" parameterType="LoanRepaymentActual">
+        update fi_loan_repayment_actual
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="actualDate != null">actual_date = #{actualDate},</if>
+            <if test="actualMoneySum != null">actual_money_sum = #{actualMoneySum},</if>
+            <if test="actualPrincipalMoney != null">actual_principal_money = #{actualPrincipalMoney},</if>
+            <if test="actualInterestMoney != null">actual_interest_money = #{actualInterestMoney},</if>
+            <if test="exemptMoney != null">exempt_money = #{exemptMoney},</if>
+            <if test="penaltyInterest != null">penalty_interest = #{penaltyInterest},</if>
+            <if test="penalty != null">penalty = #{penalty},</if>
+            <if test="serviceCharge != null">service_charge = #{serviceCharge},</if>
+            <if test="otherCharge != null">other_charge = #{otherCharge},</if>
+            <if test="lrpId != null">lrp_id = #{lrpId},</if>
+            <if test="laId != null">la_id = #{laId},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
+            <if test="indexNo != null">index_No = #{indexNo},</if>
+            <if test="moneyStatus != null">money_status = #{moneyStatus},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLoanRepaymentActualById" parameterType="Long">
+        delete from fi_loan_repayment_actual where id = #{id}
+    </delete>
+
+    <delete id="deleteLoanRepaymentActualByIds" parameterType="String">
+        delete from fi_loan_repayment_actual where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

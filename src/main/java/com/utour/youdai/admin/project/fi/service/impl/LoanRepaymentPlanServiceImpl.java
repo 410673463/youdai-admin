@@ -1,14 +1,12 @@
-package com.utour.youdai.admin.project.lm.service.impl;
+package com.utour.youdai.admin.project.fi.service.impl;
 
-import cn.hutool.core.util.RandomUtil;
-import com.utour.youdai.admin.common.utils.DecimalUtils;
 import com.utour.youdai.admin.common.utils.loan.AverageCapitalPlusInterestUtils;
 import com.utour.youdai.admin.common.utils.loan.AverageCapitalUtils;
 import com.utour.youdai.admin.common.utils.loan.RateUnit;
+import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
-import com.utour.youdai.admin.project.lm.domain.LoanRepaymentPlan;
-import com.utour.youdai.admin.project.lm.mapper.LoanRepaymentPlanMapper;
-import com.utour.youdai.admin.project.lm.service.ILoanRepaymentPlanService;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
+import com.utour.youdai.admin.project.fi.mapper.LoanRepaymentPlanMapper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

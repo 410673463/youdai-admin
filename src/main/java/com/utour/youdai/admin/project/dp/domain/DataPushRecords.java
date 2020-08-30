@@ -71,7 +71,7 @@ public class DataPushRecords extends BaseEntity {
     private Date requestTime;
     private Date responseTime;
     private String responseResult;
-
+    private String requestMethod;
     public void setId(Long id) {
         this.id = id;
     }
@@ -166,5 +166,13 @@ public class DataPushRecords extends BaseEntity {
 
     public void setResponseResult(String responseResult) {
         this.responseResult = responseResult;
+    }
+
+    public String getRequestMethod() {
+        return requestMethod;
+    }
+
+    public void setRequestMethod(String requestMethod) {
+        this.requestMethod = requestMethod;
     }
 }
