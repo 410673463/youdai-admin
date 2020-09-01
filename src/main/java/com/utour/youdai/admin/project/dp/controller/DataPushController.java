@@ -43,4 +43,13 @@ public class DataPushController extends BaseController {
         }
     }
 
+    @PostMapping("/repayActual")
+    public AjaxResult pushRepayActual( Long lraId){
+        String resultCode = dataPushService.pushRepayActual(lraId);
+        if (resultCode.equals("0")) {
+            return AjaxResult.success();
+        } else {
+            return AjaxResult.error(resultCode);
+        }
+    }
 }

@@ -16,4 +16,11 @@ public interface IDataPushService {
      * @return
      */
     String deleteApplicationData(Long laId);
+
+    /**
+     * 推送 还款记录
+     * @param lraId
+     * @return
+     */
+    String pushRepayActual(Long lraId);
 }

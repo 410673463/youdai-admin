@@ -21,6 +21,8 @@ public interface ILoanRepaymentActualService {
      */
     public LoanRepaymentActual selectLoanRepaymentActualById(Long id);
 
+    public LoanRepaymentActual selectRepayActualWithApplyInfoById(Long id);
+
     /**
      * 查询实际还款列表
      *

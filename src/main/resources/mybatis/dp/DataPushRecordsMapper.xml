@@ -44,6 +44,20 @@
         <include refid="selectDataPushRecordsVo"/>
         where id = #{id}
     </select>
+    <select id="getPushReqId" resultType="java.lang.String">
+            SELECT
+                req_id
+            FROM
+                dp_data_push_records
+            WHERE
+                primary_id = #{primaryId}
+                AND data_table = #{dataTable}
+                AND request_method = #{requestMethod}
+                AND path = #{path}
+            ORDER BY
+                create_time DESC
+                LIMIT 1
+    </select>
 
     <insert id="insertDataPushRecords" parameterType="DataPushRecords" useGeneratedKeys="true" keyProperty="id">
         insert into dp_data_push_records

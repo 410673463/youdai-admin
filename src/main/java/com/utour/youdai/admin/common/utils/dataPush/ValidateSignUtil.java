@@ -1,7 +1,6 @@
 package com.utour.youdai.admin.common.utils.dataPush;
 
 
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.foxinmy.weixin4j.util.MapUtil;
@@ -31,19 +30,22 @@ public class ValidateSignUtil {
 
     public static void main(String[] args) {
         Map<String, String> map = new HashMap<>();
-        map.put("cardNumber", "E342847");
-        map.put("cardType", "2");
-        map.put("clientId", "5971046406121460");
-        map.put("executiveFlag", "1");
-        map.put("name", "测试");
-        map.put("position", "产品经理");
-        map.put("reqId", "84678456-61755606");
-        String randomStr = RandomUtil.randomNumbers(6);
-        map.put("roundStr", randomStr);
-        map.put("sex", "1");
-        map.put("token", "c647291b0fc66bc07e8d641fd37e08ab");
-        String sign = validateSign(map,"");
-        System.out.println(TokenUtil.getToken(randomStr,"",""));
+        map.put("clientId", "2478912407278593");
+        map.put("contractNumber", "LM-202008311842116192");
+        map.put("interest","276.99");
+        map.put("money","1556.60");
+        map.put("otherCharge","0.00");
+        map.put("penalty", "0.00");
+        map.put("penaltyInterest", "0.00");
+        map.put("repayTime", "2020-09-30");
+
+        map.put("reqId", "1234567890-014258c00d5c44bab269d6bb8bde5891");
+        map.put("roundStr", "3625111071");
+        map.put("serviceCharge", "0.00");
+
+        map.put("token", "e395c8561a089e85dd1aacf9a930291e");
+
+        String sign = validateSign(map,"g7mogtr59fvoptps");
         System.out.println(sign);
 
     }

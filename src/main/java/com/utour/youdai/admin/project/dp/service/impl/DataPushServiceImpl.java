@@ -24,10 +24,13 @@ import com.utour.youdai.admin.project.bo.service.IPersonalInfoService;
 import com.utour.youdai.admin.project.dp.domain.DataPushRecords;
 import com.utour.youdai.admin.project.dp.service.IDataPushRecordsService;
 import com.utour.youdai.admin.project.dp.service.IDataPushService;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual;
+import com.utour.youdai.admin.project.fi.service.ILoanRepaymentActualService;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,12 +45,20 @@ import java.util.List;
 @Service
 public class DataPushServiceImpl implements IDataPushService {
     private static Log log = LogFactory.get();
-    private final ILoanApplicationService loanApplicationService;
-    private final IBorrowerService borrowerService;
-    private final IPersonalInfoService personalInfoService;
-    private final ICorporateInfoService corporateInfoService;
-    private final ILoanRepaymentPlanService loanRepaymentPlanService;
-    private final IDataPushRecordsService dataPushRecordsService;
+    @Autowired
+    private ILoanApplicationService loanApplicationService;
+    @Autowired
+    private IBorrowerService borrowerService;
+    @Autowired
+    private IPersonalInfoService personalInfoService;
+    @Autowired
+    private ICorporateInfoService corporateInfoService;
+    @Autowired
+    private ILoanRepaymentPlanService loanRepaymentPlanService;
+    @Autowired
+    private IDataPushRecordsService dataPushRecordsService;
+    @Autowired
+    private ILoanRepaymentActualService loanRepaymentActualService;
     @Value("${dataPush.CUSCC}")
     private String CUSCC;
     @Value("${dataPush.appKey}")
@@ -57,14 +68,6 @@ public class DataPushServiceImpl implements IDataPushService {
     @Value("${dataPush.apiUrl}")
     private String apiUrl;
 
-    public DataPushServiceImpl(ILoanApplicationService loanApplicationService, IBorrowerService borrowerService, IPersonalInfoService personalInfoService, ICorporateInfoService corporateInfoService, ILoanRepaymentPlanService loanRepaymentPlanService, IDataPushRecordsService dataPushRecordsService) {
-        this.loanApplicationService = loanApplicationService;
-        this.borrowerService = borrowerService;
-        this.personalInfoService = personalInfoService;
-        this.corporateInfoService = corporateInfoService;
-        this.loanRepaymentPlanService = loanRepaymentPlanService;
-        this.dataPushRecordsService = dataPushRecordsService;
-    }
 
     @Override
     public String pushApplicationData(Long laId) {
@@ -228,13 +231,13 @@ public class DataPushServiceImpl implements IDataPushService {
     @Override
     public String deleteApplicationData(Long laId) {
         String roundStr = RandomUtil.randomNumbers(10);
-        String reqId = ReqIdUtil.reqId(CUSCC);
         String token = TokenUtil.getToken(roundStr, clientId, appKey);
         JSONObject dataMap = new JSONObject();
         dataMap.put("clientId", clientId);
         dataMap.put("roundStr", roundStr);
         dataMap.put("appKey", appKey);
         dataMap.put("token", token);
+        String reqId = dataPushRecordsService.getPushReqId(laId, "lm_loan_application", HttpMethod.POST.toString(), "/loan-contract");
         dataMap.put("reqId", reqId);
         //签名
         LinkedList<String> fieldArr = new LinkedList<String>() {{
@@ -247,6 +250,57 @@ public class DataPushServiceImpl implements IDataPushService {
         String sign = ValidateSignUtil.validateSign(signMap, appKey);
         dataMap.put("sign", sign);
         String resultCode = pushData(dataMap, "/loan-contract", HttpMethod.DELETE, "lm_loan_application", laId);
+        return resultCode;
+    }
+
+    @Override
+    public String pushRepayActual(Long lraId) {
+        String roundStr = RandomUtil.randomNumbers(10);
+        String token = TokenUtil.getToken(roundStr, clientId, appKey);
+        JSONObject dataMap = new JSONObject();
+        dataMap.put("clientId", clientId);
+        dataMap.put("roundStr", roundStr);
+        dataMap.put("appKey", appKey);
+        dataMap.put("token", token);
+        String reqId = ReqIdUtil.reqId(CUSCC);
+        dataMap.put("reqId", reqId);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        LoanRepaymentActual actual = loanRepaymentActualService.selectRepayActualWithApplyInfoById(lraId);
+        //还款日期
+        dataMap.put("repayTime", sdf.format(actual.getActualDate()));
+        //关联主合同编号
+        dataMap.put("contractNumber", actual.getApplicationCode());
+        //还款本金
+        dataMap.put("money", actual.getActualPrincipalMoney());
+        //利息
+        dataMap.put("interest", actual.getActualInterestMoney());
+        //罚息
+        dataMap.put("penaltyInterest", actual.getPenaltyInterest());
+        //违约金
+        dataMap.put("penalty", actual.getPenalty());
+        //服务费
+        dataMap.put("serviceCharge", actual.getServiceCharge());
+        //其它费用
+        dataMap.put("otherCharge", actual.getOtherCharge());
+        LinkedList<String> fieldArr = new LinkedList<String>() {{
+            add("clientId");
+            add("contractNumber");
+            add("interest");
+            add("money");
+            add("otherCharge");
+            add("penalty");
+            add("penaltyInterest");
+            add("repayTime");
+            add("reqId");
+            add("roundStr");
+            add("serviceCharge");
+            add("token");
+        }};
+        JSONObject signMap = getSignMap(fieldArr, dataMap);
+        //生成签名串
+        String sign = ValidateSignUtil.validateSign(signMap, appKey);
+        dataMap.put("sign", sign);
+        String resultCode = pushData(dataMap, "/repay", HttpMethod.POST, "fi_loan_repayment_actual", lraId);
         return resultCode;
     }
 
@@ -282,8 +336,8 @@ public class DataPushServiceImpl implements IDataPushService {
         JSONObject resultJson = JSON.parseObject(result);
         String resultCode = resultJson.getString("resultCode");
         int pushStatus = 3;
-        if (method == HttpMethod.DELETE && resultCode.equals("0")) {//删除方法并且返回成功，更新主表状态为1待推送
-            pushStatus = 1;
+        if (method == HttpMethod.DELETE && resultCode.equals("0")) {//删除方法并且返回成功，更新主表状态为2审核中
+            pushStatus = 2;
         } else {//其他方法请求， 如果请求失败，更新主表状态为 推送失败
             if (!resultCode.equals("0")) {
                 pushStatus = 0;

@@ -41,25 +41,38 @@
         <result property="planDate" column="plan_date"/>
     </resultMap>
     <sql id="selectLoanRepaymentActualVo">
-        select id, actual_date, actual_money_sum, actual_principal_money, actual_interest_money, exempt_money, penalty_interest, penalty, service_charge, other_charge, lrp_id, la_id, push_status, index_No, money_status, create_user, create_time, create_user_id from fi_loan_repayment_actual
+        select id,
+        actual_date,
+        actual_money_sum,
+        actual_principal_money,
+        actual_interest_money,
+        exempt_money,
+        penalty_interest,
+        penalty,
+        service_charge,
+        other_charge,
+        lrp_id,
+        la_id,
+        push_status,
+        index_No,
+        money_status,
+        create_user,
+        create_time,
+        create_user_id
+        from fi_loan_repayment_actual
     </sql>
-
-    <select id="selectLoanRepaymentActualList" parameterType="LoanRepaymentActual"
-            resultMap="LoanRepaymentActualResult">
-        <include refid="selectLoanRepaymentActualVo"/>
-        <where>
-            <if test="actualDate != null ">and actual_date = #{actualDate}</if>
-            <if test="moneyStatus != null ">and money_status = #{moneyStatus}</if>
-        </where>
-    </select>
-    <select id="selectRepayActualListWithApplyInfo" parameterType="LoanRepaymentActual"
-            resultMap="LoanRepayActualAndApplyResult">
-        SELECT
+    <sql id="selectRepaymentActualWithApplyInfoVo">
+         SELECT
         ac.id,
         ac.actual_date,
         ac.actual_money_sum,
         ac.actual_principal_money,
         ac.actual_interest_money,
+        ac.exempt_money,
+        ac.penalty_interest,
+        ac.penalty,
+        ac.service_charge,
+        ac.other_charge,
         ac.lrp_id,
         ac.la_id,
         ac.push_status,
@@ -73,12 +86,29 @@
         fi_loan_repayment_actual ac
         LEFT JOIN lm_loan_application ap ON ap.id = ac.la_id
         LEFT JOIN fi_loan_repayment_plan pl ON pl.id = ac.lrp_id
+    </sql>
+    <select id="selectLoanRepaymentActualList" parameterType="LoanRepaymentActual"
+            resultMap="LoanRepaymentActualResult">
+        <include refid="selectLoanRepaymentActualVo"/>
+        <where>
+            <if test="actualDate != null ">and actual_date = #{actualDate}</if>
+            <if test="moneyStatus != null ">and money_status = #{moneyStatus}</if>
+        </where>
+    </select>
+    <select id="selectRepayActualListWithApplyInfo" parameterType="LoanRepaymentActual"
+            resultMap="LoanRepayActualAndApplyResult">
+        <include refid="selectRepaymentActualWithApplyInfoVo"></include>
         <where>
             <if test="actualDate != null ">and ac.actual_date = #{actualDate}</if>
             <if test="moneyStatus != null ">and ac.money_status = #{moneyStatus}</if>
+            <if test="pushStatus != null ">and ac.push_status = #{pushStatus}</if>
             <if test="applicationCode != null ">and ap.code = #{applicationCode}</if>
             <if test="borrowerName != null ">and ap.borrower_name = #{borrowerName}</if>
         </where>
+    </select>
+    <select id="selectRepayActualWithApplyInfoById" parameterType="Long" resultMap="LoanRepaymentActualResult">
+        <include refid="selectRepaymentActualWithApplyInfoVo"></include>
+        where ac.id = #{id}
     </select>
     <select id="selectLoanRepaymentActualById" parameterType="Long" resultMap="LoanRepaymentActualResult">
         <include refid="selectLoanRepaymentActualVo"/>

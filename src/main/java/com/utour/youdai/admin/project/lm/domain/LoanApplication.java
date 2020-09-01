@@ -167,9 +167,9 @@ public class LoanApplication extends BaseEntity {
     private Integer status;
 
     /**
-     * 数据推送状态: 0、推送失败 1、待推送 2、推送中 3、推送成功
+     * 数据推送状态: -1、审核失败 0、推送失败 1、待推送 2、审核中 3、推送成功
      */
-    @Excel(name = "数据推送状态: 0、推送失败 1、待推送 2、推送中 3、推送成功 ")
+    @Excel(name = "数据推送状态 ")
     private Integer pushStatus;
 
     /**

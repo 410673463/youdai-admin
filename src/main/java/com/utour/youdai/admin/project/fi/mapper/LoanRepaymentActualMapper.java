@@ -22,6 +22,13 @@ public interface LoanRepaymentActualMapper {
      * @return 实际还款
      */
     public LoanRepaymentActual selectLoanRepaymentActualById(Long id);
+    /**
+     * 查询实际还款包含 申请字段
+     *
+     * @param id 实际还款ID
+     * @return 实际还款
+     */
+    public LoanRepaymentActual selectRepayActualWithApplyInfoById(Long id);
 
     /**
      * 查询实际还款列表

@@ -82,9 +82,9 @@ public class LoanRepaymentActual extends BaseEntity {
     private Long laId;
 
     /**
-     * 数据推送状态: 0、推送失败 1、待推送 2、推送中 3、推送成功
+     * 数据推送状态:  -1、审核失败 0、推送失败 1、待推送 2、审核中 3、推送成功
      */
-    @Excel(name = "数据推送状态: 0、推送失败 1、待推送 2、推送中 3、推送成功 ")
+    @Excel(name = "数据推送状态")
     private Integer pushStatus;
 
     /**
@@ -107,6 +107,7 @@ public class LoanRepaymentActual extends BaseEntity {
 
     private String applicationCode;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date planDate;
 
     private String productTitle;

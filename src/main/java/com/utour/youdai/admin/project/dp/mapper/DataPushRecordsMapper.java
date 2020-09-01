@@ -73,4 +73,6 @@ public interface DataPushRecordsMapper {
      * @return
      */
     int updatePushDataStatus(@Param("dataTable") String dataTable, @Param("primaryId") Long primaryId, @Param("pushStatus") int pushStatus);
+
+    String getPushReqId(@Param("primaryId") Long primaryId,@Param("dataTable") String dataTable, @Param("requestMethod")String requestMethod,@Param("path") String path);
 }

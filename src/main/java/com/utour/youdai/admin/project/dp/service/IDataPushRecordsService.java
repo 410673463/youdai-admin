@@ -81,4 +81,14 @@ public interface IDataPushRecordsService {
      * @param pushStatus
      */
     int updatePushDataStatus(String dataTable, Long primaryId, int pushStatus);
+
+    /**
+     * 查询 请求时的 reqId
+     * @param primaryId
+     * @param dataTable
+     * @param requestMethod
+     * @param path
+     * @return
+     */
+    String getPushReqId(Long primaryId, String dataTable, String requestMethod,String path);
 }

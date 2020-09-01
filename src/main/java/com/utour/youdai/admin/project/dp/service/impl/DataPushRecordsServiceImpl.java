@@ -97,4 +97,9 @@ public class DataPushRecordsServiceImpl implements IDataPushRecordsService {
     public int updatePushDataStatus(String dataTable, Long primaryId, int pushStatus) {
         return dataPushRecordsMapper.updatePushDataStatus(dataTable, primaryId, pushStatus);
     }
+
+    @Override
+    public String getPushReqId(Long primaryId, String dataTable, String requestMethod, String path) {
+        return dataPushRecordsMapper.getPushReqId(primaryId, dataTable, requestMethod, path);
+    }
 }
