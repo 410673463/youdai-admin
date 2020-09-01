@@ -32,18 +32,18 @@ public class ValidateSignUtil {
         Map<String, String> map = new HashMap<>();
         map.put("clientId", "2478912407278593");
         map.put("contractNumber", "LM-202008311842116192");
-        map.put("interest","276.99");
-        map.put("money","1556.60");
-        map.put("otherCharge","0.00");
-        map.put("penalty", "0.00");
-        map.put("penaltyInterest", "0.00");
-        map.put("repayTime", "2020-09-30");
+        map.put("interest","253.64");
+        map.put("money","1579.95");
+        map.put("otherCharge","1.00");
+        map.put("penalty", "1.00");
+        map.put("penaltyInterest", "1.00");
+        map.put("repayTime", "2020-10-31");
 
-        map.put("reqId", "1234567890-014258c00d5c44bab269d6bb8bde5891");
-        map.put("roundStr", "3625111071");
-        map.put("serviceCharge", "0.00");
+        map.put("reqId", "1234567890-79538678f52f4fedb3c7860be7321a21");
+        map.put("roundStr", "7469220985");
+        map.put("serviceCharge", "1.00");
 
-        map.put("token", "e395c8561a089e85dd1aacf9a930291e");
+        map.put("token", "67bd8db3f9a097f90b5d9b4f520424a3");
 
         String sign = validateSign(map,"g7mogtr59fvoptps");
         System.out.println(sign);

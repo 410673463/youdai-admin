@@ -98,7 +98,7 @@ public class LoanRepaymentActualServiceImpl implements ILoanRepaymentActualServi
     }
 
     @Override
-    public int save(JSONObject jsonObject) {
+    public Long save(JSONObject jsonObject) {
         Boolean pushFlag = jsonObject.getBoolean("push");
         jsonObject.remove("push");
         LoanRepaymentActual repay = JSONObject.toJavaObject(jsonObject,LoanRepaymentActual.class);
@@ -107,9 +107,9 @@ public class LoanRepaymentActualServiceImpl implements ILoanRepaymentActualServi
         repay.setCreateTime(new Date());
         repay.setPushStatus(1);//待推送
         int i = loanRepaymentActualMapper.insertLoanRepaymentActual(repay);
-        if(pushFlag){//推送数据
+       /* if(pushFlag){//推送数据
             dataPushService.pushRepayActual(repay.getId());
-        }
-        return i;
+        }*/
+        return repay.getId();
     }
 }

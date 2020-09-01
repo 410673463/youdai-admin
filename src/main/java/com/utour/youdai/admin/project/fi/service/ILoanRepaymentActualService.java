@@ -63,5 +63,5 @@ public interface ILoanRepaymentActualService {
      */
     public int deleteLoanRepaymentActualById(Long id);
 
-    int save(JSONObject jsonObject);
+    Long save(JSONObject jsonObject);
 }

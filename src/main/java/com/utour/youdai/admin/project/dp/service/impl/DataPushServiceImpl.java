@@ -271,17 +271,17 @@ public class DataPushServiceImpl implements IDataPushService {
         //关联主合同编号
         dataMap.put("contractNumber", actual.getApplicationCode());
         //还款本金
-        dataMap.put("money", actual.getActualPrincipalMoney());
+        dataMap.put("money", actual.getActualPrincipalMoney().stripTrailingZeros().toPlainString());
         //利息
-        dataMap.put("interest", actual.getActualInterestMoney());
+        dataMap.put("interest", actual.getActualInterestMoney().stripTrailingZeros().toPlainString());
         //罚息
-        dataMap.put("penaltyInterest", actual.getPenaltyInterest());
+        dataMap.put("penaltyInterest", actual.getPenaltyInterest().stripTrailingZeros().toPlainString());
         //违约金
-        dataMap.put("penalty", actual.getPenalty());
+        dataMap.put("penalty", actual.getPenalty().stripTrailingZeros().toPlainString());
         //服务费
-        dataMap.put("serviceCharge", actual.getServiceCharge());
+        dataMap.put("serviceCharge", actual.getServiceCharge().stripTrailingZeros().toPlainString());
         //其它费用
-        dataMap.put("otherCharge", actual.getOtherCharge());
+        dataMap.put("otherCharge", actual.getOtherCharge().stripTrailingZeros().toPlainString());
         LinkedList<String> fieldArr = new LinkedList<String>() {{
             add("clientId");
             add("contractNumber");

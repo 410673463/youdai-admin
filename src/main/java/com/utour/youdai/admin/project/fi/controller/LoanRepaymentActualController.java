@@ -78,7 +78,7 @@ public class LoanRepaymentActualController extends BaseController {
     @Log(title = "实际还款", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody JSONObject jsonObject) {
-        return toAjax(loanRepaymentActualService.save(jsonObject));
+        return AjaxResult.success(loanRepaymentActualService.save(jsonObject));
     }
 
     /**
