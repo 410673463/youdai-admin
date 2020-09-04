@@ -1,6 +1,7 @@
 package com.utour.youdai.admin.project.lm.service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 
 import java.util.List;
@@ -76,9 +77,16 @@ public interface ILoanApplicationService {
     List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication);
 
     /**
-     * 查询状态>=8的申请
+     * 查询状态>=8的申请  还款
      * @param loanApplication
      * @return
      */
     List<LoanApplication> getRepayApplyList(LoanApplication loanApplication);
+    /**
+     * 查询状态>=8的申请  放款
+     *
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> getLoanApplyList(LoanApplication loanApplication);
 }

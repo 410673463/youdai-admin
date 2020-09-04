@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.common.enums.HttpMethod;
+import com.utour.youdai.admin.common.utils.SecurityUtils;
 import com.utour.youdai.admin.common.utils.dataPush.ReqIdUtil;
 import com.utour.youdai.admin.common.utils.dataPush.TokenUtil;
 import com.utour.youdai.admin.common.utils.dataPush.ValidateSignUtil;
@@ -90,7 +91,7 @@ public class DataPushServiceImpl implements IDataPushService {
         }
         Integer borrowerType = borrower.getType().equals("个人") ? 2 : 1;
         dataMap.put("borrowerType", borrowerType.toString());//借款人类型
-        dataMap.put("money", apply.getApplyMoney().toString());//贷款金额
+        dataMap.put("money", apply.getApplyMoney().stripTrailingZeros().toString());//贷款金额
         //贷款期限类型
         Integer termType = changeUnitToInteger(apply.getApplyExpiresUnit());
         dataMap.put("termType", termType.toString());
@@ -100,13 +101,13 @@ public class DataPushServiceImpl implements IDataPushService {
         dataMap.put("endDate", sdf.format(apply.getApplyEndDate()));
         Integer rateType = changeUnitToInteger(apply.getApplyRateUnit());
         dataMap.put("rateType", rateType.toString());//利率类型
-        dataMap.put("rate", apply.getApplyRate().toString());//利率
+        dataMap.put("rate", apply.getApplyRate().stripTrailingZeros().toString());//利率
         BigDecimal annualRate = RateUnit.changeRateToYear(apply.getApplyRateUnit(), apply.getApplyRate());
         //年化利率
-        dataMap.put("annualRate", annualRate.toString());
+        dataMap.put("annualRate", annualRate.stripTrailingZeros().toString());
         String platformCost = "0";
         if (apply.getPlatformCost() != null) {
-            platformCost = apply.getPlatformCost().toString();
+            platformCost = apply.getPlatformCost().stripTrailingZeros().toString();
         }
         dataMap.put("platformCost", platformCost);//平台费
         dataMap.put("isEntrust", apply.getWhetherEntrust().toString());//受托支付
@@ -191,8 +192,8 @@ public class DataPushServiceImpl implements IDataPushService {
         for (LoanRepaymentPlan plan : repayList) {
             JSONObject p = new JSONObject();
             p.put("endDate", sdf.format(plan.getPlanDate()));
-            p.put("money", plan.getPlanPrincipalMoney());
-            p.put("interest", plan.getPlanInterestMoney());
+            p.put("money", plan.getPlanPrincipalMoney().stripTrailingZeros());
+            p.put("interest", plan.getPlanInterestMoney().stripTrailingZeros());
             repayArr.add(p);
         }
         dataMap.put("repayPlans", repayArr);
@@ -314,6 +315,8 @@ public class DataPushServiceImpl implements IDataPushService {
         records.setRoundStr(param.getString("roundStr"));
         records.setSign(param.getString("sign"));
         records.setToken(param.getString("token"));
+        records.setCreateUser(SecurityUtils.getUsername());
+        records.setCreateUserId(SecurityUtils.getLoginUser().getUser().getUserId());
         records.setCreateTime(new Date());
         records.setRequestMethod(method.toString());
         String url = apiUrl + path;

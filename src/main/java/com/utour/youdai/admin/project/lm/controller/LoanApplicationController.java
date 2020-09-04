@@ -110,4 +110,11 @@ public class LoanApplicationController extends BaseController {
         List<LoanApplication> list = loanApplicationService.getRepayApplyList(loanApplication);
         return getDataTable(list);
     }
+    @GetMapping("/loanApplyList")
+    public TableDataInfo getLoanApplyList(LoanApplication loanApplication){
+        startPage();
+        List<LoanApplication> list = loanApplicationService.getLoanApplyList(loanApplication);
+        return getDataTable(list);
+    }
+
 }

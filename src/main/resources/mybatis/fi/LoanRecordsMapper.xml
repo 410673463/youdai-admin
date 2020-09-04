@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.fi.mapper.LoanRecordsMapper">
+    
+    <resultMap type="LoanRecords" id="LoanRecordsResult">
+        <result property="id"    column="id"    />
+        <result property="laId"    column="la_id"    />
+        <result property="boId"    column="bo_id"    />
+        <result property="baId"    column="ba_id"    />
+        <result property="money"    column="money"    />
+        <result property="loanTime"    column="loan_time"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="fiAuditStatus"    column="fi_audit_status"    />
+        <result property="fiAuditUser"    column="fi_audit_user"    />
+        <result property="fiAuditUserId"    column="fi_audit_user_id"    />
+        <result property="fiAuditTime"    column="fi_audit_time"    />
+        <result property="caAuditStatus"    column="ca_audit_status"    />
+        <result property="caAuditUser"    column="ca_audit_user"    />
+        <result property="caAuditUserId"    column="ca_audit_user_id"    />
+        <result property="caAuditTime"    column="ca_audit_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="borrowerName"    column="borrower_name"    />
+        <result property="bankAccountNo"    column="bank_account_no"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="applyCode"    column="apply_code"    />
+    </resultMap>
+
+    <sql id="selectLoanRecordsVo">
+        select id, la_id, bo_id, ba_id, money, loan_time, start_date, end_date, fi_audit_status, fi_audit_user, fi_audit_user_id, fi_audit_time, ca_audit_status, ca_audit_user, ca_audit_user_id, ca_audit_time, create_user, create_user_id, create_time, borrower_name, bank_account_no, bank_name, apply_code from fi_loan_records
+    </sql>
+
+    <select id="selectLoanRecordsList" parameterType="LoanRecords" resultMap="LoanRecordsResult">
+        <include refid="selectLoanRecordsVo"/>
+        <where>  
+            <if test="laId != null "> and la_id = #{laId}</if>
+            <if test="boId != null "> and bo_id = #{boId}</if>
+            <if test="baId != null "> and ba_id = #{baId}</if>
+            <if test="money != null  and money != ''"> and money = #{money}</if>
+            <if test="loanTime != null "> and loan_time = #{loanTime}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="fiAuditStatus != null "> and fi_audit_status = #{fiAuditStatus}</if>
+            <if test="fiAuditUser != null  and fiAuditUser != ''"> and fi_audit_user = #{fiAuditUser}</if>
+            <if test="fiAuditUserId != null "> and fi_audit_user_id = #{fiAuditUserId}</if>
+            <if test="fiAuditTime != null "> and fi_audit_time = #{fiAuditTime}</if>
+            <if test="caAuditStatus != null "> and ca_audit_status = #{caAuditStatus}</if>
+            <if test="caAuditUser != null  and caAuditUser != ''"> and ca_audit_user = #{caAuditUser}</if>
+            <if test="caAuditUserId != null "> and ca_audit_user_id = #{caAuditUserId}</if>
+            <if test="caAuditTime != null "> and ca_audit_time = #{caAuditTime}</if>
+            <if test="createUser != null  and createUser != ''"> and create_user = #{createUser}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+            <if test="borrowerName != null  and borrowerName != ''"> and borrower_name like concat('%', #{borrowerName}, '%')</if>
+            <if test="bankAccountNo != null  and bankAccountNo != ''"> and bank_account_no = #{bankAccountNo}</if>
+            <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
+            <if test="applyCode != null  and applyCode != ''"> and apply_code = #{applyCode}</if>
+        </where>
+    </select>
+    
+    <select id="selectLoanRecordsById" parameterType="Long" resultMap="LoanRecordsResult">
+        <include refid="selectLoanRecordsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLoanRecords" parameterType="LoanRecords" useGeneratedKeys="true" keyProperty="id">
+        insert into fi_loan_records
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="laId != null">la_id,</if>
+            <if test="boId != null">bo_id,</if>
+            <if test="baId != null">ba_id,</if>
+            <if test="money != null">money,</if>
+            <if test="loanTime != null">loan_time,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="fiAuditStatus != null">fi_audit_status,</if>
+            <if test="fiAuditUser != null">fi_audit_user,</if>
+            <if test="fiAuditUserId != null">fi_audit_user_id,</if>
+            <if test="fiAuditTime != null">fi_audit_time,</if>
+            <if test="caAuditStatus != null">ca_audit_status,</if>
+            <if test="caAuditUser != null">ca_audit_user,</if>
+            <if test="caAuditUserId != null">ca_audit_user_id,</if>
+            <if test="caAuditTime != null">ca_audit_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="borrowerName != null">borrower_name,</if>
+            <if test="bankAccountNo != null">bank_account_no,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="applyCode != null">apply_code,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="laId != null">#{laId},</if>
+            <if test="boId != null">#{boId},</if>
+            <if test="baId != null">#{baId},</if>
+            <if test="money != null">#{money},</if>
+            <if test="loanTime != null">#{loanTime},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="fiAuditStatus != null">#{fiAuditStatus},</if>
+            <if test="fiAuditUser != null">#{fiAuditUser},</if>
+            <if test="fiAuditUserId != null">#{fiAuditUserId},</if>
+            <if test="fiAuditTime != null">#{fiAuditTime},</if>
+            <if test="caAuditStatus != null">#{caAuditStatus},</if>
+            <if test="caAuditUser != null">#{caAuditUser},</if>
+            <if test="caAuditUserId != null">#{caAuditUserId},</if>
+            <if test="caAuditTime != null">#{caAuditTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="borrowerName != null">#{borrowerName},</if>
+            <if test="bankAccountNo != null">#{bankAccountNo},</if>
+            <if test="bankName != null">#{bankName},</if>
+            <if test="applyCode != null">#{applyCode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLoanRecords" parameterType="LoanRecords">
+        update fi_loan_records
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="laId != null">la_id = #{laId},</if>
+            <if test="boId != null">bo_id = #{boId},</if>
+            <if test="baId != null">ba_id = #{baId},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="loanTime != null">loan_time = #{loanTime},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="fiAuditStatus != null">fi_audit_status = #{fiAuditStatus},</if>
+            <if test="fiAuditUser != null">fi_audit_user = #{fiAuditUser},</if>
+            <if test="fiAuditUserId != null">fi_audit_user_id = #{fiAuditUserId},</if>
+            <if test="fiAuditTime != null">fi_audit_time = #{fiAuditTime},</if>
+            <if test="caAuditStatus != null">ca_audit_status = #{caAuditStatus},</if>
+            <if test="caAuditUser != null">ca_audit_user = #{caAuditUser},</if>
+            <if test="caAuditUserId != null">ca_audit_user_id = #{caAuditUserId},</if>
+            <if test="caAuditTime != null">ca_audit_time = #{caAuditTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="borrowerName != null">borrower_name = #{borrowerName},</if>
+            <if test="bankAccountNo != null">bank_account_no = #{bankAccountNo},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="applyCode != null">apply_code = #{applyCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLoanRecordsById" parameterType="Long">
+        delete from fi_loan_records where id = #{id}
+    </delete>
+
+    <delete id="deleteLoanRecordsByIds" parameterType="String">
+        delete from fi_loan_records where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

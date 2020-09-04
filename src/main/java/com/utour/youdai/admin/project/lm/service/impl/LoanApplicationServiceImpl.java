@@ -120,4 +120,9 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
     public List<LoanApplication> getRepayApplyList(LoanApplication loanApplication) {
         return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
     }
+
+    @Override
+    public List<LoanApplication> getLoanApplyList(LoanApplication loanApplication) {
+        return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
+    }
 }

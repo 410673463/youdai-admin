@@ -1,5 +1,6 @@
 package com.utour.youdai.admin.project.dp.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.utour.youdai.admin.framework.aspectj.lang.annotation.Excel;
 import com.utour.youdai.admin.framework.web.domain.BaseEntity;
 
@@ -52,7 +53,7 @@ public class DataPushRecords extends BaseEntity {
     /**
      * $column.columnComment
      */
-    @Excel(name = "签名")
+    @Excel(name = "token")
     private String token;
 
     /**
@@ -67,11 +68,32 @@ public class DataPushRecords extends BaseEntity {
     @Excel(name = "请求入参")
     private String param;
 
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date requestTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date responseTime;
     private String responseResult;
     private String requestMethod;
+
+    private String createUser;
+    private Long createUserId;
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

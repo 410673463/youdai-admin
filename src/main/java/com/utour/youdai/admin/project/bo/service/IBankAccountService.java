@@ -58,4 +58,6 @@ public interface IBankAccountService {
      * @return 结果
      */
     public int deleteBankAccountById(Long id);
+
+    List<BankAccount> getAccountsByBoId(Long boId);
 }

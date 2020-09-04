@@ -1,6 +1,7 @@
 package com.utour.youdai.admin.project.dp.service;
 
 import com.utour.youdai.admin.project.dp.domain.DataPushRecords;
+import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 
 import java.util.List;
 
@@ -91,4 +92,14 @@ public interface IDataPushRecordsService {
      * @return
      */
     String getPushReqId(Long primaryId, String dataTable, String requestMethod,String path);
+
+    /**
+     *  获取推送记录
+     * @param primaryId  主键id
+     * @param dataTable 主表
+     * @param path api路径
+     * @param method HTTP方法
+     * @return
+     */
+    List<LoanApplication> getRecordList(Long primaryId, String dataTable, String path, String method);
 }

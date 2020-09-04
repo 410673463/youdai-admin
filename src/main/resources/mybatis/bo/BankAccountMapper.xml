@@ -35,7 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectBankAccountVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getAccountsByBoId"  resultMap="BankAccountResult">
+        <include refid="selectBankAccountVo"/>
+        where bo_id = #{boId}
+    </select>
+
     <insert id="insertBankAccount" parameterType="BankAccount" useGeneratedKeys="true" keyProperty="id">
         insert into bo_bank_account
         <trim prefix="(" suffix=")" suffixOverrides=",">

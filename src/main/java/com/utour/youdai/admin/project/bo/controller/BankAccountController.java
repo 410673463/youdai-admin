@@ -38,6 +38,16 @@ public class BankAccountController extends BaseController {
     }
 
     /**
+     * 查询借款人-银行账户信息列表
+     */
+    @GetMapping("/accounts/{boId}")
+    public AjaxResult getAccountsByBoId(@PathVariable Long boId) {
+        List<BankAccount> list = bankAccountService.getAccountsByBoId(boId);
+        return AjaxResult.success(list);
+    }
+
+
+    /**
      * 导出借款人-银行账户信息列表
      */
     @Log(title = "借款人-银行账户信息", businessType = BusinessType.EXPORT)

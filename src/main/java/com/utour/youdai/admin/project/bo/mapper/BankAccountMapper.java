@@ -62,4 +62,6 @@ public interface BankAccountMapper {
      * @return 结果
      */
     public int deleteBankAccountByIds(Long[] ids);
+
+    List<BankAccount> getAccountsByBoId(Long boId);
 }
