@@ -102,10 +102,9 @@
     <select id="getRepayApplyList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
         SELECT
         apply.*,
-        middle.extension_code as extension_code
+        get_extension_code(apply.id) AS extension_code
         FROM
         lm_loan_application apply
-        LEFT JOIN ( SELECT apply_id, GROUP_CONCAT( extension_code ) AS extension_code FROM lm_extension_apply GROUP BY apply_id ) middle ON middle.apply_id = apply.id
         <where>
             apply.status >= 8
             <if test="code != null  and code != ''">and code like concat('%', #{code},'%')</if>
@@ -120,13 +119,12 @@
         SELECT
         apply.*,
         re.money as loan_money,
-        ac.principal AS principal,
-        ac.interest AS interest
+        apply_principal ( apply.id ) AS principal,
+        apply_interest ( apply.id ) AS interest
         FROM
         lm_loan_application apply
         LEFT JOIN ( SELECT la_id as la_id, sum(money) as money FROM fi_loan_records GROUP BY la_id ) re ON re.la_id = apply.id
-        LEFT JOIN ( SELECT la_id, SUM( actual_principal_money ) AS principal, SUM( actual_interest_money ) AS interest FROM fi_loan_repayment_actual GROUP BY la_id ) ac ON ac.la_id = apply.id
-        <where>
+       <where>
             and apply.status >= 8
             and apply.apply_nature != 3
             <if test="code != null  and code != ''">and code = #{code}</if>

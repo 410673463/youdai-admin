@@ -76,7 +76,7 @@ public interface LoanApplicationMapper {
     List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication);
 
     /**
-     * 查询贷款申请  status 》= 8， 去除已经放款的申请
+     * 查询贷款申请  status 》= 8，
      * @param loanApplication
      * @return
      */

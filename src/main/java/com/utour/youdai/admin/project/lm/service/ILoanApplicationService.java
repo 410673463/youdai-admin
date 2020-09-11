@@ -83,7 +83,7 @@ public interface ILoanApplicationService {
      */
     List<LoanApplication> getRepayApplyList(LoanApplication loanApplication);
     /**
-     * 查询状态>=8的申请  放款
+     * 查询状态>=8的申请
      *
      * @param loanApplication
      * @return
