@@ -73,7 +73,7 @@ public class LoanRecordsController extends BaseController {
     @Log(title = "放款记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody LoanRecords loanRecords) {
-        return toAjax(loanRecordsService.insertLoanRecords(loanRecords));
+        return AjaxResult.success(loanRecordsService.insertLoanRecords(loanRecords));
     }
 
     /**

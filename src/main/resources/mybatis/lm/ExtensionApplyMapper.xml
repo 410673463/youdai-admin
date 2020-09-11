@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.utour.youdai.admin.project.lm.mapper.ExtensionApplyMapper">
+
+    <resultMap type="ExtensionApply" id="ExtensionApplyResult">
+        <result property="id" column="id"/>
+        <result property="extensionId" column="extension_id"/>
+        <result property="extensionCode" column="extension_code"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="applyCode" column="apply_code"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectExtensionApplyVo">
+        select id, extension_id, extension_code, apply_id, apply_code from lm_extension_apply
+    </sql>
+
+    <select id="selectExtensionApplyList" parameterType="ExtensionApply" resultMap="ExtensionApplyResult">
+        <include refid="selectExtensionApplyVo"/>
+        <where>
+            <if test="extensionId != null ">and extension_id = #{extensionId}</if>
+            <if test="extensionCode != null  and extensionCode != ''">and extension_code = #{extensionCode}</if>
+            <if test="applyId != null ">and apply_id = #{applyId}</if>
+            <if test="applyCode != null  and applyCode != ''">and apply_code = #{applyCode}</if>
+        </where>
+    </select>
+
+    <select id="selectExtensionApplyById" parameterType="Long" resultMap="ExtensionApplyResult">
+        <include refid="selectExtensionApplyVo"/>
+        where id = #{id}
+    </select>
+    <select id="getApplyCodeByExtensionId" resultType="java.lang.String" parameterType="Long">
+        select apply_code from lm_extension_apply where extension_id = #{id}
+
+    </select>
+    <select id="extensionCounts" parameterType="java.lang.String" resultType="int">
+        SELECT
+            count( 0 )
+            FROM lm_extension_apply
+        WHERE
+            apply_code  = #{code}
+    </select>
+    <select id="extensionCountsByExtensionId" resultType="java.lang.Integer">
+        SELECT
+            count( 0 )
+        FROM
+            lm_extension_apply
+        WHERE
+            apply_id = ( SELECT apply_id FROM lm_extension_apply WHERE extension_id = #{extensionId} )
+    </select>
+    <insert id="insertExtensionApply" parameterType="ExtensionApply" useGeneratedKeys="true" keyProperty="id">
+        insert into lm_extension_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="extensionId != null">extension_id,</if>
+            <if test="extensionCode != null">extension_code,</if>
+            <if test="applyId != null">apply_id,</if>
+            <if test="applyCode != null">apply_code,</if>
+            <if test="createTime!= null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="extensionId != null">#{extensionId},</if>
+            <if test="extensionCode != null">#{extensionCode},</if>
+            <if test="applyId != null">#{applyId},</if>
+            <if test="applyCode != null">#{applyCode},</if>
+            <if test="createTime!= null">#{createTime},</if>
+        </trim>
+    </insert>
+
+
+    <update id="updateExtensionApply" parameterType="ExtensionApply">
+        update lm_extension_apply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="extensionId != null">extension_id = #{extensionId},</if>
+            <if test="extensionCode != null">extension_code = #{extensionCode},</if>
+            <if test="applyId != null">apply_id = #{applyId},</if>
+            <if test="applyCode != null">apply_code = #{applyCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteExtensionApplyById" parameterType="Long">
+        delete from lm_extension_apply where id = #{id}
+    </delete>
+
+    <delete id="deleteExtensionApplyByIds" parameterType="String">
+        delete from lm_extension_apply where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,13 +1,15 @@
 package com.utour.youdai.admin.project.fi.service.impl;
 
-import java.util.List;
-
 import com.utour.youdai.admin.common.utils.DateUtils;
+import com.utour.youdai.admin.common.utils.SecurityUtils;
 import com.utour.youdai.admin.project.fi.domain.LoanRecords;
 import com.utour.youdai.admin.project.fi.mapper.LoanRecordsMapper;
 import com.utour.youdai.admin.project.fi.service.ILoanRecordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -50,9 +52,23 @@ public class LoanRecordsServiceImpl implements ILoanRecordsService {
      * @return 结果
      */
     @Override
-    public int insertLoanRecords(LoanRecords loanRecords) {
+    public Long insertLoanRecords(LoanRecords loanRecords) {
+        Integer audit = 0;
+        if (loanRecords.getRemark() != null && loanRecords.getRemark().equals("makeUp")) {
+            audit = 2;//补录
+            loanRecords.setFiAuditTime(new Date());
+            loanRecords.setFiAuditUser("系统");
+            loanRecords.setCaAuditTime(new Date());
+            loanRecords.setCaAuditUser("系统");
+        }
+        loanRecords.setPushStatus(1);
+        loanRecords.setCaAuditStatus(audit);
+        loanRecords.setFiAuditStatus(audit);
+        loanRecords.setCreateUser(SecurityUtils.getUsername());
+        loanRecords.setCreateUserId(SecurityUtils.getLoginUser().getUser().getUserId());
         loanRecords.setCreateTime(DateUtils.getNowDate());
-        return loanRecordsMapper.insertLoanRecords(loanRecords);
+        loanRecordsMapper.insertLoanRecords(loanRecords);
+        return loanRecords.getId();
     }
 
     /**
@@ -87,4 +103,6 @@ public class LoanRecordsServiceImpl implements ILoanRecordsService {
     public int deleteLoanRecordsById(Long id) {
         return loanRecordsMapper.deleteLoanRecordsById(id);
     }
+
+
 }

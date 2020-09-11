@@ -89,4 +89,11 @@ public interface ILoanApplicationService {
      * @return
      */
     List<LoanApplication> getLoanApplyList(LoanApplication loanApplication);
+
+    /**
+     * 延期贷款申请列表
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> selectExtensionLoanApplicationList(LoanApplication loanApplication);
 }

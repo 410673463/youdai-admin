@@ -3,12 +3,17 @@ package com.utour.youdai.admin.project.lm.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.utour.youdai.admin.common.utils.CodeGeneratorFactory;
 import com.utour.youdai.admin.common.utils.DateUtils;
+import com.utour.youdai.admin.common.utils.StringUtils;
+import com.utour.youdai.admin.project.lm.domain.ExtensionApply;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
+import com.utour.youdai.admin.project.lm.mapper.ExtensionApplyMapper;
 import com.utour.youdai.admin.project.lm.mapper.LoanApplicationMapper;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,13 +24,12 @@ import java.util.List;
  */
 @Service
 public class LoanApplicationServiceImpl implements ILoanApplicationService {
-    private final LoanApplicationMapper loanApplicationMapper;
-    private final ILoanRepaymentPlanService loanRepaymentPlanService;
-
-    public LoanApplicationServiceImpl(LoanApplicationMapper loanApplicationMapper, ILoanRepaymentPlanService loanRepaymentPlanService) {
-        this.loanApplicationMapper = loanApplicationMapper;
-        this.loanRepaymentPlanService = loanRepaymentPlanService;
-    }
+    @Autowired
+    private LoanApplicationMapper loanApplicationMapper;
+    @Autowired
+    private ILoanRepaymentPlanService loanRepaymentPlanService;
+    @Autowired
+    private ExtensionApplyMapper extensionApplyMapper;
 
     /**
      * 查询贷款管理-贷款申请
@@ -57,13 +61,28 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
      */
     @Override
     public int insertLoanApplication(LoanApplication loanApplication) {
-        String code = CodeGeneratorFactory.getCode("LM-", 4);
+        String code = "";
+        if(loanApplication.getApplyNature() == 3){
+            int count = extensionApplyMapper.extensionCounts(loanApplication.getRemark()) + 1;
+            code = loanApplication.getRemark()+"-"+count;
+        }else {
+            code = CodeGeneratorFactory.getCode("LM-", 4);
+        }
+
         loanApplication.setCode(code);
         loanApplication.setCreateTime(DateUtils.getNowDate());
         int n = loanApplicationMapper.insertLoanApplication(loanApplication);
-
         //生成还款计划
         loanRepaymentPlanService.createRepayPlan(loanApplication);
+        if (loanApplication.getApplyNature().intValue() == 3) {//展期申请，将原申请的code 和id记录中间
+            ExtensionApply extensionApply = new ExtensionApply();
+            extensionApply.setApplyCode(loanApplication.getRemark());
+            extensionApply.setApplyId(loanApplicationMapper.getIdByCode(loanApplication.getRemark()));
+            extensionApply.setExtensionCode(loanApplication.getCode());
+            extensionApply.setExtensionId(loanApplication.getId());
+            extensionApply.setCreateTime(new Date());
+            extensionApplyMapper.insertExtensionApply(extensionApply);
+        }
         return n;
     }
 
@@ -118,11 +137,16 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
 
     @Override
     public List<LoanApplication> getRepayApplyList(LoanApplication loanApplication) {
-        return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
+        return loanApplicationMapper.getRepayApplyList(loanApplication);
     }
 
     @Override
     public List<LoanApplication> getLoanApplyList(LoanApplication loanApplication) {
-        return loanApplicationMapper.getLoanApplicationPushList(loanApplication);
+        return loanApplicationMapper.selectLoanApplicationExceptLoanRecords(loanApplication);
+    }
+
+    @Override
+    public List<LoanApplication> selectExtensionLoanApplicationList(LoanApplication loanApplication) {
+        return loanApplicationMapper.selectExtensionLoanApplicationList(loanApplication);
     }
 }

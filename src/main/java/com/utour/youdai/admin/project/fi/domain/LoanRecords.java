@@ -7,6 +7,7 @@ import com.utour.youdai.admin.project.bo.domain.BankAccount;
 import com.utour.youdai.admin.project.bo.domain.Borrower;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -43,7 +44,7 @@ public class LoanRecords extends BaseEntity {
      * $column.columnComment
      */
     @Excel(name = "放款金额")
-    private String money;
+    private BigDecimal money;
 
     /**
      * 放款时间
@@ -131,6 +132,15 @@ public class LoanRecords extends BaseEntity {
     private LoanApplication loanApplication;
     private Borrower borrower;
     private BankAccount bankAccount;
+    private Integer pushStatus;
+
+    public Integer getPushStatus() {
+        return pushStatus;
+    }
+
+    public void setPushStatus(Integer pushStatus) {
+        this.pushStatus = pushStatus;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -164,12 +174,12 @@ public class LoanRecords extends BaseEntity {
         this.baId = baId;
     }
 
-    public void setMoney(String money) {
-        this.money = money;
+    public BigDecimal getMoney() {
+        return money;
     }
 
-    public String getMoney() {
-        return money;
+    public void setMoney(BigDecimal money) {
+        this.money = money;
     }
 
     public void setLoanTime(Date loanTime) {

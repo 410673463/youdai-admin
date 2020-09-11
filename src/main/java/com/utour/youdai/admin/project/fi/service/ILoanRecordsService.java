@@ -33,7 +33,7 @@ public interface ILoanRecordsService {
      * @param loanRecords 放款记录
      * @return 结果
      */
-    public int insertLoanRecords(LoanRecords loanRecords);
+    public Long insertLoanRecords(LoanRecords loanRecords);
 
     /**
      * 修改放款记录
@@ -58,4 +58,6 @@ public interface ILoanRecordsService {
      * @return 结果
      */
     public int deleteLoanRecordsById(Long id);
+
+
 }

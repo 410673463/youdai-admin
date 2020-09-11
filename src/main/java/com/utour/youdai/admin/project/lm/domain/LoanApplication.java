@@ -207,6 +207,23 @@ public class LoanApplication extends BaseEntity {
     @Excel(name = "平台费")
     private BigDecimal platformCost;
 
+    /**
+     * 展期 编码
+     */
+    private String extensionCode;
+
+    /**
+     * 已放款金额
+     */
+    private BigDecimal loanMoney;
+    /**
+     * 已还本金
+     */
+    private BigDecimal principal;
+    /**
+     * 已还利息
+     */
+    private BigDecimal interest;
 
     public void setId(Long id) {
         this.id = id;
@@ -486,5 +503,37 @@ public class LoanApplication extends BaseEntity {
 
     public void setPlatformCost(BigDecimal platformCost) {
         this.platformCost = platformCost;
+    }
+
+    public String getExtensionCode() {
+        return extensionCode;
+    }
+
+    public void setExtensionCode(String extensionCode) {
+        this.extensionCode = extensionCode;
+    }
+
+    public BigDecimal getLoanMoney() {
+        return loanMoney;
+    }
+
+    public void setLoanMoney(BigDecimal loanMoney) {
+        this.loanMoney = loanMoney;
+    }
+
+    public BigDecimal getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(BigDecimal principal) {
+        this.principal = principal;
+    }
+
+    public BigDecimal getInterest() {
+        return interest;
+    }
+
+    public void setInterest(BigDecimal interest) {
+        this.interest = interest;
     }
 }

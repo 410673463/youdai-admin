@@ -25,10 +25,13 @@ import com.utour.youdai.admin.project.bo.service.IPersonalInfoService;
 import com.utour.youdai.admin.project.dp.domain.DataPushRecords;
 import com.utour.youdai.admin.project.dp.service.IDataPushRecordsService;
 import com.utour.youdai.admin.project.dp.service.IDataPushService;
+import com.utour.youdai.admin.project.fi.domain.LoanRecords;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual;
+import com.utour.youdai.admin.project.fi.service.ILoanRecordsService;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentActualService;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
+import com.utour.youdai.admin.project.lm.service.IExtensionApplyService;
 import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +63,10 @@ public class DataPushServiceImpl implements IDataPushService {
     private IDataPushRecordsService dataPushRecordsService;
     @Autowired
     private ILoanRepaymentActualService loanRepaymentActualService;
+    @Autowired
+    private ILoanRecordsService loanRecordsService;
+    @Autowired
+    private IExtensionApplyService extensionApplyService;
     @Value("${dataPush.CUSCC}")
     private String CUSCC;
     @Value("${dataPush.appKey}")
@@ -269,8 +276,18 @@ public class DataPushServiceImpl implements IDataPushService {
         LoanRepaymentActual actual = loanRepaymentActualService.selectRepayActualWithApplyInfoById(lraId);
         //还款日期
         dataMap.put("repayTime", sdf.format(actual.getActualDate()));
+        String path = "";
+        String contractNumber = "";
+        LoanApplication apply = loanApplicationService.selectLoanApplicationById(actual.getLaId());
+        if (apply.getApplyNature().intValue() == 3) {
+            path = "/extend-repay";
+            contractNumber = extensionApplyService.getApplyCodeByExtensionId(apply.getId());
+        } else {
+            path = "/repay";
+            contractNumber = actual.getApplicationCode();
+        }
         //关联主合同编号
-        dataMap.put("contractNumber", actual.getApplicationCode());
+        dataMap.put("contractNumber", contractNumber);
         //还款本金
         dataMap.put("money", actual.getActualPrincipalMoney().stripTrailingZeros().toPlainString());
         //利息
@@ -301,8 +318,92 @@ public class DataPushServiceImpl implements IDataPushService {
         //生成签名串
         String sign = ValidateSignUtil.validateSign(signMap, appKey);
         dataMap.put("sign", sign);
-        String resultCode = pushData(dataMap, "/repay", HttpMethod.POST, "fi_loan_repayment_actual", lraId);
+
+
+        String resultCode = pushData(dataMap, path, HttpMethod.POST, "fi_loan_repayment_actual", lraId);
         return resultCode;
+    }
+
+    @Override
+    public String pushLoanRecords(Long id) {
+        LoanRecords record = loanRecordsService.selectLoanRecordsById(id);
+        String roundStr = RandomUtil.randomNumbers(10);
+        String token = TokenUtil.getToken(roundStr, clientId, appKey);
+        JSONObject dataMap = new JSONObject();
+        dataMap.put("clientId", clientId);
+        dataMap.put("roundStr", roundStr);
+        dataMap.put("appKey", appKey);
+        dataMap.put("token", token);
+        String reqId = ReqIdUtil.reqId(CUSCC);
+        dataMap.put("reqId", reqId);
+        //合同号
+        dataMap.put("contractNumber", record.getApplyCode());
+        //放款金额
+        dataMap.put("money", record.getMoney().stripTrailingZeros().toPlainString());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dataMap.put("loanTime", sdf.format(record.getLoanTime()));
+        sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dataMap.put("startDate", sdf.format(record.getStartDate()));
+        dataMap.put("endDate", sdf.format(record.getEndDate()));
+        LinkedList<String> fieldArr = new LinkedList<String>() {{
+            add("clientId");
+            add("contractNumber");
+            add("loanTime");
+            add("money");
+            add("reqId");
+            add("roundStr");
+            add("token");
+        }};
+        JSONObject signMap = getSignMap(fieldArr, dataMap);
+        //生成签名串
+        String sign = ValidateSignUtil.validateSign(signMap, appKey);
+        dataMap.put("sign", sign);
+        String resultCode = pushData(dataMap, "/loan-info", HttpMethod.POST, "fi_loan_records", id);
+        return resultCode;
+    }
+
+    @Override
+    public String pushExtensionApplicationData(Long laId) {
+        String roundStr = RandomUtil.randomNumbers(10);
+        String token = TokenUtil.getToken(roundStr, clientId, appKey);
+        JSONObject dataMap = new JSONObject();
+        dataMap.put("clientId", clientId);
+        dataMap.put("roundStr", roundStr);
+        dataMap.put("appKey", appKey);
+        dataMap.put("token", token);
+        String reqId = ReqIdUtil.reqId(CUSCC);
+        dataMap.put("reqId", reqId);
+        //合同号
+        dataMap.put("contractNumber", extensionApplyService.getApplyCodeByExtensionId(laId));
+
+        JSONArray repayArr = new JSONArray();
+        List<LoanRepaymentPlan> repayList = loanRepaymentPlanService.getPlanList(laId);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (LoanRepaymentPlan plan : repayList) {
+            JSONObject p = new JSONObject();
+            p.put("endDate", sdf.format(plan.getPlanDate()));
+            p.put("principal", plan.getPlanPrincipalMoney().stripTrailingZeros());
+            p.put("interest", plan.getPlanInterestMoney().stripTrailingZeros());
+            repayArr.add(p);
+        }
+        dataMap.put("plans", repayArr);
+
+        int count = extensionApplyService.extensionCountsByExtensionId(laId);
+        dataMap.put("count", String.valueOf(count));
+        LinkedList<String> fieldArr = new LinkedList<String>() {{
+            add("clientId");
+            add("contractNumber");
+            add("count");
+            add("reqId");
+            add("roundStr");
+            add("token");
+        }};
+        JSONObject signMap = getSignMap(fieldArr, dataMap);
+        //生成签名串
+        String sign = ValidateSignUtil.validateSign(signMap, appKey);
+        dataMap.put("sign", sign);
+        String re = pushData(dataMap, "/extend-repay-plan", HttpMethod.POST, "lm_loan_application", laId);
+        return re;
     }
 
     private String pushData(JSONObject param, String path, HttpMethod method, String dataTable, Long primaryId) {

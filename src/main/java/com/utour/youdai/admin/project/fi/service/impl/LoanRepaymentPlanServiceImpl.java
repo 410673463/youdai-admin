@@ -133,6 +133,12 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
         } else if (apply.getRepayType().intValue() == 4) {//
             list = this.oneTimeRepay(applyMoney, applyRate, applyExpires, end, laId);
         }
+        BigDecimal principalSum = new BigDecimal(0);
+        for (LoanRepaymentPlan plan : list) {
+            principalSum = principalSum.add(plan.getPlanPrincipalMoney());
+        }
+        BigDecimal difference = apply.getApplyMoney().subtract(principalSum);
+        list.get(list.size() - 1).setPlanPrincipalMoney(list.get(list.size() - 1).getPlanPrincipalMoney().add(difference));
         int n = loanRepaymentPlanMapper.batchInsert(list);
         return n;
     }

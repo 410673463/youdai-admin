@@ -52,4 +52,24 @@ public class DataPushController extends BaseController {
             return AjaxResult.error(resultCode);
         }
     }
+
+    @PostMapping("/loanRecords")
+    public AjaxResult pushLoanRecords( Long id){
+        String resultCode = dataPushService.pushLoanRecords(id);
+        if (resultCode.equals("0")) {
+            return AjaxResult.success();
+        } else {
+            return AjaxResult.error(resultCode);
+        }
+    }
+
+    @PostMapping("/extension")
+    public AjaxResult pushExtensionApplicationData(Long laId) {
+        String resultCode = dataPushService.pushExtensionApplicationData(laId);
+        if (resultCode.equals("0")) {
+            return AjaxResult.success();
+        } else {
+            return AjaxResult.error(resultCode);
+        }
+    }
 }

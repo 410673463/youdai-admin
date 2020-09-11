@@ -28,10 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="bankAccountNo"    column="bank_account_no"    />
         <result property="bankName"    column="bank_name"    />
         <result property="applyCode"    column="apply_code"    />
+        <result property="pushStatus"    column="push_status"    />
     </resultMap>
 
     <sql id="selectLoanRecordsVo">
-        select id, la_id, bo_id, ba_id, money, loan_time, start_date, end_date, fi_audit_status, fi_audit_user, fi_audit_user_id, fi_audit_time, ca_audit_status, ca_audit_user, ca_audit_user_id, ca_audit_time, create_user, create_user_id, create_time, borrower_name, bank_account_no, bank_name, apply_code from fi_loan_records
+        select id, la_id, bo_id, ba_id, money, loan_time, start_date, end_date, fi_audit_status, fi_audit_user, fi_audit_user_id, fi_audit_time, ca_audit_status, ca_audit_user, ca_audit_user_id, ca_audit_time, create_user, create_user_id, create_time, borrower_name, bank_account_no, bank_name, apply_code,push_status from fi_loan_records
     </sql>
 
     <select id="selectLoanRecordsList" parameterType="LoanRecords" resultMap="LoanRecordsResult">
@@ -58,6 +59,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bankAccountNo != null  and bankAccountNo != ''"> and bank_account_no = #{bankAccountNo}</if>
             <if test="bankName != null  and bankName != ''"> and bank_name like concat('%', #{bankName}, '%')</if>
             <if test="applyCode != null  and applyCode != ''"> and apply_code = #{applyCode}</if>
+            <if test="pushStatus != null  and pushStatus != ''"> and push_status = #{pushStatus}</if>
+
+
         </where>
     </select>
     
@@ -65,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectLoanRecordsVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertLoanRecords" parameterType="LoanRecords" useGeneratedKeys="true" keyProperty="id">
         insert into fi_loan_records
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -91,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bankAccountNo != null">bank_account_no,</if>
             <if test="bankName != null">bank_name,</if>
             <if test="applyCode != null">apply_code,</if>
+            <if test="pushStatus != null">push_status,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="laId != null">#{laId},</if>
@@ -115,7 +120,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bankAccountNo != null">#{bankAccountNo},</if>
             <if test="bankName != null">#{bankName},</if>
             <if test="applyCode != null">#{applyCode},</if>
-         </trim>
+            <if test="pushStatus != null">#{pushStatus},</if>
+        </trim>
     </insert>
 
     <update id="updateLoanRecords" parameterType="LoanRecords">
@@ -143,6 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bankAccountNo != null">bank_account_no = #{bankAccountNo},</if>
             <if test="bankName != null">bank_name = #{bankName},</if>
             <if test="applyCode != null">apply_code = #{applyCode},</if>
+            <if test="pushStatus != null">push_status = #{pushStatus},</if>
         </trim>
         where id = #{id}
     </update>

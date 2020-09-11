@@ -63,4 +63,6 @@ public interface LoanRecordsMapper {
      * @return 结果
      */
     public int deleteLoanRecordsByIds(Long[] ids);
+
+    LoanRecords getRecord(Long id);
 }

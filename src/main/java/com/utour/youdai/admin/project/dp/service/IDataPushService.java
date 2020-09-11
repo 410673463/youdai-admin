@@ -23,4 +23,18 @@ public interface IDataPushService {
      * @return
      */
     String pushRepayActual(Long lraId);
+
+    /**
+     * 推送放款记录
+     * @param id
+     * @return
+     */
+    String pushLoanRecords(Long id);
+
+    /**
+     * 推送展期记录
+     * @param laId
+     * @return
+     */
+    String pushExtensionApplicationData(Long laId);
 }

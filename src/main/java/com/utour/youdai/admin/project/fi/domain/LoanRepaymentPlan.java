@@ -61,7 +61,10 @@ public class LoanRepaymentPlan extends BaseEntity {
      * 数据推送状态: 0、推送失败 1、待推送 2、推送中 3、推送成功
      */
     private Integer pushStatus;
-
+    /**
+     * 已还金额
+     */
+    private BigDecimal alreadyPaid;
     public void setId(Long id) {
         this.id = id;
     }
@@ -126,5 +129,11 @@ public class LoanRepaymentPlan extends BaseEntity {
         return pushStatus;
     }
 
+    public BigDecimal getAlreadyPaid() {
+        return alreadyPaid;
+    }
 
+    public void setAlreadyPaid(BigDecimal alreadyPaid) {
+        this.alreadyPaid = alreadyPaid;
+    }
 }
