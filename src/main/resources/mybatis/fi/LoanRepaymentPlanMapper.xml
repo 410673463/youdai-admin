@@ -13,6 +13,7 @@
         <result property="planInterestMoney" column="plan_interest_money"/>
         <result property="indexNo" column="index_No"/>
         <result property="pushStatus" column="push_status"/>
+        <result property="alreadyPaid" column="already_paid"/>
     </resultMap>
 
     <sql id="selectLoanRepaymentPlanVo">
@@ -30,8 +31,14 @@
         where id = #{id}
     </select>
     <select id="getPlanList" parameterType="Long" resultMap="LoanRepaymentPlanResult">
-        <include refid="selectLoanRepaymentPlanVo"/>
-        where la_id = #{laId}
+        SELECT
+        plan.*,
+        actual.already_paid as already_paid
+        FROM
+        fi_loan_repayment_plan AS plan
+        LEFT JOIN ( SELECT ac.lrp_id, sum( ac.actual_money_sum ) AS already_paid FROM fi_loan_repayment_actual AS ac GROUP BY ac.lrp_id ) AS actual ON actual.lrp_id = plan.id
+        WHERE
+        plan.la_id = #{laId}
     </select>
 
     <insert id="insertLoanRepaymentPlan" parameterType="LoanRepaymentPlan" useGeneratedKeys="true" keyProperty="id">

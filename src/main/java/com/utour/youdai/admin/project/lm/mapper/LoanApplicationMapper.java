@@ -74,4 +74,32 @@ public interface LoanApplicationMapper {
      * @return
      */
     List<LoanApplication> getLoanApplicationPushList(LoanApplication loanApplication);
+
+    /**
+     * 查询贷款申请  status 》= 8，
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> selectLoanApplicationExceptLoanRecords(LoanApplication loanApplication);
+
+    /**
+     * 延期贷款申请列表
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> selectExtensionLoanApplicationList(LoanApplication loanApplication);
+
+    /**
+     * 通过code 获取 id
+     * @param code
+     * @return
+     */
+    Long getIdByCode(String code);
+
+    /**
+     * 查询还款 申请列表
+     * @param loanApplication
+     * @return
+     */
+    List<LoanApplication> getRepayApplyList(LoanApplication loanApplication);
 }

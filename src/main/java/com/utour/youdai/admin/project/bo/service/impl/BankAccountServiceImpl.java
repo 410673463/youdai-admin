@@ -86,4 +86,9 @@ public class BankAccountServiceImpl implements IBankAccountService {
     public int deleteBankAccountById(Long id) {
         return bankAccountMapper.deleteBankAccountById(id);
     }
+
+    @Override
+    public List<BankAccount> getAccountsByBoId(Long boId) {
+        return bankAccountMapper.getAccountsByBoId( boId);
+    }
 }

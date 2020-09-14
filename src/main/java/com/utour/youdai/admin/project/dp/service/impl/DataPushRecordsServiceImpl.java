@@ -3,6 +3,7 @@ package com.utour.youdai.admin.project.dp.service.impl;
 import com.utour.youdai.admin.project.dp.domain.DataPushRecords;
 import com.utour.youdai.admin.project.dp.mapper.DataPushRecordsMapper;
 import com.utour.youdai.admin.project.dp.service.IDataPushRecordsService;
+import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -101,5 +102,10 @@ public class DataPushRecordsServiceImpl implements IDataPushRecordsService {
     @Override
     public String getPushReqId(Long primaryId, String dataTable, String requestMethod, String path) {
         return dataPushRecordsMapper.getPushReqId(primaryId, dataTable, requestMethod, path);
+    }
+
+    @Override
+    public List<LoanApplication> getRecordList(Long primaryId, String dataTable, String path, String method) {
+        return dataPushRecordsMapper.getRecordList(primaryId, dataTable, path, method);
     }
 }

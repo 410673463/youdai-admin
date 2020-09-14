@@ -1,6 +1,7 @@
 package com.utour.youdai.admin.project.dp.mapper;
 
 import com.utour.youdai.admin.project.dp.domain.DataPushRecords;
+import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -75,4 +76,13 @@ public interface DataPushRecordsMapper {
     int updatePushDataStatus(@Param("dataTable") String dataTable, @Param("primaryId") Long primaryId, @Param("pushStatus") int pushStatus);
 
     String getPushReqId(@Param("primaryId") Long primaryId,@Param("dataTable") String dataTable, @Param("requestMethod")String requestMethod,@Param("path") String path);
+    /**
+     *  获取推送记录
+     * @param primaryId  主键id
+     * @param dataTable 主表
+     * @param path api路径
+     * @param method HTTP方法
+     * @return
+     */
+    List<LoanApplication> getRecordList(Long primaryId, String dataTable, String path, String method);
 }

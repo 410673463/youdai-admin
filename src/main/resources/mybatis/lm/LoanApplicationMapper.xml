@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.utour.youdai.admin.project.lm.mapper.LoanApplicationMapper">
-    
+
     <resultMap type="LoanApplication" id="LoanApplicationResult">
-        <result property="id"    column="id"    />
-        <result property="boid"    column="boId"    />
-        <result property="productId"    column="product_id"    />
-        <result property="code"    column="code"    />
-        <result property="applicationName"    column="application_name"    />
-        <result property="productTitle"    column="product_title"    />
-        <result property="borrowerName"    column="borrower_name"    />
-        <result property="borrowerManager"    column="borrower_manager"    />
-        <result property="boManagerId"    column="bo_manager_id"    />
-        <result property="applyNature"    column="apply_nature"    />
-        <result property="applyMoney"    column="apply_money"    />
-        <result property="applyExpires"    column="apply_expires"    />
-        <result property="applyExpiresUnit"    column="apply_expires_unit"    />
-        <result property="applyStartDate"    column="apply_start_date"    />
-        <result property="applyEndDate"    column="apply_end_date"    />
-        <result property="applyRate"    column="apply_rate"    />
-        <result property="applyRateUnit"    column="apply_rate_unit"    />
-        <result property="applyConsultingRate"    column="apply_consulting_rate"    />
-        <result property="applyConsultingRateUnit"    column="apply_consulting_rate_unit"    />
-        <result property="repayType"    column="repay_type"    />
-        <result property="applyConsultationRepayType"    column="apply_consultation_repay_type"    />
-        <result property="contractSignWay"    column="contract_sign_way"    />
-        <result property="interestRateIncrease"    column="interest_rate_increase"    />
-        <result property="applySource"    column="apply_source"    />
-        <result property="whetherGuaranteeApply"    column="whether_guarantee_apply"    />
-        <result property="guaranteeApplyType"    column="guarantee_apply_type"    />
-        <result property="note"    column="note"    />
-        <result property="status"    column="status"    />
-        <result property="createBy"    column="create_by"    />
-        <result property="createTime"    column="create_time"    />
-        <result property="updateTime"    column="update_time"    />
-        <result property="pushStatus"    column="push_status"    />
-        <result property="createRepayPlan"    column="create_repay_plan"    />
-        <result property="whetherEntrust"    column="whether_entrust"    />
-        <result property="purpose"    column="purpose"    />
-        <result property="business"    column="business"    />
-        <result property="repaySource"    column="repay_source"    />
-        <result property="platformCost"    column="platform_cost"    />
+        <result property="id" column="id"/>
+        <result property="boid" column="boId"/>
+        <result property="productId" column="product_id"/>
+        <result property="code" column="code"/>
+        <result property="applicationName" column="application_name"/>
+        <result property="productTitle" column="product_title"/>
+        <result property="borrowerName" column="borrower_name"/>
+        <result property="borrowerManager" column="borrower_manager"/>
+        <result property="boManagerId" column="bo_manager_id"/>
+        <result property="applyNature" column="apply_nature"/>
+        <result property="applyMoney" column="apply_money"/>
+        <result property="applyExpires" column="apply_expires"/>
+        <result property="applyExpiresUnit" column="apply_expires_unit"/>
+        <result property="applyStartDate" column="apply_start_date"/>
+        <result property="applyEndDate" column="apply_end_date"/>
+        <result property="applyRate" column="apply_rate"/>
+        <result property="applyRateUnit" column="apply_rate_unit"/>
+        <result property="applyConsultingRate" column="apply_consulting_rate"/>
+        <result property="applyConsultingRateUnit" column="apply_consulting_rate_unit"/>
+        <result property="repayType" column="repay_type"/>
+        <result property="applyConsultationRepayType" column="apply_consultation_repay_type"/>
+        <result property="contractSignWay" column="contract_sign_way"/>
+        <result property="interestRateIncrease" column="interest_rate_increase"/>
+        <result property="applySource" column="apply_source"/>
+        <result property="whetherGuaranteeApply" column="whether_guarantee_apply"/>
+        <result property="guaranteeApplyType" column="guarantee_apply_type"/>
+        <result property="note" column="note"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="createRepayPlan" column="create_repay_plan"/>
+        <result property="whetherEntrust" column="whether_entrust"/>
+        <result property="purpose" column="purpose"/>
+        <result property="business" column="business"/>
+        <result property="repaySource" column="repay_source"/>
+        <result property="platformCost" column="platform_cost"/>
+        <result property="extensionCode" column="extension_code"/>
+        <result property="loanMoney" column="loan_money"/>
+        <result property="principal" column="principal"/>
+        <result property="interest" column="interest"/>
     </resultMap>
 
     <sql id="selectLoanApplicationVo">
@@ -51,16 +55,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectLoanApplicationList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
         <include refid="selectLoanApplicationVo"/>
-        <where>  
-            <if test="applicationName != null  and applicationName != ''"> and application_name like concat('%', #{applicationName}, '%')</if>
-            <if test="productTitle != null  and productTitle != ''"> and product_title = #{productTitle}</if>
-            <if test="borrowerName != null  and borrowerName != ''"> and borrower_name like concat('%', #{borrowerName}, '%')</if>
-            <if test="borrowerManager != null  and borrowerManager != ''"> and borrower_manager = #{borrowerManager}</if>
-            <if test="status != null "> and status = #{status}</if>
+        <where>
+            apply_nature != 3
+            <if test="applicationName != null  and applicationName != ''">and application_name like concat('%',
+                #{applicationName}, '%')
+            </if>
+            <if test="productTitle != null  and productTitle != ''">and product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''">and borrower_name like concat('%', #{borrowerName},
+                '%')
+            </if>
+            <if test="borrowerManager != null  and borrowerManager != ''">and borrower_manager = #{borrowerManager}</if>
+            <if test="status != null ">and status = #{status}</if>
+            <if test="code != null  and code != ''">and code like concat('%', #{code},'%')</if>
         </where>
         order by create_time desc
     </select>
-    
+
     <select id="selectLoanApplicationById" parameterType="Long" resultMap="LoanApplicationResult">
         <include refid="selectLoanApplicationVo"/>
         where id = #{id}
@@ -69,13 +79,90 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectLoanApplicationVo"/>
         <where>
             status >= 8
-            <if test="applicationName != null  and applicationName != ''"> and application_name like concat('%', #{applicationName}, '%')</if>
-            <if test="productTitle != null  and productTitle != ''"> and product_title = #{productTitle}</if>
-            <if test="borrowerName != null  and borrowerName != ''"> and borrower_name like concat('%', #{borrowerName}, '%')</if>
-            <if test="borrowerManager != null  and borrowerManager != ''"> and borrower_manager = #{borrowerManager}</if>
-            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <choose>
+                <when test="applyNature != null">
+                    and apply_nature = 3
+                </when>
+                <otherwise>
+                    and apply_nature != 3
+                </otherwise>
+            </choose>
+            <if test="applicationName != null  and applicationName != ''">and application_name like concat('%',
+                #{applicationName}, '%')
+            </if>
+            <if test="productTitle != null  and productTitle != ''">and product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''">and borrower_name like concat('%', #{borrowerName},
+                '%')
+            </if>
+            <if test="borrowerManager != null  and borrowerManager != ''">and borrower_manager = #{borrowerManager}</if>
+            <if test="code != null  and code != ''">and code like concat('%', #{code},'%')</if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="getRepayApplyList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
+        SELECT
+        apply.*,
+        get_extension_code(apply.id) AS extension_code
+        FROM
+        lm_loan_application apply
+        <where>
+            apply.status >= 8
+            <if test="code != null  and code != ''">and code like concat('%', #{code},'%')</if>
+            <if test="productTitle != null  and productTitle != ''">and product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''">and borrower_name like concat('%', #{borrowerName},
+                '%')
+            </if>
         </where>
     </select>
+    <select id="selectLoanApplicationExceptLoanRecords" parameterType="LoanApplication"
+            resultMap="LoanApplicationResult">
+        SELECT
+        apply.*,
+        re.money as loan_money,
+        apply_principal ( apply.id ) AS principal,
+        apply_interest ( apply.id ) AS interest
+        FROM
+        lm_loan_application apply
+        LEFT JOIN ( SELECT la_id as la_id, sum(money) as money FROM fi_loan_records GROUP BY la_id ) re ON re.la_id = apply.id
+       <where>
+            and apply.status >= 8
+            and apply.apply_nature != 3
+            <if test="code != null  and code != ''">and code = #{code}</if>
+            <if test="productTitle != null  and productTitle != ''">and product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''">and borrower_name like concat('%', #{borrowerName},
+                '%')
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="selectExtensionLoanApplicationList" parameterType="LoanApplication" resultMap="LoanApplicationResult">
+        select apply.* ,
+        extension.apply_code as remark
+        from lm_loan_application apply
+        LEFT JOIN lm_extension_apply extension ON extension.extension_id = apply.id
+        <where>
+            apply.apply_nature = 3
+            <if test="applicationName != null  and applicationName != ''">and apply.application_name like concat('%',
+                #{applicationName}, '%')
+            </if>
+            <if test="productTitle != null  and productTitle != ''">and apply.product_title = #{productTitle}</if>
+            <if test="borrowerName != null  and borrowerName != ''">and apply.borrower_name like concat('%',
+                #{borrowerName},
+                '%')
+            </if>
+            <if test="code != null  and code != ''">and code like concat('%', #{code},'%')</if>
+            <if test="borrowerManager != null  and borrowerManager != ''">and apply.borrower_manager =
+                #{borrowerManager}
+            </if>
+            <if test="status != null ">and apply.status = #{status}</if>
+        </where>
+        order by create_time desc
+
+    </select>
+    <select id="getIdByCode" resultType="java.lang.Long" parameterType="java.lang.String">
+        select id from lm_loan_application where code = #{code}
+    </select>
+
 
     <insert id="insertLoanApplication" parameterType="LoanApplication" useGeneratedKeys="true" keyProperty="id">
         insert into lm_loan_application
@@ -117,7 +204,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="business != null">business,</if>
             <if test="repaySource != null">repay_source,</if>
             <if test="platformCost != null">platform_cost,</if>
-         </trim>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="boid != null">#{boid},</if>
             <if test="productId != null">#{productId},</if>
@@ -156,7 +243,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="business != null">#{business},</if>
             <if test="repaySource != null">#{repaySource},</if>
             <if test="platformCost != null">#{platformCost},</if>
-         </trim>
+        </trim>
     </insert>
 
     <update id="updateLoanApplication" parameterType="LoanApplication">
@@ -181,7 +268,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="applyConsultingRate != null">apply_consulting_rate = #{applyConsultingRate},</if>
             <if test="applyConsultingRateUnit != null">apply_consulting_rate_unit = #{applyConsultingRateUnit},</if>
             <if test="repayType != null">repay_type = #{repayType},</if>
-            <if test="applyConsultationRepayType != null">apply_consultation_repay_type = #{applyConsultationRepayType},</if>
+            <if test="applyConsultationRepayType != null">apply_consultation_repay_type =
+                #{applyConsultationRepayType},
+            </if>
             <if test="contractSignWay != null">contract_sign_way = #{contractSignWay},</if>
             <if test="interestRateIncrease != null">interest_rate_increase = #{interestRateIncrease},</if>
             <if test="applySource != null">apply_source = #{applySource},</if>
@@ -202,7 +291,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
-    <update id="updateApplyStatus" >
+    <update id="updateApplyStatus">
         update lm_loan_application set status = #{status} where id in
         <foreach item="id" collection="ids" open="(" separator="," close=")">
             #{id}
@@ -214,10 +303,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteLoanApplicationByIds" parameterType="String">
-        delete from lm_loan_application where id in 
+        delete from lm_loan_application where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
 </mapper>
