@@ -6,6 +6,7 @@ import com.utour.youdai.admin.project.dp.service.IDataPushService;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual;
 import com.utour.youdai.admin.project.fi.mapper.LoanRepaymentActualMapper;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentActualService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,12 +20,9 @@ import java.util.List;
  */
 @Service
 public class LoanRepaymentActualServiceImpl implements ILoanRepaymentActualService {
-    private final LoanRepaymentActualMapper loanRepaymentActualMapper;
-    private  final IDataPushService dataPushService;
-    public LoanRepaymentActualServiceImpl(LoanRepaymentActualMapper loanRepaymentActualMapper, IDataPushService dataPushService) {
-        this.loanRepaymentActualMapper = loanRepaymentActualMapper;
-        this.dataPushService = dataPushService;
-    }
+    @Autowired
+    private LoanRepaymentActualMapper loanRepaymentActualMapper;
+  
 
     /**
      * 查询实际还款
@@ -101,7 +99,7 @@ public class LoanRepaymentActualServiceImpl implements ILoanRepaymentActualServi
     public Long save(JSONObject jsonObject) {
         Boolean pushFlag = jsonObject.getBoolean("push");
         jsonObject.remove("push");
-        LoanRepaymentActual repay = JSONObject.toJavaObject(jsonObject,LoanRepaymentActual.class);
+        LoanRepaymentActual repay = JSONObject.toJavaObject(jsonObject, LoanRepaymentActual.class);
         repay.setCreateUser(SecurityUtils.getUsername());
         repay.setCreateUserId(SecurityUtils.getLoginUser().getUser().getUserId());
         repay.setCreateTime(new Date());
