@@ -63,9 +63,9 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://cdb-aa45dghw.bj.tencentcdb.com:10150/youdai?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: Ce5AcK_5tpgbcXb
+        url: jdbc:mysql://172.16.3.58:3306/youdai?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: youdai
+        password: y^En1Qy3t$kPV
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
@@ -127,8 +127,8 @@ swagger:
   # 请求前缀
   pathMapping: /dev-api
 dataPush:
-  apiUrl: http://183.3.158.140:8882/supervise-receive/api/
-  appKey: g7mogtr59fvoptps
-  clientId: 2478912407278593
+  apiUrl: https://113.108.173.193/supervise-receive-new/api
+  appKey: wv5lvdfjp1o84rpq
+  clientId: 3891432515990804
   #统一社会信用代码
-  CUSCC: 1234567890
+  CUSCC: 91440104MA59AYHBX3
