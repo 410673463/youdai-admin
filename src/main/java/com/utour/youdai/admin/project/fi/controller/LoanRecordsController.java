@@ -37,7 +37,7 @@ public class LoanRecordsController extends BaseController {
     /**
      * 查询放款记录列表
      */
-    @PreAuthorize("@ss.hasPermi('com:records:list')")
+    @PreAuthorize("@ss.hasPermi('fi:loan:records:list')")
     @GetMapping("/list")
     public TableDataInfo list(LoanRecords loanRecords) {
         startPage();
@@ -48,7 +48,7 @@ public class LoanRecordsController extends BaseController {
     /**
      * 导出放款记录列表
      */
-    @PreAuthorize("@ss.hasPermi('com:records:export')")
+    @PreAuthorize("@ss.hasPermi('fi:loan:records:export')")
     @Log(title = "放款记录", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(LoanRecords loanRecords) {
@@ -60,7 +60,7 @@ public class LoanRecordsController extends BaseController {
     /**
      * 获取放款记录详细信息
      */
-    @PreAuthorize("@ss.hasPermi('com:records:query')")
+    @PreAuthorize("@ss.hasPermi('fi:loan:records:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(loanRecordsService.selectLoanRecordsById(id));
@@ -69,7 +69,7 @@ public class LoanRecordsController extends BaseController {
     /**
      * 新增放款记录
      */
-    @PreAuthorize("@ss.hasPermi('com:records:add')")
+    @PreAuthorize("@ss.hasPermi('fi:loan:records:add')")
     @Log(title = "放款记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody LoanRecords loanRecords) {
@@ -79,7 +79,7 @@ public class LoanRecordsController extends BaseController {
     /**
      * 修改放款记录
      */
-    @PreAuthorize("@ss.hasPermi('com:records:edit')")
+    @PreAuthorize("@ss.hasPermi('fi:loan:records:edit')")
     @Log(title = "放款记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody LoanRecords loanRecords) {
@@ -89,7 +89,7 @@ public class LoanRecordsController extends BaseController {
     /**
      * 删除放款记录
      */
-    @PreAuthorize("@ss.hasPermi('com:records:remove')")
+    @PreAuthorize("@ss.hasPermi('fi:loan:records:remove')")
     @Log(title = "放款记录", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {

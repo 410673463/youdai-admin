@@ -42,7 +42,7 @@ public class LoanRepaymentActualController extends BaseController {
     /**
      * 查询实际还款列表
      */
-    @PreAuthorize("@ss.hasPermi('com:actual:list')")
+    @PreAuthorize("@ss.hasPermi('fi:repay:actual:list')")
     @GetMapping("/list")
     public TableDataInfo list(LoanRepaymentActual loanRepaymentActual) {
         startPage();
@@ -53,7 +53,7 @@ public class LoanRepaymentActualController extends BaseController {
     /**
      * 导出实际还款列表
      */
-    @PreAuthorize("@ss.hasPermi('com:actual:export')")
+    @PreAuthorize("@ss.hasPermi('fi:repay:actual:export')")
     @Log(title = "实际还款", businessType = BusinessType.EXPORT)
     @GetMapping("/export")
     public AjaxResult export(LoanRepaymentActual loanRepaymentActual) {
@@ -65,7 +65,7 @@ public class LoanRepaymentActualController extends BaseController {
     /**
      * 获取实际还款详细信息
      */
-    @PreAuthorize("@ss.hasPermi('com:actual:query')")
+    @PreAuthorize("@ss.hasPermi('fi:repay:actual:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(loanRepaymentActualService.selectLoanRepaymentActualById(id));
@@ -74,7 +74,7 @@ public class LoanRepaymentActualController extends BaseController {
     /**
      * 新增实际还款
      */
-    @PreAuthorize("@ss.hasPermi('com:actual:add')")
+    @PreAuthorize("@ss.hasPermi('fi:repay:actual:add')")
     @Log(title = "实际还款", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody JSONObject jsonObject) {
@@ -84,7 +84,7 @@ public class LoanRepaymentActualController extends BaseController {
     /**
      * 修改实际还款
      */
-    @PreAuthorize("@ss.hasPermi('com:actual:edit')")
+    @PreAuthorize("@ss.hasPermi('fi:repay:actual:edit')")
     @Log(title = "实际还款", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody LoanRepaymentActual loanRepaymentActual) {
@@ -94,7 +94,7 @@ public class LoanRepaymentActualController extends BaseController {
     /**
      * 删除实际还款
      */
-    @PreAuthorize("@ss.hasPermi('com:actual:remove')")
+    @PreAuthorize("@ss.hasPermi('fi:repay:actual:remove')")
     @Log(title = "实际还款", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
