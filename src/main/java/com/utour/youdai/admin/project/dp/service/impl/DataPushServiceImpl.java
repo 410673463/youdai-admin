@@ -9,6 +9,7 @@ import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.common.enums.HttpMethod;
 import com.utour.youdai.admin.common.utils.SecurityUtils;
@@ -437,15 +438,22 @@ public class DataPushServiceImpl implements IDataPushService {
         records.setResponseResult(result);
         dataPushRecordsService.insertDataPushRecords(records);
         //解析返回结果，更新对应表记录 推送状态
-        JSONObject resultJson = JSON.parseObject(result);
-        String resultCode = resultJson.getString("resultCode");
         int pushStatus = 3;
-        if (method == HttpMethod.DELETE && resultCode.equals("0")) {//删除方法并且返回成功，更新主表状态为2审核中
-            pushStatus = 2;
-        } else {//其他方法请求， 如果请求失败，更新主表状态为 推送失败
-            if (!resultCode.equals("0")) {
-                pushStatus = 0;
+        String resultCode = "";
+        JSONObject resultJson = null;
+        try {
+            resultJson = JSON.parseObject(result);
+            resultCode = resultJson.getString("resultCode");
+            if (method == HttpMethod.DELETE && resultCode.equals("0")) {//删除方法并且返回成功，更新主表状态为2审核中
+                pushStatus = 2;
+            } else {//其他方法请求， 如果请求失败，更新主表状态为 推送失败
+                if (!resultCode.equals("0")) {
+                    pushStatus = 0;
+                }
             }
+        }catch (JSONException e){
+            pushStatus = 0;
+            resultCode = "-1";
         }
         dataPushRecordsService.updatePushDataStatus(dataTable, primaryId, pushStatus);
         return resultCode;
