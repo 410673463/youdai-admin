@@ -63,9 +63,9 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://cdb-aa45dghw.bj.tencentcdb.com:10150/youdai-prod?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: youdai
-        password: y^En1Qy3t$kPV
+        url: jdbc:mysql://172.16.3.58:3306/youdai-prod?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: E7CrVt!jNV^VK#8F
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
