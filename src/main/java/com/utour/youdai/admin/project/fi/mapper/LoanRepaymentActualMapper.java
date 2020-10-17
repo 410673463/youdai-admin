@@ -76,4 +76,18 @@ public interface LoanRepaymentActualMapper {
      * @return
      */
     public List<LoanRepaymentActual> selectRepayActualListWithApplyInfo(LoanRepaymentActual loanRepaymentActual);
+
+    /**
+     * 根据还款计划ID返回实际还款列表记录
+     * @param lrpId
+     * @return
+     */
+    List<LoanRepaymentActual> getActualListByPlanLrpId(Long lrpId);
+
+    /**
+     * 查询申请下所有还款记录
+     * @param laId
+     * @return
+     */
+    List<LoanRepaymentActual>  selectActualListByPlanLaId(Long laId);
 }

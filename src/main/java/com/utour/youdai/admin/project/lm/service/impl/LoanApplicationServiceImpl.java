@@ -149,4 +149,9 @@ public class LoanApplicationServiceImpl implements ILoanApplicationService {
     public List<LoanApplication> selectExtensionLoanApplicationList(LoanApplication loanApplication) {
         return loanApplicationMapper.selectExtensionLoanApplicationList(loanApplication);
     }
+
+    @Override
+    public String selectApplyCodeById(Long laId) {
+        return loanApplicationMapper.selectApplyCodeById(laId);
+    }
 }

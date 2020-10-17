@@ -1,28 +1,19 @@
 package com.utour.youdai.admin.project.fi.controller;
 
-import java.util.List;
-
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.common.utils.poi.ExcelUtil;
+import com.utour.youdai.admin.framework.aspectj.lang.annotation.Log;
+import com.utour.youdai.admin.framework.aspectj.lang.enums.BusinessType;
+import com.utour.youdai.admin.framework.web.controller.BaseController;
+import com.utour.youdai.admin.framework.web.domain.AjaxResult;
+import com.utour.youdai.admin.framework.web.page.TableDataInfo;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentActualService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.utour.youdai.admin.framework.aspectj.lang.annotation.Log;
-import com.utour.youdai.admin.framework.aspectj.lang.enums.BusinessType;
+import org.springframework.web.bind.annotation.*;
 
-import com.utour.youdai.admin.framework.web.controller.BaseController;
-import com.utour.youdai.admin.framework.web.domain.AjaxResult;
-
-import com.utour.youdai.admin.framework.web.page.TableDataInfo;
+import java.util.List;
 
 /**
  * 实际还款Controller
@@ -99,5 +90,22 @@ public class LoanRepaymentActualController extends BaseController {
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(loanRepaymentActualService.deleteLoanRepaymentActualByIds(ids));
+    }
+
+    /**
+     * 查询还款计划下的所有实际还款
+     *
+     * @return
+     * @
+     */
+    @GetMapping(value = "/list/lrpId/{lrpId}")
+    public AjaxResult getActualListByPlanLrpId(@PathVariable Long lrpId) {
+        List<LoanRepaymentActual> list = loanRepaymentActualService.getActualListByPlanLrpId(lrpId);
+        return AjaxResult.success(list);
+    }
+    @GetMapping(value = "/list/laId/{laId}")
+    public AjaxResult selectActualListWithExtensionByPlanLaId(@PathVariable Long laId){
+        JSONArray data = loanRepaymentActualService.selectActualListWithExtensionByPlanLaId(laId);
+        return AjaxResult.success(data);
     }
 }

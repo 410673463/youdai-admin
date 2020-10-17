@@ -1,5 +1,6 @@
 package com.utour.youdai.admin.project.fi.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.framework.web.controller.BaseController;
 import com.utour.youdai.admin.framework.web.domain.AjaxResult;
@@ -33,6 +34,16 @@ public class LoanRepaymentPlanController extends BaseController {
     public AjaxResult getPlanList(@PathVariable("laId") Long laId) {
         List<LoanRepaymentPlan> list = loanRepaymentPlanService.getPlanList(laId);
         return AjaxResult.success(list);
+    }
+
+    /**
+     * 查询申请下所有还款计划 包含 展期 计划
+     * @return
+     */
+    @GetMapping(value = "/list/all/{laId}")
+    public AjaxResult getPlanListWithExtension(@PathVariable Long laId){
+        JSONArray data = loanRepaymentPlanService.getPlanListWithExtension(laId);
+        return AjaxResult.success(data);
     }
 
     /**

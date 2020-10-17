@@ -13,8 +13,29 @@
         <result property="planInterestMoney" column="plan_interest_money"/>
         <result property="indexNo" column="index_No"/>
         <result property="pushStatus" column="push_status"/>
-        <result property="alreadyPaid" column="already_paid"/>
+        <result property="actualPaid" column="actual_paid"/>
+        <result property="actualPrincipal"  column="actual_principal"/>
+        <result property="actualInterest"  column="actual_interest"/>
     </resultMap>
+    <resultMap type="LoanRepaymentPlan" id="LoanRepaymentPlanResultWithActualList">
+        <result property="id" column="id"/>
+        <result property="laId" column="la_id"/>
+        <result property="planDate" column="plan_date"/>
+        <result property="planMoneySum" column="plan_money_sum"/>
+        <result property="planPrincipalMoney" column="plan_principal_money"/>
+        <result property="planInterestMoney" column="plan_interest_money"/>
+        <result property="indexNo" column="index_No"/>
+        <result property="pushStatus" column="push_status"/>
+        <result property="actualPaid" column="actual_paid"/>
+        <result property="actualPrincipal"  column="actual_principal"/>
+        <result property="actualInterest"  column="actual_interest"/>
+        <collection property="actualList" javaType="ArrayList"
+                    ofType="com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual"
+                    select="com.utour.youdai.admin.project.fi.mapper.LoanRepaymentActualMapper.getActualListByPlanLrpId"
+                    column="id"/>
+    </resultMap>
+
+
 
     <sql id="selectLoanRepaymentPlanVo">
         select id, la_id, plan_date, plan_money_sum, plan_principal_money, plan_interest_money, index_No, push_status from fi_loan_repayment_plan
@@ -30,15 +51,27 @@
         <include refid="selectLoanRepaymentPlanVo"/>
         where id = #{id}
     </select>
-    <select id="getPlanList" parameterType="Long" resultMap="LoanRepaymentPlanResult">
+    <select id="getPlanList" parameterType="Long" resultMap="LoanRepaymentPlanResultWithActualList">
         SELECT
-        plan.*,
-        actual.already_paid as already_paid
+            plan.*,
+            IFNULL(actual.actual_paid,0) AS actual_paid,
+            IFNULL(actual.actual_principal,0) AS actual_principal,
+            IFNULL(actual.actual_interest,0) AS actual_interest
         FROM
-        fi_loan_repayment_plan AS plan
-        LEFT JOIN ( SELECT ac.lrp_id, sum( ac.actual_money_sum ) AS already_paid FROM fi_loan_repayment_actual AS ac GROUP BY ac.lrp_id ) AS actual ON actual.lrp_id = plan.id
+            fi_loan_repayment_plan AS plan
+            LEFT JOIN (
+            SELECT
+                ac.lrp_id,
+                sum( ac.actual_money_sum ) AS actual_paid,
+                sum( ac.actual_principal_money ) AS actual_principal,
+                sum( ac.actual_interest_money ) AS actual_interest
+            FROM
+                fi_loan_repayment_actual AS ac
+            GROUP BY
+                ac.lrp_id
+            ) AS actual ON actual.lrp_id = plan.id
         WHERE
-        plan.la_id = #{laId}
+            plan.la_id = #{laId}
     </select>
 
     <insert id="insertLoanRepaymentPlan" parameterType="LoanRepaymentPlan" useGeneratedKeys="true" keyProperty="id">

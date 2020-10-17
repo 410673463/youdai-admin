@@ -96,4 +96,11 @@ public interface ILoanApplicationService {
      * @return
      */
     List<LoanApplication> selectExtensionLoanApplicationList(LoanApplication loanApplication);
+
+    /**
+     * id 查询编码
+     * @param laId
+     * @return
+     */
+    String selectApplyCodeById(Long laId);
 }

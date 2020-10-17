@@ -1,5 +1,6 @@
 package com.utour.youdai.admin.project.fi.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 
@@ -90,4 +91,10 @@ public interface ILoanRepaymentPlanService {
      * @return
      */
     int updatePricipalMoney(Long id, BigDecimal newPrincipalMoney);
+
+    /**
+     * 查询申请下所有还款计划 包含 展期 计划
+     * @return
+     */
+    JSONArray getPlanListWithExtension(Long laId);
 }

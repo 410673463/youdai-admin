@@ -1,11 +1,15 @@
 package com.utour.youdai.admin.project.fi.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.common.utils.SecurityUtils;
-import com.utour.youdai.admin.project.dp.service.IDataPushService;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual;
+import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 import com.utour.youdai.admin.project.fi.mapper.LoanRepaymentActualMapper;
 import com.utour.youdai.admin.project.fi.service.ILoanRepaymentActualService;
+import com.utour.youdai.admin.project.lm.domain.ExtensionApply;
+import com.utour.youdai.admin.project.lm.service.IExtensionApplyService;
+import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +26,10 @@ import java.util.List;
 public class LoanRepaymentActualServiceImpl implements ILoanRepaymentActualService {
     @Autowired
     private LoanRepaymentActualMapper loanRepaymentActualMapper;
-  
-
+    @Autowired
+    private ILoanApplicationService loanApplicationService;
+    @Autowired
+    private IExtensionApplyService extensionApplyService;
     /**
      * 查询实际还款
      *
@@ -109,5 +115,33 @@ public class LoanRepaymentActualServiceImpl implements ILoanRepaymentActualServi
             dataPushService.pushRepayActual(repay.getId());
         }*/
         return repay.getId();
+    }
+
+    @Override
+    public List<LoanRepaymentActual> getActualListByPlanLrpId(Long lrpId) {
+        return loanRepaymentActualMapper.getActualListByPlanLrpId(lrpId);
+    }
+
+    @Override
+    public JSONArray selectActualListWithExtensionByPlanLaId(Long laId) {
+        JSONArray data = new JSONArray();
+        JSONObject object = new JSONObject();
+        List actuals = loanRepaymentActualMapper.selectActualListByPlanLaId(laId);
+        object.put("code",loanApplicationService.selectApplyCodeById(laId));
+        object.put("list",actuals);
+        data.add(object);
+        List<ExtensionApply> extensions = extensionApplyService.selectExtensionsByLaId(laId);
+        if (extensions != null && !extensions.isEmpty()) {
+            for (ExtensionApply e : extensions) {
+                JSONObject ex = new JSONObject();
+                List<LoanRepaymentActual> extensionActuals = loanRepaymentActualMapper.selectActualListByPlanLaId(e.getExtensionId());
+                if(extensionActuals != null && !extensionActuals.isEmpty()){
+                    ex.put("list",extensionActuals);
+                    ex.put("code", e.getExtensionCode());
+                    data.add(ex);
+                }
+            }
+        }
+        return data;
     }
 }

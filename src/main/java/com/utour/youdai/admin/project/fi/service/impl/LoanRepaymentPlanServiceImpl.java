@@ -1,16 +1,21 @@
 package com.utour.youdai.admin.project.fi.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.common.utils.loan.AverageCapitalPlusInterestUtils;
 import com.utour.youdai.admin.common.utils.loan.AverageCapitalUtils;
 import com.utour.youdai.admin.common.utils.loan.RateUnit;
-import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
-import com.utour.youdai.admin.project.lm.domain.LoanApplication;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentPlan;
 import com.utour.youdai.admin.project.fi.mapper.LoanRepaymentPlanMapper;
+import com.utour.youdai.admin.project.fi.service.ILoanRepaymentPlanService;
+import com.utour.youdai.admin.project.lm.domain.ExtensionApply;
+import com.utour.youdai.admin.project.lm.domain.LoanApplication;
+import com.utour.youdai.admin.project.lm.service.IExtensionApplyService;
+import com.utour.youdai.admin.project.lm.service.ILoanApplicationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-
 import java.math.RoundingMode;
 import java.util.*;
 
@@ -22,12 +27,13 @@ import java.util.*;
  */
 @Service
 public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
-    private final LoanRepaymentPlanMapper loanRepaymentPlanMapper;
+    @Autowired
+    private LoanRepaymentPlanMapper loanRepaymentPlanMapper;
+    @Autowired
+    private IExtensionApplyService extensionApplyService;
 
-    public LoanRepaymentPlanServiceImpl(LoanRepaymentPlanMapper loanRepaymentPlanMapper) {
-        this.loanRepaymentPlanMapper = loanRepaymentPlanMapper;
-    }
-
+    @Autowired
+    private ILoanApplicationService loanApplicationService;
     /**
      * 查询还款计划
      *
@@ -105,6 +111,27 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
     }
 
     @Override
+    public JSONArray getPlanListWithExtension(Long laId) {
+        JSONArray data = new JSONArray();
+        JSONObject object = new JSONObject();
+        List<LoanRepaymentPlan> plans = this.getPlanList(laId);
+        object.put("code",loanApplicationService.selectApplyCodeById(laId));
+        object.put("list",plans);
+        data.add(object);
+        List<ExtensionApply> extensions = extensionApplyService.selectExtensionsByLaId(laId);
+        if (extensions != null && !extensions.isEmpty()) {
+            for (ExtensionApply e : extensions) {
+                JSONObject ex = new JSONObject();
+                ex.put("code", e.getExtensionCode());
+                List<LoanRepaymentPlan> extensionPlans = this.getPlanList(e.getExtensionId());
+                ex.put("list",extensionPlans);
+                data.add(ex);
+            }
+        }
+        return data;
+    }
+
+    @Override
     public int createRepayPlan(LoanApplication apply) {
         List<LoanRepaymentPlan> list = new ArrayList<LoanRepaymentPlan>();
         Date start = apply.getApplyStartDate();
@@ -147,6 +174,7 @@ public class LoanRepaymentPlanServiceImpl implements ILoanRepaymentPlanService {
     public int updatePricipalMoney(Long id, BigDecimal newPrincipalMoney) {
         return loanRepaymentPlanMapper.updatePricipalMoney(id, newPrincipalMoney);
     }
+
 
     /**
      * 日期转换

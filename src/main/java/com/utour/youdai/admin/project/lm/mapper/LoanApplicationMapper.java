@@ -102,4 +102,11 @@ public interface LoanApplicationMapper {
      * @return
      */
     List<LoanApplication> getRepayApplyList(LoanApplication loanApplication);
+
+    /**
+     *Id查询编码
+     * @param laId
+     * @return
+     */
+    String selectApplyCodeById(Long laId);
 }

@@ -162,6 +162,9 @@
     <select id="getIdByCode" resultType="java.lang.Long" parameterType="java.lang.String">
         select id from lm_loan_application where code = #{code}
     </select>
+    <select id="selectApplyCodeById" resultType="java.lang.String"  parameterType="Long">
+        select code from lm_loan_application where id = #{laId}
+    </select>
 
 
     <insert id="insertLoanApplication" parameterType="LoanApplication" useGeneratedKeys="true" keyProperty="id">

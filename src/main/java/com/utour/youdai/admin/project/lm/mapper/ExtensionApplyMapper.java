@@ -78,4 +78,11 @@ public interface ExtensionApplyMapper {
     int extensionCounts(String code);
 
     int extensionCountsByExtensionId(Long extensionId);
+
+    /**
+     * 查询申请下所有展期记录
+     * @param laId
+     * @return
+     */
+    List<ExtensionApply> selectExtensionsByLaId(Long laId);
 }

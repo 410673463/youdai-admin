@@ -2,6 +2,7 @@ package com.utour.youdai.admin.project.fi.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.utour.youdai.admin.framework.aspectj.lang.annotation.Excel;
@@ -64,7 +65,19 @@ public class LoanRepaymentPlan extends BaseEntity {
     /**
      * 已还金额
      */
-    private BigDecimal alreadyPaid;
+    private BigDecimal actualPaid;
+
+    /**
+     * 已还本金
+     */
+    private BigDecimal actualPrincipal;
+    /**
+     * 已还利息
+     */
+    private BigDecimal actualInterest;
+    private List<LoanRepaymentActual> actualList;
+
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -129,11 +142,35 @@ public class LoanRepaymentPlan extends BaseEntity {
         return pushStatus;
     }
 
-    public BigDecimal getAlreadyPaid() {
-        return alreadyPaid;
+    public BigDecimal getActualPaid() {
+        return actualPaid;
     }
 
-    public void setAlreadyPaid(BigDecimal alreadyPaid) {
-        this.alreadyPaid = alreadyPaid;
+    public void setActualPaid(BigDecimal actualPaid) {
+        this.actualPaid = actualPaid;
+    }
+
+    public List<LoanRepaymentActual> getActualList() {
+        return actualList;
+    }
+
+    public void setActualList(List<LoanRepaymentActual> actualList) {
+        this.actualList = actualList;
+    }
+
+    public BigDecimal getActualPrincipal() {
+        return actualPrincipal;
+    }
+
+    public void setActualPrincipal(BigDecimal actualPrincipal) {
+        this.actualPrincipal = actualPrincipal;
+    }
+
+    public BigDecimal getActualInterest() {
+        return actualInterest;
+    }
+
+    public void setActualInterest(BigDecimal actualInterest) {
+        this.actualInterest = actualInterest;
     }
 }

@@ -50,6 +50,9 @@
         WHERE
             apply_id = ( SELECT apply_id FROM lm_extension_apply WHERE extension_id = #{extensionId} )
     </select>
+    <select id="selectExtensionsByLaId" parameterType="Long" resultMap="ExtensionApplyResult">
+      SELECT * from lm_extension_apply where apply_id = #{laId}
+    </select>
     <insert id="insertExtensionApply" parameterType="ExtensionApply" useGeneratedKeys="true" keyProperty="id">
         insert into lm_extension_apply
         <trim prefix="(" suffix=")" suffixOverrides=",">

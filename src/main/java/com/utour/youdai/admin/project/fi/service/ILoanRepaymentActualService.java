@@ -1,6 +1,7 @@
 package com.utour.youdai.admin.project.fi.service;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.utour.youdai.admin.project.fi.domain.LoanRepaymentActual;
 
@@ -64,4 +65,18 @@ public interface ILoanRepaymentActualService {
     public int deleteLoanRepaymentActualById(Long id);
 
     Long save(JSONObject jsonObject);
+
+    /**
+     * 根据还款计划id查询所有实际还款记录
+     * @param lrpId
+     * @return
+     */
+    List<LoanRepaymentActual> getActualListByPlanLrpId(Long lrpId);
+
+    /**
+     * 查询申请下所有还款记录
+     * @param laId
+     * @return
+     */
+    JSONArray selectActualListWithExtensionByPlanLaId(Long laId);
 }

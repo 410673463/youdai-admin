@@ -114,6 +114,14 @@
         <include refid="selectLoanRepaymentActualVo"/>
         where id = #{id}
     </select>
+    <select id="getActualListByPlanLrpId" parameterType="Long" resultMap="LoanRepaymentActualResult">
+        <include refid="selectLoanRepaymentActualVo"/>
+        where lrp_id = #{lrpId}
+    </select>
+    <select id="selectActualListByPlanLaId" parameterType="Long" resultMap="LoanRepaymentActualResult">
+        <include refid="selectLoanRepaymentActualVo"/>
+        where la_id = #{laId}
+    </select>
 
     <insert id="insertLoanRepaymentActual" parameterType="LoanRepaymentActual" useGeneratedKeys="true" keyProperty="id">
         insert into fi_loan_repayment_actual
